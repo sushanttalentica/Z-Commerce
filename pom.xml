@@ -25,6 +25,7 @@
         <module>invoice</module>
         <module>notification</module>
         <module>inventory</module>
+        <module>api</module>
     </modules>
 
     <properties>
