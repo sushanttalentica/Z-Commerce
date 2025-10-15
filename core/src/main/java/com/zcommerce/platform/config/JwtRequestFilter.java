@@ -1,0 +1,97 @@
+package com.zcommerce.platform.config;
+
+import com.zcommerce.platform.util.JwtUtil;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+@Component
+@Slf4j
+public class JwtRequestFilter extends OncePerRequestFilter {
+
+  private final UserDetailsService userDetailsService;
+  private final JwtUtil jwtUtil;
+
+  public JwtRequestFilter(UserDetailsService userDetailsService, JwtUtil jwtUtil) {
+    this.userDetailsService = userDetailsService;
+    this.jwtUtil = jwtUtil;
+  }
+
+  @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    String path = request.getServletPath();
+    String uri = request.getRequestURI();
+
+    boolean skip =
+        uri.contains("/v3/api-docs")
+            || uri.contains("/swagger-ui")
+            || uri.contains("/api-docs")
+            || uri.contains("/swagger-resources")
+            || uri.contains("/webjars")
+            || uri.contains("/actuator")
+            || uri.contains("/h2-console")
+            || path.startsWith("/api/v1/auth/");
+
+    if (uri.contains("api-docs")) {
+      log.info("shouldNotFilter check - URI: {}, ServletPath: {}, Skip: {}", uri, path, skip);
+    }
+
+    return skip;
+  }
+
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+      throws ServletException, IOException {
+
+    final String requestTokenHeader = request.getHeader("Authorization");
+
+    String username = null;
+    String jwtToken = null;
+
+    // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
+    if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+      jwtToken = requestTokenHeader.substring(7);
+      try {
+        username = jwtUtil.getUsernameFromToken(jwtToken);
+      } catch (Exception e) {
+        log.debug("Unable to get JWT Token or JWT Token has expired");
+      }
+    }
+
+    // Once we get the token validate it.
+    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+      UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+      log.debug("Loaded user: {} with authorities: {}", username, userDetails.getAuthorities());
+
+      // if token is valid configure Spring Security to manually set authentication
+      if (jwtUtil.validateToken(jwtToken, userDetails)) {
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+            new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        usernamePasswordAuthenticationToken.setDetails(
+            new WebAuthenticationDetailsSource().buildDetails(request));
+
+        log.debug(
+            "Setting authentication for user: {} with authorities: {}",
+            username,
+            userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+      } else {
+        log.warn("Token validation failed for user: {}", username);
+      }
+    }
+
+    chain.doFilter(request, response);
+  }
+}
