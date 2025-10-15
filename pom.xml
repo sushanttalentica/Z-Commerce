@@ -22,6 +22,9 @@
     <modules>
         <module>core</module>
         <module>payment</module>
+        <module>invoice</module>
+        <module>notification</module>
+        <module>inventory</module>
     </modules>
 
     <properties>
