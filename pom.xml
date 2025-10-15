@@ -26,6 +26,7 @@
         <module>notification</module>
         <module>inventory</module>
         <module>api</module>
+        <module>application</module>
     </modules>
 
     <properties>
