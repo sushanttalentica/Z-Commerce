@@ -1,52 +1,49 @@
-# Z-Commerce
+# Z-Commerce Platform
 
-A comprehensive e-commerce platform built with Spring Boot, featuring multi-module architecture and microservices design.
+A comprehensive e-commerce platform built with Spring Boot, Java 21, and modern microservices architecture.
 
-## Overview
+## Features
 
-Z-Commerce is a modern, scalable e-commerce solution designed for high-performance retail operations. Built using industry best practices and clean architecture principles.
+- **User Management**: Customer registration, authentication, and authorization
+- **Product Management**: CRUD operations for products and categories
+- **Order Management**: Complete order lifecycle management
+- **Payment Processing**: Secure payment gateway integration
+- **Invoice Generation**: Automated invoice creation and management
+- **Real-time Notifications**: WebSocket and Kafka-based notifications
+- **Inventory Management**: Stock tracking and updates
+- **Security**: JWT-based authentication with role-based access control
 
-- **Core Module**: Core business logic and shared components
-- **API Module**: REST API controllers and OpenAPI specifications
-- **Application Module**: Main application configuration and startup
-- **Payment Module**: Payment processing and gateway integration
-- **Invoice Module**: Invoice generation and management
-- **Inventory Module**: Stock management and inventory tracking
-- **Notification Module**: Email and notification services
+## Architecture
+
+- **Microservices**: Modular architecture with separate concerns
+- **Event-Driven**: Kafka-based event streaming
+- **Database**: H2 in-memory database for development
+- **Caching**: Redis for performance optimization
+- **Real-time**: WebSocket for live updates
+
+## Technology Stack
 
 - Java 21
-- Spring Boot 3.x
-- PostgreSQL
+- Spring Boot 3.1.5
+- Spring Security
+- Spring Data JPA
+- Kafka
 - Redis
-- Apache Kafka
-- Redis
-- PostgreSQL
-- Docker
+- H2 Database
 - Maven
+- Docker
 
 ## Getting Started
 
 1. Clone the repository
-2. Run `mvn clean install` to build all modules
-3. Start the application with `mvn spring-boot:run` from the application module
-4. Access the API documentation at `http://localhost:8080/swagger-ui.html`
+2. Ensure Java 21 is installed
+3. Run `mvn clean install`
+4. Start the application with `mvn spring-boot:run`
 
-## Key Features
+## API Documentation
 
-- Multi-module Maven architecture
-- RESTful API with OpenAPI documentation
-- JWT-based authentication and authorization
-- Event-driven architecture with Kafka
-- Real-time notifications with WebSocket
-- Payment processing integration
-- Invoice generation with PDF support
-- Inventory management
-- Docker containerization
+Swagger UI is available at: `http://localhost:8080/swagger-ui/index.html`
 
-## Development
+## License
 
-- Follow Java coding standards
-- Use meaningful commit messages
-- Write comprehensive tests
-- Document API changes
-- Follow the established module structure
+This project is licensed under the MIT License.
