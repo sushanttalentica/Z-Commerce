@@ -50,5 +50,31 @@ public final class Constants {
   public static final String S3_INVOICE_PREFIX = "invoices/";
   public static final String PDF_CONTENT_TYPE = "application/pdf";
   public static final String DEFAULT_S3_REGION = "ap-south-1";
+
+  // WebSocket and Stock Constants
+  public static final String PRODUCT_STOCK_UPDATED_TOPIC = "product.stock.updated";
+  public static final String WEBSOCKET_BROADCASTER_GROUP_ID = "websocket-broadcaster";
+  
+  // Event Field Names
+  public static final String PRODUCT_ID_FIELD = "productId";
+  public static final String STOCK_QUANTITY_FIELD = "stockQuantity";
+  public static final String TIMESTAMP_FIELD = "timestamp";
+  public static final String MESSAGE_FIELD = "message";
+  public static final String CUSTOMER_ID_FIELD = "customerId";
+  public static final String ORDER_ID_FIELD = "orderId";
+  
+  // WebSocket Destinations
+  public static final String STOCK_TOPIC_PREFIX = "/topic/stock/";
+  public static final String STOCK_ALL_TOPIC = "/topic/stock/all";
+  public static final String CUSTOMER_ORDERS_TOPIC_PREFIX = "/topic/customer/";
+  public static final String CUSTOMER_ORDERS_TOPIC_SUFFIX = "/orders";
+  
+  // Stock Messages
+  public static final String LOW_STOCK_MESSAGE = "Low stock!";
+  public static final String STOCK_UPDATED_MESSAGE = "Stock updated";
+  public static final String ORDER_CREATED_MESSAGE = "Your order has been created successfully!";
+  
+  // Stock Thresholds
+  public static final int LOW_STOCK_THRESHOLD = 10;
 }
 
