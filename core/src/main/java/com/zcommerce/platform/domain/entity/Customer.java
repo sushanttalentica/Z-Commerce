@@ -155,4 +155,3 @@ public class Customer {
     return active && hasRole(CustomerRole.CUSTOMER);
   }
 }
-

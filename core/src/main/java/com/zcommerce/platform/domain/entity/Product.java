@@ -104,4 +104,3 @@ public class Product {
     this.stockQuantity += quantity;
   }
 }
-
