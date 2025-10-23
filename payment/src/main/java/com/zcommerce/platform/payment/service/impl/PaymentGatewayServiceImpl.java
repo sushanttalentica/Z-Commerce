@@ -1,6 +1,8 @@
 package com.zcommerce.platform.payment.service.impl;
 
 import com.zcommerce.platform.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.domain.entity.Payment.PaymentMethod;
+import com.zcommerce.platform.payment.domain.entity.Payment.PaymentStatus;
 import com.zcommerce.platform.payment.dto.request.ProcessPaymentRequest;
 import com.zcommerce.platform.payment.dto.response.PaymentResponse;
 import com.zcommerce.platform.payment.service.PaymentGatewayService;
@@ -202,8 +204,8 @@ public class PaymentGatewayServiceImpl implements PaymentGatewayService {
         payment.getOrderId(),
         payment.getCustomerId(),
         payment.getAmount(),
-        "COMPLETED",
-        payment.getPaymentMethod().name(),
+        PaymentStatus.COMPLETED,
+        payment.getPaymentMethod(),
         transactionId,
         gatewayResponse,
         null,
@@ -222,8 +224,8 @@ public class PaymentGatewayServiceImpl implements PaymentGatewayService {
         payment.getOrderId(),
         payment.getCustomerId(),
         payment.getAmount(),
-        "REFUNDED",
-        payment.getPaymentMethod().name(),
+        PaymentStatus.REFUNDED,
+        payment.getPaymentMethod(),
         transactionId,
         gatewayResponse,
         null,
@@ -239,8 +241,8 @@ public class PaymentGatewayServiceImpl implements PaymentGatewayService {
         payment.getOrderId(),
         payment.getCustomerId(),
         payment.getAmount(),
-        "FAILED",
-        payment.getPaymentMethod().name(),
+        PaymentStatus.FAILED,
+        payment.getPaymentMethod(),
         null,
         null,
         failureReason,
