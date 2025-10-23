@@ -7,11 +7,39 @@ import com.zcommerce.platform.domain.repository.ProductRepository;
 import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-// Creates sample categories and products for testing
+/**
+ * Data Initializer for Demo and Testing Purposes
+ * 
+ * <p>This component is responsible for populating the database with sample/dummy data
+ * to facilitate demonstration and testing of the Z-Commerce platform.</p>
+ * 
+ * <p><strong>IMPORTANT:</strong> This is for demo purposes only and should NOT be used
+ * in production environments. The data generated includes:</p>
+ * <ul>
+ *   <li>Sample categories (Electronics, Clothing, Books)</li>
+ *   <li>Sample products (iPhone, MacBook, T-Shirt, Programming Book)</li>
+ * </ul>
+ * 
+ * <p>This component can be disabled by setting the property:
+ * <code>app.data.initializer.enabled=false</code></p>
+ * 
+ * <p><strong>Usage:</strong></p>
+ * <ul>
+ *   <li>Development: Automatically runs to provide test data</li>
+ *   <li>Demo: Provides sample data for showcasing features</li>
+ *   <li>Testing: Ensures consistent test data across environments</li>
+ * </ul>
+ * 
+ * @author Z-Commerce Team
+ * @since 1.0.0
+ * @see CommandLineRunner
+ */
 @Component
 @Slf4j
+@ConditionalOnProperty(name = "app.data.initializer.enabled", havingValue = "true", matchIfMissing = true)
 public class DataInitializer implements CommandLineRunner {
 
   private final CategoryRepository categoryRepository;
@@ -23,14 +51,27 @@ public class DataInitializer implements CommandLineRunner {
     this.productRepository = productRepository;
   }
 
+  /**
+   * Executes the data initialization process.
+   * 
+   * <p>This method runs automatically when the application starts and creates
+   * sample data for demonstration and testing purposes.</p>
+   * 
+   * <p><strong>Note:</strong> This method should only be used in development,
+   * testing, or demo environments. It will populate the database with dummy data
+   * including categories and products.</p>
+   * 
+   * @param args command line arguments (unused)
+   * @throws Exception if data initialization fails
+   */
   @Override
   public void run(String... args) throws Exception {
-    log.info("=== DATA INITIALIZER STARTING ===");
-    log.info("Starting data initialization...");
-    log.info("Initializing test data...");
+    log.info("=== DEMO DATA INITIALIZER STARTING ===");
+    log.info("Initializing sample data for demonstration and testing...");
+    log.warn("WARNING: This is demo data - should not be used in production!");
 
-    // Always create test data for testing
-    log.info("Creating test categories and products...");
+    // Create sample categories and products for demo/testing
+    log.info("Creating demo categories and products...");
     Category electronics = new Category();
     electronics.setName("Electronics");
     electronics.setDescription("Electronic devices and gadgets");
@@ -98,6 +139,8 @@ public class DataInitializer implements CommandLineRunner {
     productRepository.save(book);
     log.info("Created Programming Book product");
 
-    log.info("Test data initialization completed");
+    log.info("=== DEMO DATA INITIALIZATION COMPLETED ===");
+    log.info("Sample data has been created for demonstration purposes");
+    log.warn("Remember: This is demo data - disable in production environments!");
   }
 }
