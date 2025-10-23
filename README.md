@@ -1,10 +1,10 @@
-# Z-Commerce Platform
+# Z-Commerce
 
 A comprehensive e-commerce platform built with Spring Boot, featuring multi-module architecture and microservices design.
 
-## Architecture
+## Overview
 
-This platform consists of multiple modules:
+Z-Commerce is a modern, scalable e-commerce solution designed for high-performance retail operations. Built using industry best practices and clean architecture principles.
 
 - **Core Module**: Core business logic and shared components
 - **API Module**: REST API controllers and OpenAPI specifications
@@ -14,13 +14,10 @@ This platform consists of multiple modules:
 - **Inventory Module**: Stock management and inventory tracking
 - **Notification Module**: Email and notification services
 
-## Technology Stack
-
-- Java 17
-- Spring Boot 3.1.5
-- Spring Security
-- Spring Data JPA
-- Hibernate
+- Java 21
+- Spring Boot 3.x
+- PostgreSQL
+- Redis
 - Apache Kafka
 - Redis
 - PostgreSQL
