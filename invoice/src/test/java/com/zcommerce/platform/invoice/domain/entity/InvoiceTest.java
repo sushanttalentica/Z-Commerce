@@ -32,8 +32,8 @@ public class InvoiceTest {
   }
 
   @Test
-  @DisplayName("Should create invoice with all parameters")
-  void shouldCreateInvoiceWithAllParameters() {
+  @DisplayName("Invoice constructor creates invoice with all parameters")
+  void invoiceConstructorCreatesInvoiceWithAllParameters() {
     Long id = 1L;
     Long orderId = 100L;
     Long customerId = 200L;
@@ -49,18 +49,18 @@ public class InvoiceTest {
             id, orderId, customerId, customerEmail, totalAmount, objectKey, objectUrl, status,
             generatedAt, now, now);
 
-    assertNotNull(invoice);
-    assertEquals(id, invoice.getId());
-    assertEquals(orderId, invoice.getOrderId());
-    assertEquals(customerId, invoice.getCustomerId());
-    assertEquals(customerEmail, invoice.getCustomerEmail());
-    assertEquals(totalAmount, invoice.getTotalAmount());
-    assertEquals(objectKey, invoice.getObjectKey());
-    assertEquals(objectUrl, invoice.getObjectUrl());
-    assertEquals(status, invoice.getStatus());
-    assertEquals(generatedAt, invoice.getGeneratedAt());
-    assertEquals(now, invoice.getCreatedAt());
-    assertEquals(now, invoice.getUpdatedAt());
+    assertThat(invoice).isNotNull();
+    assertThat(invoice.getId()).isEqualTo(id);
+    assertThat(invoice.getOrderId()).isEqualTo(orderId);
+    assertThat(invoice.getCustomerId()).isEqualTo(customerId);
+    assertThat(invoice.getCustomerEmail()).isEqualTo(customerEmail);
+    assertThat(invoice.getTotalAmount()).isEqualTo(totalAmount);
+    assertThat(invoice.getObjectKey()).isEqualTo(objectKey);
+    assertThat(invoice.getObjectUrl()).isEqualTo(objectUrl);
+    assertThat(invoice.getStatus()).isEqualTo(status);
+    assertThat(invoice.getGeneratedAt()).isEqualTo(generatedAt);
+    assertThat(invoice.getCreatedAt()).isEqualTo(now);
+    assertThat(invoice.getUpdatedAt()).isEqualTo(now);
   }
 
   @Test

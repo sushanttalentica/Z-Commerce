@@ -18,72 +18,72 @@ public class S3PropertiesTest {
   }
 
   @Test
-  @DisplayName("Should create S3Properties with default values")
-  void shouldCreateS3PropertiesWithDefaultValues() {
-    assertNotNull(s3Properties);
-    assertNull(s3Properties.getBucketName());
-    assertNull(s3Properties.getRegion());
-    assertNull(s3Properties.getAccessKey());
-    assertNull(s3Properties.getSecretKey());
+  @DisplayName("S3Properties creates with default values")
+  void s3PropertiesCreatesWithDefaultValues() {
+    assertThat(s3Properties).isNotNull();
+    assertThat(s3Properties.getBucketName()).isNull();
+    assertThat(s3Properties.getRegion()).isNull();
+    assertThat(s3Properties.getAccessKey()).isNull();
+    assertThat(s3Properties.getSecretKey()).isNull();
   }
 
   @Test
-  @DisplayName("Should set and get bucket name")
-  void shouldSetAndGetBucketName() {
+  @DisplayName("setBucketName and getBucketName work correctly")
+  void setBucketNameAndGetBucketNameWorkCorrectly() {
     String bucketName = "test-bucket";
     s3Properties.setBucketName(bucketName);
-    assertEquals(bucketName, s3Properties.getBucketName());
+    assertThat(s3Properties.getBucketName()).isEqualTo(bucketName);
   }
 
   @Test
-  @DisplayName("Should set and get region")
-  void shouldSetAndGetRegion() {
+  @DisplayName("setRegion and getRegion work correctly")
+  void setRegionAndGetRegionWorkCorrectly() {
     String region = "us-east-1";
     s3Properties.setRegion(region);
-    assertEquals(region, s3Properties.getRegion());
+    assertThat(s3Properties.getRegion()).isEqualTo(region);
   }
 
   @Test
-  @DisplayName("Should set and get access key")
-  void shouldSetAndGetAccessKey() {
+  @DisplayName("setAccessKey and getAccessKey work correctly")
+  void setAccessKeyAndGetAccessKeyWorkCorrectly() {
     String accessKey = "test-access-key";
     s3Properties.setAccessKey(accessKey);
-    assertEquals(accessKey, s3Properties.getAccessKey());
+    assertThat(s3Properties.getAccessKey()).isEqualTo(accessKey);
   }
 
   @Test
-  @DisplayName("Should set and get secret key")
-  void shouldSetAndGetSecretKey() {
+  @DisplayName("setSecretKey and getSecretKey work correctly")
+  void setSecretKeyAndGetSecretKeyWorkCorrectly() {
     String secretKey = "test-secret-key";
     s3Properties.setSecretKey(secretKey);
-    assertEquals(secretKey, s3Properties.getSecretKey());
+    assertThat(s3Properties.getSecretKey()).isEqualTo(secretKey);
   }
 
   @Test
-  @DisplayName("Should handle null values")
-  void shouldHandleNullValues() {
+  @DisplayName("S3Properties handles null values correctly")
+  void s3PropertiesHandlesNullValuesCorrectly() {
     s3Properties.setBucketName(null);
     s3Properties.setRegion(null);
     s3Properties.setAccessKey(null);
     s3Properties.setSecretKey(null);
 
-    assertNull(s3Properties.getBucketName());
-    assertNull(s3Properties.getRegion());
-    assertNull(s3Properties.getAccessKey());
-    assertNull(s3Properties.getSecretKey());
+    assertThat(s3Properties.getBucketName()).isNull();
+    assertThat(s3Properties.getRegion()).isNull();
+    assertThat(s3Properties.getAccessKey()).isNull();
+    assertThat(s3Properties.getSecretKey()).isNull();
   }
 
   @Test
-  @DisplayName("Should handle empty strings")
-  void shouldHandleEmptyStrings() {
+  @DisplayName("S3Properties handles empty strings correctly")
+  void s3PropertiesHandlesEmptyStringsCorrectly() {
     s3Properties.setBucketName("");
     s3Properties.setRegion("");
     s3Properties.setAccessKey("");
     s3Properties.setSecretKey("");
 
-    assertEquals("", s3Properties.getBucketName());
-    assertEquals("", s3Properties.getRegion());
-    assertEquals("", s3Properties.getAccessKey());
-    assertEquals("", s3Properties.getSecretKey());
+    assertThat(s3Properties.getBucketName()).isEqualTo("");
+    assertThat(s3Properties.getRegion()).isEqualTo("");
+    assertThat(s3Properties.getAccessKey()).isEqualTo("");
+    assertThat(s3Properties.getSecretKey()).isEqualTo("");
   }
 }
