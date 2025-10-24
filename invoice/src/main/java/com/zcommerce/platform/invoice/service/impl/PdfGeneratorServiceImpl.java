@@ -24,29 +24,16 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
   @Override
   public byte[] generateInvoice(Order order) {
-    return generateInvoicePdf(order);
-  }
-
-  @Override
-  public String getContentType() {
-    return "application/pdf";
-  }
-
-  private byte[] generateInvoicePdf(Order order) {
-    // Validate order first
     validateOrderForPdf(order);
     
     log.info("Generating PDF invoice for order ID: {}", order.getId());
 
     try {
-
-      // Create PDF using iText
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       PdfWriter writer = new PdfWriter(outputStream);
       PdfDocument pdfDoc = new PdfDocument(writer);
       Document document = new Document(pdfDoc);
 
-      // Add invoice header
       Paragraph header =
           new Paragraph("INVOICE")
               .setFontSize(24)
@@ -56,7 +43,6 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
       document.add(new Paragraph("\n"));
 
-      // Add invoice details
       document.add(new Paragraph("Invoice Number: " + order.getOrderNumber()));
       document.add(
           new Paragraph(
@@ -68,7 +54,6 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
       document.add(new Paragraph("\n"));
 
-      // Add order items table
       Paragraph itemsHeader =
           new Paragraph("Order Items:")
               .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD));
@@ -90,7 +75,6 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
       document.add(new Paragraph("\n"));
 
-      // Add total
       Paragraph total =
           new Paragraph("Total Amount: $" + order.getTotalAmount())
               .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))
@@ -105,7 +89,6 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
                       .getCreatedAt()
                       .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
-      // Close document
       document.close();
 
       byte[] pdfBytes = outputStream.toByteArray();
@@ -120,6 +103,12 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
       throw new RuntimeException("Failed to generate PDF invoice: " + e.getMessage());
     }
   }
+
+  @Override
+  public String getContentType() {
+    return "application/pdf";
+  }
+
 
 
   private void validateOrderForPdf(Order order) {
