@@ -1,0 +1,11 @@
+
+# IDE files
+.idea/
+*.iml
+
+# Build artifacts
+target/
+*.class
+*.jar
+*.war
+*.ear
