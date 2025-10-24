@@ -61,8 +61,8 @@ public class InvoiceGeneratorServiceTest {
   void generateInvoiceReturnsValidPdfContentForValidOrder() {
     byte[] result = pdfGeneratorService.generateInvoice(testOrder);
 
-    assertThat(result);
-    assertThat(result.length > 0);
+    assertThat(result).isNotNull();
+    assertThat(result.length).isGreaterThan(0);
   }
 
   @Test

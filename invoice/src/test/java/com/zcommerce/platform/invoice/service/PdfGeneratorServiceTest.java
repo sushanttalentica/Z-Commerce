@@ -59,7 +59,7 @@ public class PdfGeneratorServiceTest {
   void generateInvoiceReturnsValidPdfForValidOrder() {
     byte[] result = pdfGeneratorService.generateInvoicePdf(testOrder);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
     assertThat(result.length > 0);
   }
 
@@ -68,7 +68,7 @@ public class PdfGeneratorServiceTest {
   void generateReceiptPdfReturnsValidPdfForValidOrder() {
     byte[] result = pdfGeneratorService.generateReceiptPdf(testOrder);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
     assertThat(result.length > 0);
   }
 
@@ -77,7 +77,7 @@ public class PdfGeneratorServiceTest {
   void generateShippingLabelPdfReturnsValidPdfForValidOrder() {
     byte[] result = pdfGeneratorService.generateShippingLabelPdf(testOrder);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
     assertThat(result.length > 0);
   }
 

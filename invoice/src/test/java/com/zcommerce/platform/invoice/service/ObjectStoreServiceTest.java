@@ -47,7 +47,7 @@ public class ObjectStoreServiceTest {
 
     String result = s3Service.uploadFile(key, content, contentType);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
     assertThat(result.contains("test-bucket"));
     assertThat(result.contains(key));
   }
@@ -62,7 +62,7 @@ public class ObjectStoreServiceTest {
 
     Optional<byte[]> result = s3Service.downloadFile(key);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
   }
 
   @Test
@@ -75,7 +75,7 @@ public class ObjectStoreServiceTest {
 
     boolean result = s3Service.deleteFile(key);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
   }
 
   @Test
@@ -88,7 +88,7 @@ public class ObjectStoreServiceTest {
 
     boolean result = s3Service.fileExists(key);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
   }
 
   @Test
@@ -101,7 +101,7 @@ public class ObjectStoreServiceTest {
 
     Optional<String> result = s3Service.getFileUrl(key);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
   }
 
   @Test
@@ -115,7 +115,7 @@ public class ObjectStoreServiceTest {
 
     Optional<String> result = s3Service.generatePresignedUrl(key, expirationMinutes);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
   }
 
   @Test
@@ -129,7 +129,7 @@ public class ObjectStoreServiceTest {
 
     boolean result = s3Service.setBucketPolicy(bucketName, policy);
 
-    assertThat(result);
+    assertThat(result).isNotNull();
   }
 
   @Test
