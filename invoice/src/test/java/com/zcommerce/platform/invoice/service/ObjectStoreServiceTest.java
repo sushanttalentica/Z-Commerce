@@ -37,7 +37,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should upload file successfully")
-  void shouldUploadFileSuccessfully() {
+  void uploadFileReturnsUrlWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -54,7 +54,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should download file successfully")
-  void shouldDownloadFileSuccessfully() {
+  void downloadFileReturnsFileContentWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -67,7 +67,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should delete file successfully")
-  void shouldDeleteFileSuccessfully() {
+  void deleteFileReturnsTrueWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -80,7 +80,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should check if file exists")
-  void shouldCheckIfFileExists() {
+  void fileExistsReturnsTrueWhenFileExists() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -93,7 +93,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should get file URL")
-  void shouldGetFileUrl() {
+  void getFileUrlReturnsUrlWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -106,7 +106,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should generate presigned URL")
-  void shouldGeneratePresignedUrl() {
+  void generatePresignedUrlReturnsPresignedUrlWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -120,7 +120,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should set bucket policy")
-  void shouldSetBucketPolicy() {
+  void setBucketPolicyReturnsTrueWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -134,7 +134,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null key in upload")
-  void shouldThrowExceptionForNullKeyInUpload() {
+  void uploadFileThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -146,7 +146,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null content in upload")
-  void shouldThrowExceptionForNullContentInUpload() {
+  void uploadFileThrowsExceptionForNullContent() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -158,7 +158,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null content type in upload")
-  void shouldThrowExceptionForNullContentTypeInUpload() {
+  void uploadFileThrowsExceptionForNullContentType() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -170,7 +170,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null key in download")
-  void shouldThrowExceptionForNullKeyInDownload() {
+  void downloadFileThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -179,7 +179,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null key in delete")
-  void shouldThrowExceptionForNullKeyInDelete() {
+  void deleteFileThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -188,7 +188,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null key in file exists")
-  void shouldThrowExceptionForNullKeyInFileExists() {
+  void fileExistsThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -197,7 +197,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null key in get file URL")
-  void shouldThrowExceptionForNullKeyInGetFileUrl() {
+  void getFileUrlThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -206,7 +206,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null key in presigned URL")
-  void shouldThrowExceptionForNullKeyInPresignedUrl() {
+  void generatePresignedUrlThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -215,7 +215,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for invalid expiration in presigned URL")
-  void shouldThrowExceptionForInvalidExpirationInPresignedUrl() {
+  void generatePresignedUrlThrowsExceptionForInvalidExpiration() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -228,7 +228,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null bucket name in set bucket policy")
-  void shouldThrowExceptionForNullBucketNameInSetBucketPolicy() {
+  void setBucketPolicyThrowsExceptionForNullBucketName() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -239,7 +239,7 @@ public class ObjectStoreServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null policy in set bucket policy")
-  void shouldThrowExceptionForNullPolicyInSetBucketPolicy() {
+  void setBucketPolicyThrowsExceptionForNullPolicy() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
