@@ -141,6 +141,6 @@ public class InvoiceRepositoryTest {
   void shouldDeleteInvoice() {
     doNothing().when(invoiceRepository).delete(any(Invoice.class));
 
-    assertDoesNotThrow(() -> invoiceRepository.delete(testInvoice1));
+    assertThatCode(() -> invoiceRepository.delete(testInvoice1)).doesNotThrowAnyException();
   }
 }
