@@ -36,8 +36,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should upload file successfully")
-  void shouldUploadFileSuccessfully() {
+  @DisplayName("uploadFile returns URL when successful")
+  void uploadFileReturnsUrlWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -53,8 +53,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should download file successfully")
-  void shouldDownloadFileSuccessfully() {
+  @DisplayName("downloadFile returns file content when successful")
+  void downloadFileReturnsFileContentWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -66,8 +66,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should delete file successfully")
-  void shouldDeleteFileSuccessfully() {
+  @DisplayName("deleteFile returns true when successful")
+  void deleteFileReturnsTrueWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -79,8 +79,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should check if file exists")
-  void shouldCheckIfFileExists() {
+  @DisplayName("fileExists returns true when file exists")
+  void fileExistsReturnsTrueWhenFileExists() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -92,8 +92,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should get file URL")
-  void shouldGetFileUrl() {
+  @DisplayName("getFileUrl returns URL when successful")
+  void getFileUrlReturnsUrlWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -105,8 +105,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should generate presigned URL")
-  void shouldGeneratePresignedUrl() {
+  @DisplayName("generatePresignedUrl returns presigned URL when successful")
+  void generatePresignedUrlReturnsPresignedUrlWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -119,8 +119,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should set bucket policy")
-  void shouldSetBucketPolicy() {
+  @DisplayName("setBucketPolicy returns true when successful")
+  void setBucketPolicyReturnsTrueWhenSuccessful() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -133,8 +133,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null key in upload")
-  void shouldThrowExceptionForNullKeyInUpload() {
+  @DisplayName("uploadFile throws exception for null key")
+  void uploadFileThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -145,8 +145,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null content in upload")
-  void shouldThrowExceptionForNullContentInUpload() {
+  @DisplayName("uploadFile throws exception for null content")
+  void uploadFileThrowsExceptionForNullContent() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -157,8 +157,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null content type in upload")
-  void shouldThrowExceptionForNullContentTypeInUpload() {
+  @DisplayName("uploadFile throws exception for null content type")
+  void uploadFileThrowsExceptionForNullContentType() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -169,8 +169,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null key in download")
-  void shouldThrowExceptionForNullKeyInDownload() {
+  @DisplayName("downloadFile throws exception for null key")
+  void downloadFileThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -178,8 +178,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null key in delete")
-  void shouldThrowExceptionForNullKeyInDelete() {
+  @DisplayName("deleteFile throws exception for null key")
+  void deleteFileThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -187,8 +187,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null key in file exists")
-  void shouldThrowExceptionForNullKeyInFileExists() {
+  @DisplayName("fileExists throws exception for null key")
+  void fileExistsThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -196,8 +196,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null key in get file URL")
-  void shouldThrowExceptionForNullKeyInGetFileUrl() {
+  @DisplayName("getFileUrl throws exception for null key")
+  void getFileUrlThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -205,8 +205,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null key in presigned URL")
-  void shouldThrowExceptionForNullKeyInPresignedUrl() {
+  @DisplayName("generatePresignedUrl throws exception for null key")
+  void generatePresignedUrlThrowsExceptionForNullKey() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -214,8 +214,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for invalid expiration in presigned URL")
-  void shouldThrowExceptionForInvalidExpirationInPresignedUrl() {
+  @DisplayName("generatePresignedUrl throws exception for invalid expiration")
+  void generatePresignedUrlThrowsExceptionForInvalidExpiration() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -227,8 +227,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null bucket name in set bucket policy")
-  void shouldThrowExceptionForNullBucketNameInSetBucketPolicy() {
+  @DisplayName("setBucketPolicy throws exception for null bucket name")
+  void setBucketPolicyThrowsExceptionForNullBucketName() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
@@ -238,8 +238,8 @@ public class S3ServiceTest {
   }
 
   @Test
-  @DisplayName("Should throw exception for null policy in set bucket policy")
-  void shouldThrowExceptionForNullPolicyInSetBucketPolicy() {
+  @DisplayName("setBucketPolicy throws exception for null policy")
+  void setBucketPolicyThrowsExceptionForNullPolicy() {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
