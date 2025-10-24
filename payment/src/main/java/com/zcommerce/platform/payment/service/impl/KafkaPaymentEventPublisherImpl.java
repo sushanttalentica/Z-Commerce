@@ -2,6 +2,7 @@ package com.zcommerce.platform.payment.service.impl;
 
 import com.zcommerce.platform.config.KafkaTopicsProperties;
 import com.zcommerce.platform.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.events.EventDataKeys;
 import com.zcommerce.platform.payment.events.PaymentEventType;
 import com.zcommerce.platform.payment.events.ServiceConstants;
 import com.zcommerce.platform.payment.service.PaymentEventPublisher;
@@ -50,7 +51,7 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
 
     try {
       Map<String, Object> eventData = createPaymentEventData(payment, PaymentEventType.PAYMENT_FAILED);
-      eventData.put("failureReason", payment.getFailureReason());
+      eventData.put(EventDataKeys.FAILURE_REASON.getKey(), payment.getFailureReason());
       kafkaTemplate.send(kafkaTopics.getPayment().getFailed(), payment.getPaymentId(), eventData);
 
       log.info(
@@ -116,24 +117,24 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     Map<String, Object> eventData = new HashMap<>();
 
     // Basic payment information
-    eventData.put("eventType", eventType.getEventType());
-    eventData.put("eventId", UUID.randomUUID().toString());
-    eventData.put("timestamp", LocalDateTime.now().toString());
-    eventData.put("paymentId", payment.getPaymentId());
-    eventData.put("orderId", payment.getOrderId());
-    eventData.put("customerId", payment.getCustomerId());
-    eventData.put("amount", payment.getAmount());
-    eventData.put("status", payment.getStatus().name());
-    eventData.put("paymentMethod", payment.getPaymentMethod().name());
-    eventData.put("transactionId", payment.getTransactionId());
-    eventData.put("gatewayResponse", payment.getGatewayResponse());
-    eventData.put("processedAt", payment.getProcessedAt());
-    eventData.put("createdAt", payment.getCreatedAt());
-    eventData.put("updatedAt", payment.getUpdatedAt());
+    eventData.put(EventDataKeys.EVENT_TYPE.getKey(), eventType.getEventType());
+    eventData.put(EventDataKeys.EVENT_ID.getKey(), UUID.randomUUID().toString());
+    eventData.put(EventDataKeys.TIMESTAMP.getKey(), LocalDateTime.now().toString());
+    eventData.put(EventDataKeys.PAYMENT_ID.getKey(), payment.getPaymentId());
+    eventData.put(EventDataKeys.ORDER_ID.getKey(), payment.getOrderId());
+    eventData.put(EventDataKeys.CUSTOMER_ID.getKey(), payment.getCustomerId());
+    eventData.put(EventDataKeys.AMOUNT.getKey(), payment.getAmount());
+    eventData.put(EventDataKeys.STATUS.getKey(), payment.getStatus().name());
+    eventData.put(EventDataKeys.PAYMENT_METHOD.getKey(), payment.getPaymentMethod().name());
+    eventData.put(EventDataKeys.TRANSACTION_ID.getKey(), payment.getTransactionId());
+    eventData.put(EventDataKeys.GATEWAY_RESPONSE.getKey(), payment.getGatewayResponse());
+    eventData.put(EventDataKeys.PROCESSED_AT.getKey(), payment.getProcessedAt());
+    eventData.put(EventDataKeys.CREATED_AT.getKey(), payment.getCreatedAt());
+    eventData.put(EventDataKeys.UPDATED_AT.getKey(), payment.getUpdatedAt());
 
     // Service information
-    eventData.put("serviceName", ServiceConstants.SERVICE_NAME.getValue());
-    eventData.put("serviceVersion", ServiceConstants.SERVICE_VERSION.getValue());
+    eventData.put(EventDataKeys.SERVICE_NAME.getKey(), ServiceConstants.SERVICE_NAME.getValue());
+    eventData.put(EventDataKeys.SERVICE_VERSION.getKey(), ServiceConstants.SERVICE_VERSION.getValue());
 
     return eventData;
   }
