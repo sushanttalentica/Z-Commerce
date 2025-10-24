@@ -141,7 +141,8 @@ public class ObjectStoreServiceTest {
     byte[] content = "test content".getBytes();
     String contentType = "application/pdf";
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(null, content, contentType));
+    assertThatThrownBy(() -> s3Service.uploadFile(null, content, contentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -153,7 +154,8 @@ public class ObjectStoreServiceTest {
     String key = "test-file.pdf";
     String contentType = "application/pdf";
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(key, null, contentType));
+    assertThatThrownBy(() -> s3Service.uploadFile(key, null, contentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -165,7 +167,8 @@ public class ObjectStoreServiceTest {
     String key = "test-file.pdf";
     byte[] content = "test content".getBytes();
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(key, content, null));
+    assertThatThrownBy(() -> s3Service.uploadFile(key, content, null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -174,7 +177,8 @@ public class ObjectStoreServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.downloadFile(null));
+    assertThatThrownBy(() -> s3Service.downloadFile(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -183,7 +187,8 @@ public class ObjectStoreServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.deleteFile(null));
+    assertThatThrownBy(() -> s3Service.deleteFile(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -192,7 +197,8 @@ public class ObjectStoreServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.fileExists(null));
+    assertThatThrownBy(() -> s3Service.fileExists(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -201,7 +207,8 @@ public class ObjectStoreServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.getFileUrl(null));
+    assertThatThrownBy(() -> s3Service.getFileUrl(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -210,7 +217,8 @@ public class ObjectStoreServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(null, 60));
+    assertThatThrownBy(() -> s3Service.generatePresignedUrl(null, 60))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -221,9 +229,12 @@ public class ObjectStoreServiceTest {
     
     String key = "test-file.pdf";
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, -1));
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, 0));
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, 10081));
+    assertThatThrownBy(() -> s3Service.generatePresignedUrl(key, -1))
+        .isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> s3Service.generatePresignedUrl(key, 0))
+        .isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> s3Service.generatePresignedUrl(key, 10081))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -234,7 +245,8 @@ public class ObjectStoreServiceTest {
     
     String policy = "{\"Version\":\"2012-10-17\",\"Statement\":[]}";
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.setBucketPolicy(null, policy));
+    assertThatThrownBy(() -> s3Service.setBucketPolicy(null, policy))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -245,6 +257,7 @@ public class ObjectStoreServiceTest {
     
     String bucketName = "test-bucket";
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.setBucketPolicy(bucketName, null));
+    assertThatThrownBy(() -> s3Service.setBucketPolicy(bucketName, null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 }

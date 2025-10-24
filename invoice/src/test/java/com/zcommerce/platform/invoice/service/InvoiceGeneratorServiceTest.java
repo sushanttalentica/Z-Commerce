@@ -70,13 +70,14 @@ public class InvoiceGeneratorServiceTest {
   void getContentTypeReturnsCorrectContentType() {
     String contentType = pdfGeneratorService.getContentType();
 
-    assertThat("application/pdf", contentType);
+    assertThat(contentType).isEqualTo("application/pdf");
   }
 
   @Test
   @DisplayName("Should throw exception for null order")
   void generateInvoiceThrowsExceptionForNullOrder() {
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(null));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -84,7 +85,8 @@ public class InvoiceGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -92,7 +94,8 @@ public class InvoiceGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -100,7 +103,8 @@ public class InvoiceGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -108,6 +112,7 @@ public class InvoiceGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 }

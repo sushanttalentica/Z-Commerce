@@ -18,8 +18,8 @@ public class S3PropertiesTest {
   }
 
   @Test
-  @DisplayName("S3Properties creates with default values")
-  void s3PropertiesCreatesWithDefaultValues() {
+  @DisplayName("S3Properties constructor creates with default values")
+  void s3PropertiesConstructorCreatesWithDefaultValues() {
     assertThat(s3Properties).isNotNull();
     assertThat(s3Properties.getBucketName()).isNull();
     assertThat(s3Properties.getRegion()).isNull();
@@ -30,33 +30,33 @@ public class S3PropertiesTest {
   @Test
   @DisplayName("setBucketName and getBucketName work correctly")
   void setBucketNameAndGetBucketNameWorkCorrectly() {
-    String bucketName = "test-bucket";
-    s3Properties.setBucketName(bucketName);
-    assertThat(s3Properties.getBucketName()).isEqualTo(bucketName);
+    String expectedBucketName = "test-bucket";
+    s3Properties.setBucketName(expectedBucketName);
+    assertThat(s3Properties.getBucketName()).isEqualTo(expectedBucketName);
   }
 
   @Test
   @DisplayName("setRegion and getRegion work correctly")
   void setRegionAndGetRegionWorkCorrectly() {
-    String region = "us-east-1";
-    s3Properties.setRegion(region);
-    assertThat(s3Properties.getRegion()).isEqualTo(region);
+    String expectedRegion = "us-east-1";
+    s3Properties.setRegion(expectedRegion);
+    assertThat(s3Properties.getRegion()).isEqualTo(expectedRegion);
   }
 
   @Test
   @DisplayName("setAccessKey and getAccessKey work correctly")
   void setAccessKeyAndGetAccessKeyWorkCorrectly() {
-    String accessKey = "test-access-key";
-    s3Properties.setAccessKey(accessKey);
-    assertThat(s3Properties.getAccessKey()).isEqualTo(accessKey);
+    String expectedAccessKey = "test-access-key";
+    s3Properties.setAccessKey(expectedAccessKey);
+    assertThat(s3Properties.getAccessKey()).isEqualTo(expectedAccessKey);
   }
 
   @Test
   @DisplayName("setSecretKey and getSecretKey work correctly")
   void setSecretKeyAndGetSecretKeyWorkCorrectly() {
-    String secretKey = "test-secret-key";
-    s3Properties.setSecretKey(secretKey);
-    assertThat(s3Properties.getSecretKey()).isEqualTo(secretKey);
+    String expectedSecretKey = "test-secret-key";
+    s3Properties.setSecretKey(expectedSecretKey);
+    assertThat(s3Properties.getSecretKey()).isEqualTo(expectedSecretKey);
   }
 
   @Test

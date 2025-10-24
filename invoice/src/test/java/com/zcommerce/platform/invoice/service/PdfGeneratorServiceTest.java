@@ -60,7 +60,7 @@ public class PdfGeneratorServiceTest {
     byte[] result = pdfGeneratorService.generateInvoicePdf(testOrder);
 
     assertThat(result).isNotNull();
-    assertThat(result.length > 0);
+    assertThat(result.length).isGreaterThan(0);
   }
 
   @Test
@@ -69,7 +69,7 @@ public class PdfGeneratorServiceTest {
     byte[] result = pdfGeneratorService.generateReceiptPdf(testOrder);
 
     assertThat(result).isNotNull();
-    assertThat(result.length > 0);
+    assertThat(result.length).isGreaterThan(0);
   }
 
   @Test
@@ -78,25 +78,28 @@ public class PdfGeneratorServiceTest {
     byte[] result = pdfGeneratorService.generateShippingLabelPdf(testOrder);
 
     assertThat(result).isNotNull();
-    assertThat(result.length > 0);
+    assertThat(result.length).isGreaterThan(0);
   }
 
   @Test
   @DisplayName("Should throw exception for null order in invoice PDF")
   void generateInvoiceThrowsExceptionForNullOrder() {
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(null));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoicePdf(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   @DisplayName("Should throw exception for null order in receipt PDF")
   void generateReceiptPdfThrowsExceptionForNullOrder() {
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(null));
+    assertThatThrownBy(() -> pdfGeneratorService.generateReceiptPdf(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   @DisplayName("Should throw exception for null order in shipping label PDF")
   void generateShippingLabelPdfThrowsExceptionForNullOrder() {
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(null));
+    assertThatThrownBy(() -> pdfGeneratorService.generateShippingLabelPdf(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -104,7 +107,8 @@ public class PdfGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoicePdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -112,7 +116,8 @@ public class PdfGeneratorServiceTest {
   void generateReceiptPdfThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateReceiptPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -120,7 +125,8 @@ public class PdfGeneratorServiceTest {
   void generateShippingLabelPdfThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateShippingLabelPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -128,7 +134,8 @@ public class PdfGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoicePdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -136,7 +143,8 @@ public class PdfGeneratorServiceTest {
   void generateReceiptPdfThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateReceiptPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -144,7 +152,8 @@ public class PdfGeneratorServiceTest {
   void generateShippingLabelPdfThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateShippingLabelPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -152,7 +161,8 @@ public class PdfGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoicePdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -160,7 +170,8 @@ public class PdfGeneratorServiceTest {
   void generateReceiptPdfThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateReceiptPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -168,7 +179,8 @@ public class PdfGeneratorServiceTest {
   void generateShippingLabelPdfThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateShippingLabelPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -176,7 +188,8 @@ public class PdfGeneratorServiceTest {
   void generateInvoiceThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoicePdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -184,7 +197,8 @@ public class PdfGeneratorServiceTest {
   void generateReceiptPdfThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateReceiptPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -192,6 +206,7 @@ public class PdfGeneratorServiceTest {
   void generateShippingLabelPdfThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateShippingLabelPdf(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 }
