@@ -2,7 +2,7 @@ package com.zcommerce.platform.invoice.service.impl;
 
 import com.ecommerce.productorder.domain.entity.Order;
 import com.ecommerce.productorder.domain.entity.OrderItem;
-import com.ecommerce.productorder.invoice.service.PdfGeneratorService;
+import com.zcommerce.platform.invoice.service.InvoiceGeneratorService;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class PdfGeneratorServiceImpl implements PdfGeneratorService {
+public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
   public PdfGeneratorServiceImpl() {}
 
@@ -34,8 +34,7 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
     return "application/pdf";
   }
 
-  @Override
-  public byte[] generateInvoicePdf(Order order) {
+  private byte[] generateInvoicePdf(Order order) {
     // Validate order first
     validateOrderForPdf(order);
     

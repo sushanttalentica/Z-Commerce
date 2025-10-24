@@ -28,7 +28,7 @@ public class KafkaBackedNotificationService implements NotificationService {
     this.orderRepository = orderRepository;
   }
 
-  private static final Map<NotificationChannel, String> CHANNEL_TOPICS =
+  private static final Map<NotificationChannel, String> CHANNEL_TO_TOPIC_NAME =
       Map.of(
           NotificationChannel.EMAIL, "notification.email",
           NotificationChannel.SMS, "notification.sms",
@@ -45,7 +45,7 @@ public class KafkaBackedNotificationService implements NotificationService {
   private boolean sendToChannel(NotificationRequest request, NotificationChannel channel) {
     try {
       kafkaTemplate.send(
-          CHANNEL_TOPICS.get(channel),
+          CHANNEL_TO_TOPIC_NAME.get(channel),
           request.getRecipient(),
           buildNotificationData(request, channel));
       return true;
