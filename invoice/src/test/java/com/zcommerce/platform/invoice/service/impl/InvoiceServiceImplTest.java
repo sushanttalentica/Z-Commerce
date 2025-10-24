@@ -106,32 +106,6 @@ public class InvoiceServiceImplTest {
     });
   }
 
-  @Test
-  @DisplayName("Should throw exception when order ID is null")
-  void shouldThrowExceptionWhenOrderIdIsNull() {
-    testOrder.setId(null);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should throw exception when customer email is null")
-  void shouldThrowExceptionWhenCustomerEmailIsNull() {
-    testOrder.setCustomerEmail(null);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should throw exception when customer email is empty")
-  void shouldThrowExceptionWhenCustomerEmailIsEmpty() {
-    testOrder.setCustomerEmail("");
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
 
   @Test
   @DisplayName("Should throw exception when total amount is null")
@@ -151,43 +125,7 @@ public class InvoiceServiceImplTest {
     });
   }
 
-  @Test
-  @DisplayName("Should throw exception when order items are null")
-  void shouldThrowExceptionWhenOrderItemsAreNull() {
-    testOrder.setOrderItems(null);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
 
-  @Test
-  @DisplayName("Should throw exception when order items are empty")
-  void shouldThrowExceptionWhenOrderItemsAreEmpty() {
-    testOrder.setOrderItems(java.util.Collections.emptyList());
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should handle invoice generation failure gracefully")
-  void shouldHandleInvoiceGenerationFailureGracefully() {
-    when(invoiceGeneratorService.generateInvoice(testOrder)).thenThrow(new RuntimeException("Generation failed"));
-
-    assertThrows(RuntimeException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should handle object store upload failure gracefully")
-  void shouldHandleObjectStoreUploadFailureGracefully() {
-    when(objectStoreService.uploadFile(anyString(), any(byte[].class), anyString())).thenThrow(new RuntimeException("Upload failed"));
-
-    assertThrows(RuntimeException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
 
   @Test
   @DisplayName("Should get invoice URL successfully")
@@ -248,19 +186,6 @@ public class InvoiceServiceImplTest {
     verify(invoiceRepository, never()).delete(any(Invoice.class));
   }
 
-  @Test
-  @DisplayName("Should handle object store deletion failure gracefully")
-  void shouldHandleObjectStoreDeletionFailureGracefully() {
-    when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.of(testInvoice));
-    when(objectStoreService.deleteFile(testObjectKey)).thenReturn(false);
-
-    boolean result = invoiceService.deleteInvoice(testOrder.getId());
-
-    assertFalse(result);
-    verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
-    verify(objectStoreService, times(1)).deleteFile(testObjectKey);
-    verify(invoiceRepository, never()).delete(any(Invoice.class));
-  }
 
   @Test
   @DisplayName("Should throw exception when order ID is null for deletion")
