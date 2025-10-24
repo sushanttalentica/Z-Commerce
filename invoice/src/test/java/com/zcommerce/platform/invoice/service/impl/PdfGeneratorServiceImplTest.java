@@ -223,7 +223,7 @@ public class PdfGeneratorServiceImplTest {
   @DisplayName("getContentType returns correct content type")
   void getContentTypeReturnsCorrectContentType() {
     String contentType = pdfGeneratorService.getContentType();
-    assertThat(contentType).isEqualTo("application/pdf");
+    assertThat("application/pdf").isEqualTo(contentType);
   }
 
   @Test

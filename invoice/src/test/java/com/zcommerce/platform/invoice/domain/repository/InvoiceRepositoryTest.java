@@ -67,12 +67,12 @@ public class InvoiceRepositoryTest {
 
     Optional<Invoice> result = invoiceRepository.findByOrderId(100L);
 
-    assertTrue(result.isPresent());
-    assertEquals(100L, result.get().getOrderId());
-    assertEquals(200L, result.get().getCustomerId());
-    assertEquals("customer1@example.com", result.get().getCustomerEmail());
-    assertEquals(new BigDecimal("999.99"), result.get().getTotalAmount());
-    assertEquals(Invoice.InvoiceStatus.GENERATED, result.get().getStatus());
+    assertThat(result.isPresent());
+    assertThat(100L, result.get().getOrderId());
+    assertThat(200L, result.get().getCustomerId());
+    assertThat("customer1@example.com", result.get().getCustomerEmail());
+    assertThat(new BigDecimal("999.99"), result.get().getTotalAmount());
+    assertThat(Invoice.InvoiceStatus.GENERATED, result.get().getStatus());
   }
 
   @Test
@@ -82,7 +82,7 @@ public class InvoiceRepositoryTest {
 
     Optional<Invoice> result = invoiceRepository.findByOrderId(999L);
 
-    assertFalse(result.isPresent());
+    assertThat(result.isPresent());
   }
 
   @Test
@@ -101,12 +101,12 @@ public class InvoiceRepositoryTest {
 
     Invoice savedInvoice = invoiceRepository.save(newInvoice);
 
-    assertNotNull(savedInvoice);
-    assertEquals(103L, savedInvoice.getOrderId());
-    assertEquals(400L, savedInvoice.getCustomerId());
-    assertEquals("newcustomer@example.com", savedInvoice.getCustomerEmail());
-    assertEquals(new BigDecimal("599.99"), savedInvoice.getTotalAmount());
-    assertEquals(Invoice.InvoiceStatus.GENERATED, savedInvoice.getStatus());
+    assertThat(savedInvoice);
+    assertThat(103L, savedInvoice.getOrderId());
+    assertThat(400L, savedInvoice.getCustomerId());
+    assertThat("newcustomer@example.com", savedInvoice.getCustomerEmail());
+    assertThat(new BigDecimal("599.99"), savedInvoice.getTotalAmount());
+    assertThat(Invoice.InvoiceStatus.GENERATED, savedInvoice.getStatus());
   }
 
   @Test
@@ -117,10 +117,10 @@ public class InvoiceRepositoryTest {
 
     List<Invoice> result = invoiceRepository.findByCustomerId(200L);
 
-    assertEquals(2, result.size());
-    assertTrue(result.stream().allMatch(invoice -> invoice.getCustomerId().equals(200L)));
-    assertTrue(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(100L)));
-    assertTrue(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(101L)));
+    assertThat(2, result.size());
+    assertThat(result.stream().allMatch(invoice -> invoice.getCustomerId().equals(200L)));
+    assertThat(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(100L)));
+    assertThat(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(101L)));
   }
 
   @Test
@@ -131,9 +131,9 @@ public class InvoiceRepositoryTest {
 
     List<Invoice> result = invoiceRepository.findByStatus(Invoice.InvoiceStatus.GENERATED);
 
-    assertEquals(1, result.size());
-    assertEquals(100L, result.get(0).getOrderId());
-    assertEquals(Invoice.InvoiceStatus.GENERATED, result.get(0).getStatus());
+    assertThat(1, result.size());
+    assertThat(100L, result.get(0).getOrderId());
+    assertThat(Invoice.InvoiceStatus.GENERATED, result.get(0).getStatus());
   }
 
   @Test

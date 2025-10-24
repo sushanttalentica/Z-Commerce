@@ -47,9 +47,9 @@ public class S3ServiceTest {
 
     String result = s3Service.uploadFile(key, content, contentType);
 
-    assertNotNull(result);
-    assertTrue(result.contains("test-bucket"));
-    assertTrue(result.contains(key));
+    assertThat(result);
+    assertThat(result.contains("test-bucket"));
+    assertThat(result.contains(key));
   }
 
   @Test
@@ -62,7 +62,7 @@ public class S3ServiceTest {
 
     Optional<byte[]> result = s3Service.downloadFile(key);
 
-    assertNotNull(result);
+    assertThat(result);
   }
 
   @Test
@@ -75,7 +75,7 @@ public class S3ServiceTest {
 
     boolean result = s3Service.deleteFile(key);
 
-    assertTrue(result);
+    assertThat(result);
   }
 
   @Test
@@ -88,7 +88,7 @@ public class S3ServiceTest {
 
     boolean result = s3Service.fileExists(key);
 
-    assertNotNull(result);
+    assertThat(result);
   }
 
   @Test
@@ -101,7 +101,7 @@ public class S3ServiceTest {
 
     Optional<String> result = s3Service.getFileUrl(key);
 
-    assertNotNull(result);
+    assertThat(result);
   }
 
   @Test
@@ -115,7 +115,7 @@ public class S3ServiceTest {
 
     Optional<String> result = s3Service.generatePresignedUrl(key, expirationMinutes);
 
-    assertNotNull(result);
+    assertThat(result);
   }
 
   @Test
@@ -129,7 +129,7 @@ public class S3ServiceTest {
 
     boolean result = s3Service.setBucketPolicy(bucketName, policy);
 
-    assertTrue(result);
+    assertThat(result);
   }
 
   @Test
@@ -141,7 +141,7 @@ public class S3ServiceTest {
     byte[] content = "test content".getBytes();
     String contentType = "application/pdf";
 
-    assertThrows(IllegalArgumentException.class, () -> s3Service.uploadFile(null, content, contentType));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(null, content, contentType));
   }
 
   @Test
@@ -153,7 +153,7 @@ public class S3ServiceTest {
     String key = "test-file.pdf";
     String contentType = "application/pdf";
 
-    assertThrows(IllegalArgumentException.class, () -> s3Service.uploadFile(key, null, contentType));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(key, null, contentType));
   }
 
   @Test
@@ -165,7 +165,7 @@ public class S3ServiceTest {
     String key = "test-file.pdf";
     byte[] content = "test content".getBytes();
 
-    assertThrows(IllegalArgumentException.class, () -> s3Service.uploadFile(key, content, null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(key, content, null));
   }
 
   @Test
@@ -174,7 +174,7 @@ public class S3ServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThrows(IllegalArgumentException.class, () -> s3Service.downloadFile(null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.downloadFile(null));
   }
 
   @Test
@@ -183,7 +183,7 @@ public class S3ServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThrows(IllegalArgumentException.class, () -> s3Service.deleteFile(null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.deleteFile(null));
   }
 
   @Test
@@ -192,7 +192,7 @@ public class S3ServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThrows(IllegalArgumentException.class, () -> s3Service.fileExists(null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.fileExists(null));
   }
 
   @Test
@@ -201,7 +201,7 @@ public class S3ServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThrows(IllegalArgumentException.class, () -> s3Service.getFileUrl(null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.getFileUrl(null));
   }
 
   @Test
@@ -210,7 +210,7 @@ public class S3ServiceTest {
     when(s3Properties.getBucketName()).thenReturn("test-bucket");
     when(s3Properties.getRegion()).thenReturn("us-east-1");
     
-    assertThrows(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(null, 60));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(null, 60));
   }
 
   @Test
@@ -221,9 +221,9 @@ public class S3ServiceTest {
     
     String key = "test-file.pdf";
 
-    assertThrows(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, -1));
-    assertThrows(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, 0));
-    assertThrows(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, 10081));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, -1));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, 0));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.generatePresignedUrl(key, 10081));
   }
 
   @Test
@@ -234,7 +234,7 @@ public class S3ServiceTest {
     
     String policy = "{\"Version\":\"2012-10-17\",\"Statement\":[]}";
 
-    assertThrows(IllegalArgumentException.class, () -> s3Service.setBucketPolicy(null, policy));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.setBucketPolicy(null, policy));
   }
 
   @Test
@@ -245,6 +245,6 @@ public class S3ServiceTest {
     
     String bucketName = "test-bucket";
 
-    assertThrows(IllegalArgumentException.class, () -> s3Service.setBucketPolicy(bucketName, null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.setBucketPolicy(bucketName, null));
   }
 }

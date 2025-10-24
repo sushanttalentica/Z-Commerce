@@ -89,8 +89,8 @@ public class InvoiceServiceTest {
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals("https://example.com/invoices/100/test-invoice.pdf", result.get());
+    assertThat(result.isPresent());
+    assertThat("https://example.com/invoices/100/test-invoice.pdf", result.get());
     verify(invoiceRepository).save(any(Invoice.class));
   }
 
@@ -101,8 +101,8 @@ public class InvoiceServiceTest {
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals("https://example.com/invoices/100/test-invoice.pdf", result.get());
+    assertThat(result.isPresent());
+    assertThat("https://example.com/invoices/100/test-invoice.pdf", result.get());
     verify(invoiceRepository, never()).save(any(Invoice.class));
   }
 
@@ -113,8 +113,8 @@ public class InvoiceServiceTest {
 
     Optional<String> result = invoiceService.getInvoiceUrl(100L);
 
-    assertTrue(result.isPresent());
-    assertEquals("https://example.com/invoices/100/test-invoice.pdf", result.get());
+    assertThat(result.isPresent());
+    assertThat("https://example.com/invoices/100/test-invoice.pdf", result.get());
   }
 
   @Test
@@ -124,7 +124,7 @@ public class InvoiceServiceTest {
 
     Optional<String> result = invoiceService.getInvoiceUrl(100L);
 
-    assertFalse(result.isPresent());
+    assertThat(result.isPresent());
   }
 
   @Test
@@ -136,7 +136,7 @@ public class InvoiceServiceTest {
 
     boolean result = invoiceService.deleteInvoice(100L);
 
-    assertTrue(result);
+    assertThat(result);
     verify(invoiceRepository).delete(testInvoice);
     verify(objectStoreService).deleteFile("invoices/100/test-invoice.pdf");
   }
@@ -148,7 +148,7 @@ public class InvoiceServiceTest {
 
     boolean result = invoiceService.deleteInvoice(100L);
 
-    assertFalse(result);
+    assertThat(result);
     verify(invoiceRepository, never()).delete(any(Invoice.class));
   }
 
@@ -159,7 +159,7 @@ public class InvoiceServiceTest {
 
     boolean result = invoiceService.invoiceExists(100L);
 
-    assertTrue(result);
+    assertThat(result);
   }
 
   @Test
@@ -169,24 +169,24 @@ public class InvoiceServiceTest {
 
     boolean result = invoiceService.invoiceExists(100L);
 
-    assertFalse(result);
+    assertThat(result);
   }
 
   @Test
   @DisplayName("Should throw exception for null order ID in get URL")
   void shouldThrowExceptionForNullOrderIdInGetUrl() {
-    assertThrows(IllegalArgumentException.class, () -> invoiceService.getInvoiceUrl(null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> invoiceService.getInvoiceUrl(null));
   }
 
   @Test
   @DisplayName("Should throw exception for null order ID in delete")
   void shouldThrowExceptionForNullOrderIdInDelete() {
-    assertThrows(IllegalArgumentException.class, () -> invoiceService.deleteInvoice(null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> invoiceService.deleteInvoice(null));
   }
 
   @Test
   @DisplayName("Should throw exception for null order ID in exists check")
   void shouldThrowExceptionForNullOrderIdInExistsCheck() {
-    assertThrows(IllegalArgumentException.class, () -> invoiceService.invoiceExists(null));
+    assertThatThrownBy(IllegalArgumentException.class, () -> invoiceService.invoiceExists(null));
   }
 }

@@ -68,18 +68,18 @@ public class InvoiceTest {
   void shouldCreateEmptyInvoiceWithDefaultConstructor() {
     Invoice invoice = new Invoice();
 
-    assertNotNull(invoice);
-    assertNull(invoice.getId());
-    assertNull(invoice.getOrderId());
-    assertNull(invoice.getCustomerId());
-    assertNull(invoice.getCustomerEmail());
-    assertNull(invoice.getTotalAmount());
-    assertNull(invoice.getObjectKey());
-    assertNull(invoice.getObjectUrl());
-    assertEquals(Invoice.InvoiceStatus.GENERATED, invoice.getStatus());
-    assertNull(invoice.getGeneratedAt());
-    assertNull(invoice.getCreatedAt());
-    assertNull(invoice.getUpdatedAt());
+    assertThat(invoice);
+    assertThat(invoice.getId());
+    assertThat(invoice.getOrderId());
+    assertThat(invoice.getCustomerId());
+    assertThat(invoice.getCustomerEmail());
+    assertThat(invoice.getTotalAmount());
+    assertThat(invoice.getObjectKey());
+    assertThat(invoice.getObjectUrl());
+    assertThat(Invoice.InvoiceStatus.GENERATED, invoice.getStatus());
+    assertThat(invoice.getGeneratedAt());
+    assertThat(invoice.getCreatedAt());
+    assertThat(invoice.getUpdatedAt());
   }
 
   @Test
@@ -89,7 +89,7 @@ public class InvoiceTest {
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertTrue(canDownload);
+    assertThat(canDownload);
   }
 
   @Test
@@ -99,7 +99,7 @@ public class InvoiceTest {
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertTrue(canDownload);
+    assertThat(canDownload);
   }
 
   @Test
@@ -109,7 +109,7 @@ public class InvoiceTest {
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertFalse(canDownload);
+    assertThat(canDownload);
   }
 
   @Test
@@ -119,7 +119,7 @@ public class InvoiceTest {
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertFalse(canDownload);
+    assertThat(canDownload);
   }
 
   @Test
@@ -129,7 +129,7 @@ public class InvoiceTest {
 
     boolean canRegenerate = invoice.canBeRegenerated();
 
-    assertTrue(canRegenerate);
+    assertThat(canRegenerate);
   }
 
   @Test
@@ -139,7 +139,7 @@ public class InvoiceTest {
 
     boolean canRegenerate = invoice.canBeRegenerated();
 
-    assertTrue(canRegenerate);
+    assertThat(canRegenerate);
   }
 
   @Test
@@ -149,7 +149,7 @@ public class InvoiceTest {
 
     boolean canRegenerate = invoice.canBeRegenerated();
 
-    assertFalse(canRegenerate);
+    assertThat(canRegenerate);
   }
 
   @Test
@@ -159,7 +159,7 @@ public class InvoiceTest {
 
     invoice.markAsSent();
 
-    assertEquals(Invoice.InvoiceStatus.SENT, invoice.getStatus());
+    assertThat(Invoice.InvoiceStatus.SENT, invoice.getStatus());
   }
 
   @Test
@@ -168,8 +168,8 @@ public class InvoiceTest {
     invoice.setStatus(Invoice.InvoiceStatus.SENT);
 
     IllegalStateException exception =
-        assertThrows(IllegalStateException.class, () -> invoice.markAsSent());
-    assertEquals("Invoice cannot be marked as sent in current state: SENT", exception.getMessage());
+        assertThatThrownBy(IllegalStateException.class, () -> invoice.markAsSent());
+    assertThat("Invoice cannot be marked as sent in current state: SENT", exception.getMessage());
   }
 
   @Test
@@ -178,8 +178,8 @@ public class InvoiceTest {
     invoice.setStatus(Invoice.InvoiceStatus.FAILED);
 
     IllegalStateException exception =
-        assertThrows(IllegalStateException.class, () -> invoice.markAsSent());
-    assertEquals("Invoice cannot be marked as sent in current state: FAILED", exception.getMessage());
+        assertThatThrownBy(IllegalStateException.class, () -> invoice.markAsSent());
+    assertThat("Invoice cannot be marked as sent in current state: FAILED", exception.getMessage());
   }
 
   @Test
@@ -189,8 +189,8 @@ public class InvoiceTest {
 
     invoice.markAsFailed(failureReason);
 
-    assertEquals(Invoice.InvoiceStatus.FAILED, invoice.getStatus());
-    assertEquals(failureReason, invoice.getFailureReason());
+    assertThat(Invoice.InvoiceStatus.FAILED, invoice.getStatus());
+    assertThat(failureReason, invoice.getFailureReason());
   }
 
   @Test
@@ -198,20 +198,20 @@ public class InvoiceTest {
   void shouldHaveAllExpectedStatusValues() {
     Invoice.InvoiceStatus[] statuses = Invoice.InvoiceStatus.values();
 
-    assertEquals(4, statuses.length);
-    assertTrue(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.GENERATED));
-    assertTrue(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.SENT));
-    assertTrue(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.FAILED));
-    assertTrue(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.DELETED));
+    assertThat(4, statuses.length);
+    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.GENERATED));
+    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.SENT));
+    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.FAILED));
+    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.DELETED));
   }
 
   @Test
   @DisplayName("Should have correct string representation")
   void shouldHaveCorrectStringRepresentation() {
-    assertEquals("GENERATED", Invoice.InvoiceStatus.GENERATED.name());
-    assertEquals("SENT", Invoice.InvoiceStatus.SENT.name());
-    assertEquals("FAILED", Invoice.InvoiceStatus.FAILED.name());
-    assertEquals("DELETED", Invoice.InvoiceStatus.DELETED.name());
+    assertThat("GENERATED", Invoice.InvoiceStatus.GENERATED.name());
+    assertThat("SENT", Invoice.InvoiceStatus.SENT.name());
+    assertThat("FAILED", Invoice.InvoiceStatus.FAILED.name());
+    assertThat("DELETED", Invoice.InvoiceStatus.DELETED.name());
   }
 
   @Test
@@ -242,17 +242,17 @@ public class InvoiceTest {
     testInvoice.setCreatedAt(createdAt);
     testInvoice.setUpdatedAt(updatedAt);
 
-    assertEquals(id, testInvoice.getId());
-    assertEquals(orderId, testInvoice.getOrderId());
-    assertEquals(customerId, testInvoice.getCustomerId());
-    assertEquals(customerEmail, testInvoice.getCustomerEmail());
-    assertEquals(totalAmount, testInvoice.getTotalAmount());
-    assertEquals(objectKey, testInvoice.getObjectKey());
-    assertEquals(objectUrl, testInvoice.getObjectUrl());
-    assertEquals(status, testInvoice.getStatus());
-    assertEquals(generatedAt, testInvoice.getGeneratedAt());
-    assertEquals(createdAt, testInvoice.getCreatedAt());
-    assertEquals(updatedAt, testInvoice.getUpdatedAt());
+    assertThat(id, testInvoice.getId());
+    assertThat(orderId, testInvoice.getOrderId());
+    assertThat(customerId, testInvoice.getCustomerId());
+    assertThat(customerEmail, testInvoice.getCustomerEmail());
+    assertThat(totalAmount, testInvoice.getTotalAmount());
+    assertThat(objectKey, testInvoice.getObjectKey());
+    assertThat(objectUrl, testInvoice.getObjectUrl());
+    assertThat(status, testInvoice.getStatus());
+    assertThat(generatedAt, testInvoice.getGeneratedAt());
+    assertThat(createdAt, testInvoice.getCreatedAt());
+    assertThat(updatedAt, testInvoice.getUpdatedAt());
   }
 
   @Test
@@ -283,7 +283,7 @@ public class InvoiceTest {
 
     invoice.setTotalAmount(zeroAmount);
 
-    assertEquals(zeroAmount, invoice.getTotalAmount());
+    assertThat(zeroAmount, invoice.getTotalAmount());
   }
 
   @Test
@@ -293,7 +293,7 @@ public class InvoiceTest {
 
     invoice.setTotalAmount(largeAmount);
 
-    assertEquals(largeAmount, invoice.getTotalAmount());
+    assertThat(largeAmount, invoice.getTotalAmount());
   }
 
   @Test
@@ -304,6 +304,6 @@ public class InvoiceTest {
 
     invoice.setCustomerEmail(longEmail);
 
-    assertEquals(longEmail, invoice.getCustomerEmail());
+    assertThat(longEmail, invoice.getCustomerEmail());
   }
 }
