@@ -20,7 +20,7 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Version private Long version; // Optimistic locking for concurrent stock updates
+  @Version private Long version;
 
   @Column(nullable = false, length = 200)
   private String name;
@@ -89,7 +89,6 @@ public class Product {
     return active != null && active && stockQuantity > 0;
   }
 
-  // Business method to check if sufficient stock is available
   public boolean hasSufficientStock(int requestedQuantity) {
     return stockQuantity >= requestedQuantity;
   }

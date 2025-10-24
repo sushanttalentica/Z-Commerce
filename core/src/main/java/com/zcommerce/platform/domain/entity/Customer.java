@@ -102,14 +102,12 @@ public class Customer {
     this.orders = orders;
   }
 
-  // Customer Roles
   public enum CustomerRole {
     CUSTOMER,
     ADMIN,
     GUEST
   }
 
-  // Address Embeddable
   @Embeddable
   @Getter
   @Setter
