@@ -1,0 +1,146 @@
+package com.zcommerce.platform.invoice.domain.repository;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
+import com.ecommerce.productorder.invoice.domain.entity.Invoice;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+// JUnit tests for InvoiceRepository interface.
+@ExtendWith(MockitoExtension.class)
+@DisplayName("InvoiceRepository Tests")
+public class InvoiceRepositoryTest {
+
+  @Mock private InvoiceRepository invoiceRepository;
+  private Invoice testInvoice1;
+  private Invoice testInvoice2;
+  private Invoice testInvoice3;
+
+  @BeforeEach
+  void setUp() {
+    testInvoice1 = new Invoice();
+    testInvoice1.setOrderId(100L);
+    testInvoice1.setCustomerId(200L);
+    testInvoice1.setCustomerEmail("customer1@example.com");
+    testInvoice1.setTotalAmount(new BigDecimal("999.99"));
+    testInvoice1.setObjectKey("invoices/100/invoice1.pdf");
+    testInvoice1.setObjectUrl("https://example.com/invoices/100/invoice1.pdf");
+    testInvoice1.setStatus(Invoice.InvoiceStatus.GENERATED);
+    testInvoice1.setGeneratedAt(LocalDateTime.now().minusDays(1));
+
+    testInvoice2 = new Invoice();
+    testInvoice2.setOrderId(101L);
+    testInvoice2.setCustomerId(200L);
+    testInvoice2.setCustomerEmail("customer1@example.com");
+    testInvoice2.setTotalAmount(new BigDecimal("1499.99"));
+    testInvoice2.setObjectKey("invoices/101/invoice2.pdf");
+    testInvoice2.setObjectUrl("https://example.com/invoices/101/invoice2.pdf");
+    testInvoice2.setStatus(Invoice.InvoiceStatus.SENT);
+    testInvoice2.setGeneratedAt(LocalDateTime.now().minusDays(2));
+
+    testInvoice3 = new Invoice();
+    testInvoice3.setOrderId(102L);
+    testInvoice3.setCustomerId(300L);
+    testInvoice3.setCustomerEmail("customer2@example.com");
+    testInvoice3.setTotalAmount(new BigDecimal("799.99"));
+    testInvoice3.setObjectKey("invoices/102/invoice3.pdf");
+    testInvoice3.setObjectUrl("https://example.com/invoices/102/invoice3.pdf");
+    testInvoice3.setStatus(Invoice.InvoiceStatus.FAILED);
+    testInvoice3.setGeneratedAt(LocalDateTime.now().minusDays(3));
+  }
+
+  @Test
+  @DisplayName("findByOrderId returns invoice when found")
+  void findByOrderIdReturnsInvoiceWhenFound() {
+    when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice1));
+
+    Optional<Invoice> result = invoiceRepository.findByOrderId(100L);
+
+    assertThat(result.isPresent()).isTrue();
+    assertThat(result.get().getOrderId()).isEqualTo(100L);
+    assertThat(result.get().getCustomerId()).isEqualTo(200L);
+    assertThat(result.get().getCustomerEmail()).isEqualTo("customer1@example.com");
+    assertThat(result.get().getTotalAmount()).isEqualTo(new BigDecimal("999.99"));
+    assertThat(result.get().getStatus()).isEqualTo(Invoice.InvoiceStatus.GENERATED);
+  }
+
+  @Test
+  @DisplayName("findByOrderId returns empty when invoice not found")
+  void findByOrderIdReturnsEmptyWhenInvoiceNotFound() {
+    when(invoiceRepository.findByOrderId(999L)).thenReturn(Optional.empty());
+
+    Optional<Invoice> result = invoiceRepository.findByOrderId(999L);
+
+    assertThat(result.isPresent()).isTrue();
+  }
+
+  @Test
+  @DisplayName("save returns saved invoice when successful")
+  void saveReturnsSavedInvoiceWhenSuccessful() {
+    Invoice newInvoice = new Invoice();
+    newInvoice.setOrderId(103L);
+    newInvoice.setCustomerId(400L);
+    newInvoice.setCustomerEmail("newcustomer@example.com");
+    newInvoice.setTotalAmount(new BigDecimal("599.99"));
+    newInvoice.setObjectKey("invoices/103/newinvoice.pdf");
+    newInvoice.setObjectUrl("https://example.com/invoices/103/newinvoice.pdf");
+    newInvoice.setStatus(Invoice.InvoiceStatus.GENERATED);
+
+    when(invoiceRepository.save(any(Invoice.class))).thenReturn(newInvoice);
+
+    Invoice savedInvoice = invoiceRepository.save(newInvoice);
+
+    assertThat(savedInvoice).isNotNull();
+    assertThat(savedInvoice.getOrderId()).isEqualTo(103L);
+    assertThat(savedInvoice.getCustomerId()).isEqualTo(400L);
+    assertThat(savedInvoice.getCustomerEmail()).isEqualTo("newcustomer@example.com");
+    assertThat(savedInvoice.getTotalAmount()).isEqualTo(new BigDecimal("599.99"));
+    assertThat(savedInvoice.getStatus()).isEqualTo(Invoice.InvoiceStatus.GENERATED);
+  }
+
+  @Test
+  @DisplayName("findByCustomerId returns invoices when found")
+  void findByCustomerIdReturnsInvoicesWhenFound() {
+    List<Invoice> expectedInvoices = Arrays.asList(testInvoice1, testInvoice2);
+    when(invoiceRepository.findByCustomerId(200L)).thenReturn(expectedInvoices);
+
+    List<Invoice> result = invoiceRepository.findByCustomerId(200L);
+
+    assertThat(result.size()).isEqualTo(2);
+    assertThat(result.stream().allMatch(invoice -> invoice.getCustomerId().equals(200L))).isTrue();
+    assertThat(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(100L))).isTrue();
+    assertThat(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(101L))).isTrue();
+  }
+
+  @Test
+  @DisplayName("findByStatus returns invoices when found")
+  void findByStatusReturnsInvoicesWhenFound() {
+    List<Invoice> expectedInvoices = Arrays.asList(testInvoice1);
+    when(invoiceRepository.findByStatus(Invoice.InvoiceStatus.GENERATED)).thenReturn(expectedInvoices);
+
+    List<Invoice> result = invoiceRepository.findByStatus(Invoice.InvoiceStatus.GENERATED);
+
+    assertThat(result.size()).isEqualTo(1);
+    assertThat(result.get(0).getOrderId()).isEqualTo(100L);
+    assertThat(result.get(0).getStatus()).isEqualTo(Invoice.InvoiceStatus.GENERATED);
+  }
+
+  @Test
+  @DisplayName("delete removes invoice when successful")
+  void deleteRemovesInvoiceWhenSuccessful() {
+    doNothing().when(invoiceRepository).delete(any(Invoice.class));
+
+    assertThatCode(() -> invoiceRepository.delete(testInvoice1)).doesNotThrowAnyException();
+  }
+}
