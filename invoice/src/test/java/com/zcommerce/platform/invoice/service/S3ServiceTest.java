@@ -141,7 +141,8 @@ public class S3ServiceTest {
     byte[] content = "test content".getBytes();
     String contentType = "application/pdf";
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(null, content, contentType));
+    assertThatThrownBy(() -> s3Service.uploadFile(null, content, contentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -153,7 +154,8 @@ public class S3ServiceTest {
     String key = "test-file.pdf";
     String contentType = "application/pdf";
 
-    assertThatThrownBy(IllegalArgumentException.class, () -> s3Service.uploadFile(key, null, contentType));
+    assertThatThrownBy(() -> s3Service.uploadFile(key, null, contentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
