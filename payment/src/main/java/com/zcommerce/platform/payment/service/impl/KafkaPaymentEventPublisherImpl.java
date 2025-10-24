@@ -3,6 +3,7 @@ package com.zcommerce.platform.payment.service.impl;
 import com.zcommerce.platform.config.KafkaTopicsProperties;
 import com.zcommerce.platform.payment.domain.entity.Payment;
 import com.zcommerce.platform.payment.events.PaymentEventType;
+import com.zcommerce.platform.payment.events.ServiceConstants;
 import com.zcommerce.platform.payment.service.PaymentEventPublisher;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -131,8 +132,8 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     eventData.put("updatedAt", payment.getUpdatedAt());
 
     // Service information
-    eventData.put("serviceName", "zcommerce-platform");
-    eventData.put("serviceVersion", "1.0.0");
+    eventData.put("serviceName", ServiceConstants.SERVICE_NAME.getValue());
+    eventData.put("serviceVersion", ServiceConstants.SERVICE_VERSION.getValue());
 
     return eventData;
   }
