@@ -55,8 +55,8 @@ public class PdfGeneratorServiceTest {
   }
 
   @Test
-  @DisplayName("Should generate invoice PDF successfully")
-  void shouldGenerateInvoicePdfSuccessfully() {
+  @DisplayName("generateInvoice returns valid PDF for valid order")
+  void generateInvoiceReturnsValidPdfForValidOrder() {
     byte[] result = pdfGeneratorService.generateInvoicePdf(testOrder);
 
     assertThat(result);
@@ -64,8 +64,8 @@ public class PdfGeneratorServiceTest {
   }
 
   @Test
-  @DisplayName("Should generate receipt PDF successfully")
-  void shouldGenerateReceiptPdfSuccessfully() {
+  @DisplayName("generateReceiptPdf returns valid PDF for valid order")
+  void generateReceiptPdfReturnsValidPdfForValidOrder() {
     byte[] result = pdfGeneratorService.generateReceiptPdf(testOrder);
 
     assertThat(result);
@@ -73,8 +73,8 @@ public class PdfGeneratorServiceTest {
   }
 
   @Test
-  @DisplayName("Should generate shipping label PDF successfully")
-  void shouldGenerateShippingLabelPdfSuccessfully() {
+  @DisplayName("generateShippingLabelPdf returns valid PDF for valid order")
+  void generateShippingLabelPdfReturnsValidPdfForValidOrder() {
     byte[] result = pdfGeneratorService.generateShippingLabelPdf(testOrder);
 
     assertThat(result);
@@ -83,25 +83,25 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for null order in invoice PDF")
-  void shouldThrowExceptionForNullOrderInInvoicePdf() {
+  void generateInvoiceThrowsExceptionForNullOrder() {
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(null));
   }
 
   @Test
   @DisplayName("Should throw exception for null order in receipt PDF")
-  void shouldThrowExceptionForNullOrderInReceiptPdf() {
+  void generateReceiptPdfThrowsExceptionForNullOrder() {
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(null));
   }
 
   @Test
   @DisplayName("Should throw exception for null order in shipping label PDF")
-  void shouldThrowExceptionForNullOrderInShippingLabelPdf() {
+  void generateShippingLabelPdfThrowsExceptionForNullOrder() {
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(null));
   }
 
   @Test
   @DisplayName("Should throw exception for order with zero total amount in invoice PDF")
-  void shouldThrowExceptionForOrderWithZeroTotalAmountInInvoicePdf() {
+  void generateInvoiceThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
@@ -109,7 +109,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with zero total amount in receipt PDF")
-  void shouldThrowExceptionForOrderWithZeroTotalAmountInReceiptPdf() {
+  void generateReceiptPdfThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
@@ -117,7 +117,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with zero total amount in shipping label PDF")
-  void shouldThrowExceptionForOrderWithZeroTotalAmountInShippingLabelPdf() {
+  void generateShippingLabelPdfThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
@@ -125,7 +125,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with null total amount in invoice PDF")
-  void shouldThrowExceptionForOrderWithNullTotalAmountInInvoicePdf() {
+  void generateInvoiceThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
@@ -133,7 +133,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with null total amount in receipt PDF")
-  void shouldThrowExceptionForOrderWithNullTotalAmountInReceiptPdf() {
+  void generateReceiptPdfThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
@@ -141,7 +141,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with null total amount in shipping label PDF")
-  void shouldThrowExceptionForOrderWithNullTotalAmountInShippingLabelPdf() {
+  void generateShippingLabelPdfThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
@@ -149,7 +149,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with null order items in invoice PDF")
-  void shouldThrowExceptionForOrderWithNullOrderItemsInInvoicePdf() {
+  void generateInvoiceThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
@@ -157,7 +157,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with null order items in receipt PDF")
-  void shouldThrowExceptionForOrderWithNullOrderItemsInReceiptPdf() {
+  void generateReceiptPdfThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
@@ -165,7 +165,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with null order items in shipping label PDF")
-  void shouldThrowExceptionForOrderWithNullOrderItemsInShippingLabelPdf() {
+  void generateShippingLabelPdfThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
@@ -173,7 +173,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with empty order items in invoice PDF")
-  void shouldThrowExceptionForOrderWithEmptyOrderItemsInInvoicePdf() {
+  void generateInvoiceThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoicePdf(testOrder));
@@ -181,7 +181,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with empty order items in receipt PDF")
-  void shouldThrowExceptionForOrderWithEmptyOrderItemsInReceiptPdf() {
+  void generateReceiptPdfThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateReceiptPdf(testOrder));
@@ -189,7 +189,7 @@ public class PdfGeneratorServiceTest {
 
   @Test
   @DisplayName("Should throw exception for order with empty order items in shipping label PDF")
-  void shouldThrowExceptionForOrderWithEmptyOrderItemsInShippingLabelPdf() {
+  void generateShippingLabelPdfThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
     assertThatThrownBy(IllegalArgumentException.class, () -> pdfGeneratorService.generateShippingLabelPdf(testOrder));
