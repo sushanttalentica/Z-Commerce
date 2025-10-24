@@ -62,7 +62,7 @@ public class InvoiceRepositoryTest {
 
   @Test
   @DisplayName("Should find invoice by order ID")
-  void shouldFindInvoiceByOrderId() {
+  void findByOrderIdReturnsInvoiceWhenFound() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice1));
 
     Optional<Invoice> result = invoiceRepository.findByOrderId(100L);
@@ -77,7 +77,7 @@ public class InvoiceRepositoryTest {
 
   @Test
   @DisplayName("Should return empty when invoice not found by order ID")
-  void shouldReturnEmptyWhenInvoiceNotFoundByOrderId() {
+  void findByOrderIdReturnsEmptyWhenInvoiceNotFound() {
     when(invoiceRepository.findByOrderId(999L)).thenReturn(Optional.empty());
 
     Optional<Invoice> result = invoiceRepository.findByOrderId(999L);
@@ -87,7 +87,7 @@ public class InvoiceRepositoryTest {
 
   @Test
   @DisplayName("Should save new invoice")
-  void shouldSaveNewInvoice() {
+  void saveReturnsSavedInvoiceWhenSuccessful() {
     Invoice newInvoice = new Invoice();
     newInvoice.setOrderId(103L);
     newInvoice.setCustomerId(400L);
@@ -111,7 +111,7 @@ public class InvoiceRepositoryTest {
 
   @Test
   @DisplayName("Should find invoices by customer ID")
-  void shouldFindInvoicesByCustomerId() {
+  void findByCustomerIdReturnsInvoicesWhenFound() {
     List<Invoice> expectedInvoices = Arrays.asList(testInvoice1, testInvoice2);
     when(invoiceRepository.findByCustomerId(200L)).thenReturn(expectedInvoices);
 
@@ -125,7 +125,7 @@ public class InvoiceRepositoryTest {
 
   @Test
   @DisplayName("Should find invoices by status")
-  void shouldFindInvoicesByStatus() {
+  void findByStatusReturnsInvoicesWhenFound() {
     List<Invoice> expectedInvoices = Arrays.asList(testInvoice1);
     when(invoiceRepository.findByStatus(Invoice.InvoiceStatus.GENERATED)).thenReturn(expectedInvoices);
 
@@ -138,7 +138,7 @@ public class InvoiceRepositoryTest {
 
   @Test
   @DisplayName("Should delete invoice")
-  void shouldDeleteInvoice() {
+  void deleteRemovesInvoiceWhenSuccessful() {
     doNothing().when(invoiceRepository).delete(any(Invoice.class));
 
     assertThatCode(() -> invoiceRepository.delete(testInvoice1)).doesNotThrowAnyException();
