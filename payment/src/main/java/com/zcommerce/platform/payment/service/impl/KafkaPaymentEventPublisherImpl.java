@@ -1,8 +1,9 @@
 package com.zcommerce.platform.payment.service.impl;
 
-import com.ecommerce.productorder.config.KafkaTopicsProperties;
-import com.ecommerce.productorder.payment.domain.entity.Payment;
-import com.ecommerce.productorder.payment.service.PaymentEventPublisher;
+import com.zcommerce.platform.config.KafkaTopicsProperties;
+import com.zcommerce.platform.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.events.PaymentEventType;
+import com.zcommerce.platform.payment.service.PaymentEventPublisher;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     log.info("Publishing payment processed event for payment ID: {}", payment.getPaymentId());
 
     try {
-      Map<String, Object> eventData = createPaymentEventData(payment, "PAYMENT_PROCESSED");
+      Map<String, Object> eventData = createPaymentEventData(payment, PaymentEventType.PAYMENT_PROCESSED);
       kafkaTemplate.send(
           kafkaTopics.getPayment().getProcessed(), payment.getPaymentId(), eventData);
 
@@ -47,7 +48,7 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     log.info("Publishing payment failed event for payment ID: {}", payment.getPaymentId());
 
     try {
-      Map<String, Object> eventData = createPaymentEventData(payment, "PAYMENT_FAILED");
+      Map<String, Object> eventData = createPaymentEventData(payment, PaymentEventType.PAYMENT_FAILED);
       eventData.put("failureReason", payment.getFailureReason());
       kafkaTemplate.send(kafkaTopics.getPayment().getFailed(), payment.getPaymentId(), eventData);
 
@@ -64,7 +65,7 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     log.info("Publishing payment refunded event for payment ID: {}", payment.getPaymentId());
 
     try {
-      Map<String, Object> eventData = createPaymentEventData(payment, "PAYMENT_REFUNDED");
+      Map<String, Object> eventData = createPaymentEventData(payment, PaymentEventType.PAYMENT_REFUNDED);
       kafkaTemplate.send(kafkaTopics.getPayment().getRefunded(), payment.getPaymentId(), eventData);
 
       log.info(
@@ -81,7 +82,7 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     log.info("Publishing payment cancelled event for payment ID: {}", payment.getPaymentId());
 
     try {
-      Map<String, Object> eventData = createPaymentEventData(payment, "PAYMENT_CANCELLED");
+      Map<String, Object> eventData = createPaymentEventData(payment, PaymentEventType.PAYMENT_CANCELLED);
       kafkaTemplate.send(
           kafkaTopics.getPayment().getCancelled(), payment.getPaymentId(), eventData);
 
@@ -99,7 +100,7 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     log.info("Publishing payment retry event for payment ID: {}", payment.getPaymentId());
 
     try {
-      Map<String, Object> eventData = createPaymentEventData(payment, "PAYMENT_RETRY");
+      Map<String, Object> eventData = createPaymentEventData(payment, PaymentEventType.PAYMENT_RETRY);
       kafkaTemplate.send(kafkaTopics.getPayment().getRetry(), payment.getPaymentId(), eventData);
 
       log.info(
@@ -110,11 +111,11 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     }
   }
 
-  private Map<String, Object> createPaymentEventData(Payment payment, String eventType) {
+  private Map<String, Object> createPaymentEventData(Payment payment, PaymentEventType eventType) {
     Map<String, Object> eventData = new HashMap<>();
 
     // Basic payment information
-    eventData.put("eventType", eventType);
+    eventData.put("eventType", eventType.getEventType());
     eventData.put("eventId", UUID.randomUUID().toString());
     eventData.put("timestamp", LocalDateTime.now().toString());
     eventData.put("paymentId", payment.getPaymentId());
@@ -130,7 +131,7 @@ public class KafkaPaymentEventPublisherImpl implements PaymentEventPublisher {
     eventData.put("updatedAt", payment.getUpdatedAt());
 
     // Service information
-    eventData.put("serviceName", "product-order-service");
+    eventData.put("serviceName", "zcommerce-platform");
     eventData.put("serviceVersion", "1.0.0");
 
     return eventData;

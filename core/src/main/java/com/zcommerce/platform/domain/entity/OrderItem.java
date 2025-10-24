@@ -68,7 +68,6 @@ public class OrderItem {
     return unitPrice.multiply(BigDecimal.valueOf(quantity));
   }
 
-  // Method to update subtotal when quantity or price changes
   public void updateSubtotal() {
     this.subtotal = calculateSubtotal();
   }
