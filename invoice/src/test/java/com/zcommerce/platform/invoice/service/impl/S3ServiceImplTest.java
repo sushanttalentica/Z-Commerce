@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -37,246 +37,220 @@ public class S3ServiceImplTest {
   }
 
   @Test
-  @DisplayName("Should handle null key gracefully")
-  void shouldHandleNullKeyGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.uploadFile(null, testContent, testContentType);
-    });
+  @DisplayName("uploadFile throws IllegalArgumentException when key is null")
+  void uploadFileThrowsIllegalArgumentExceptionWhenKeyIsNull() {
+    assertThatThrownBy(() -> s3Service.uploadFile(null, testContent, testContentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty key gracefully")
-  void shouldHandleEmptyKeyGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.uploadFile("", testContent, testContentType);
-    });
+  @DisplayName("uploadFile throws IllegalArgumentException when key is empty")
+  void uploadFileThrowsIllegalArgumentExceptionWhenKeyIsEmpty() {
+    assertThatThrownBy(() -> s3Service.uploadFile("", testContent, testContentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle null content gracefully")
-  void shouldHandleNullContentGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.uploadFile(testKey, null, testContentType);
-    });
+  @DisplayName("uploadFile throws IllegalArgumentException when content is null")
+  void uploadFileThrowsIllegalArgumentExceptionWhenContentIsNull() {
+    assertThatThrownBy(() -> s3Service.uploadFile(testKey, null, testContentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty content gracefully")
-  void shouldHandleEmptyContentGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.uploadFile(testKey, new byte[0], testContentType);
-    });
+  @DisplayName("uploadFile throws IllegalArgumentException when content is empty")
+  void uploadFileThrowsIllegalArgumentExceptionWhenContentIsEmpty() {
+    assertThatThrownBy(() -> s3Service.uploadFile(testKey, new byte[0], testContentType))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle null content type gracefully")
-  void shouldHandleNullContentTypeGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.uploadFile(testKey, testContent, null);
-    });
+  @DisplayName("uploadFile throws IllegalArgumentException when content type is null")
+  void uploadFileThrowsIllegalArgumentExceptionWhenContentTypeIsNull() {
+    assertThatThrownBy(() -> s3Service.uploadFile(testKey, testContent, null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty content type gracefully")
-  void shouldHandleEmptyContentTypeGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.uploadFile(testKey, testContent, "");
-    });
+  @DisplayName("uploadFile throws IllegalArgumentException when content type is empty")
+  void uploadFileThrowsIllegalArgumentExceptionWhenContentTypeIsEmpty() {
+    assertThatThrownBy(() -> s3Service.uploadFile(testKey, testContent, ""))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle valid upload parameters")
-  void shouldHandleValidUploadParameters() {
+  @DisplayName("uploadFile throws RuntimeException when AWS SDK is not configured")
+  void uploadFileThrowsRuntimeExceptionWhenAWSSDKIsNotConfigured() {
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
-    assertThrows(RuntimeException.class, () -> {
-      s3Service.uploadFile(testKey, testContent, testContentType);
-    });
+    assertThatThrownBy(() -> s3Service.uploadFile(testKey, testContent, testContentType))
+        .isInstanceOf(RuntimeException.class);
   }
 
   @Test
-  @DisplayName("Should handle null key for download gracefully")
-  void shouldHandleNullKeyForDownloadGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.downloadFile(null);
-    });
+  @DisplayName("downloadFile throws IllegalArgumentException when key is null")
+  void downloadFileThrowsIllegalArgumentExceptionWhenKeyIsNull() {
+    assertThatThrownBy(() -> s3Service.downloadFile(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty key for download gracefully")
-  void shouldHandleEmptyKeyForDownloadGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.downloadFile("");
-    });
+  @DisplayName("downloadFile throws IllegalArgumentException when key is empty")
+  void downloadFileThrowsIllegalArgumentExceptionWhenKeyIsEmpty() {
+    assertThatThrownBy(() -> s3Service.downloadFile(""))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle valid download parameters")
-  void shouldHandleValidDownloadParameters() {
+  @DisplayName("downloadFile returns empty when AWS SDK is not configured")
+  void downloadFileReturnsEmptyWhenAWSSDKIsNotConfigured() {
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
     Optional<byte[]> result = s3Service.downloadFile(testKey);
-    assertFalse(result.isPresent());
+    assertThat(result).isNotPresent();
   }
 
   @Test
-  @DisplayName("Should handle null key for deletion gracefully")
-  void shouldHandleNullKeyForDeletionGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.deleteFile(null);
-    });
+  @DisplayName("deleteFile throws IllegalArgumentException when key is null")
+  void deleteFileThrowsIllegalArgumentExceptionWhenKeyIsNull() {
+    assertThatThrownBy(() -> s3Service.deleteFile(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty key for deletion gracefully")
-  void shouldHandleEmptyKeyForDeletionGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.deleteFile("");
-    });
+  @DisplayName("deleteFile throws IllegalArgumentException when key is empty")
+  void deleteFileThrowsIllegalArgumentExceptionWhenKeyIsEmpty() {
+    assertThatThrownBy(() -> s3Service.deleteFile(""))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle valid deletion parameters")
-  void shouldHandleValidDeletionParameters() {
+  @DisplayName("deleteFile returns false when AWS SDK is not configured")
+  void deleteFileReturnsFalseWhenAWSSDKIsNotConfigured() {
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
     boolean result = s3Service.deleteFile(testKey);
-    assertFalse(result);
+    assertThat(result).isFalse();
   }
 
   @Test
-  @DisplayName("Should handle null key for existence check gracefully")
-  void shouldHandleNullKeyForExistenceCheckGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.fileExists(null);
-    });
+  @DisplayName("fileExists throws IllegalArgumentException when key is null")
+  void fileExistsThrowsIllegalArgumentExceptionWhenKeyIsNull() {
+    assertThatThrownBy(() -> s3Service.fileExists(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty key for existence check gracefully")
-  void shouldHandleEmptyKeyForExistenceCheckGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.fileExists("");
-    });
+  @DisplayName("fileExists throws IllegalArgumentException when key is empty")
+  void fileExistsThrowsIllegalArgumentExceptionWhenKeyIsEmpty() {
+    assertThatThrownBy(() -> s3Service.fileExists(""))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle valid existence check parameters")
-  void shouldHandleValidExistenceCheckParameters() {
+  @DisplayName("fileExists returns false when AWS SDK is not configured")
+  void fileExistsReturnsFalseWhenAWSSDKIsNotConfigured() {
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
     boolean result = s3Service.fileExists(testKey);
-    assertFalse(result);
+    assertThat(result).isFalse();
   }
 
   @Test
-  @DisplayName("Should handle null key for URL retrieval gracefully")
-  void shouldHandleNullKeyForUrlRetrievalGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.getFileUrl(null);
-    });
+  @DisplayName("getFileUrl throws IllegalArgumentException when key is null")
+  void getFileUrlThrowsIllegalArgumentExceptionWhenKeyIsNull() {
+    assertThatThrownBy(() -> s3Service.getFileUrl(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty key for URL retrieval gracefully")
-  void shouldHandleEmptyKeyForUrlRetrievalGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.getFileUrl("");
-    });
-  }
-
-
-  @Test
-  @DisplayName("Should handle null key for presigned URL generation gracefully")
-  void shouldHandleNullKeyForPresignedUrlGenerationGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.generatePresignedUrl(null, 60);
-    });
-  }
-
-  @Test
-  @DisplayName("Should handle empty key for presigned URL generation gracefully")
-  void shouldHandleEmptyKeyForPresignedUrlGenerationGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.generatePresignedUrl("", 60);
-    });
-  }
-
-  @Test
-  @DisplayName("Should handle invalid expiration for presigned URL generation gracefully")
-  void shouldHandleInvalidExpirationForPresignedUrlGenerationGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.generatePresignedUrl(testKey, 0);
-    });
+  @DisplayName("getFileUrl throws IllegalArgumentException when key is empty")
+  void getFileUrlThrowsIllegalArgumentExceptionWhenKeyIsEmpty() {
+    assertThatThrownBy(() -> s3Service.getFileUrl(""))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
 
   @Test
-  @DisplayName("Should handle null bucket name for bucket policy gracefully")
-  void shouldHandleNullBucketNameForBucketPolicyGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.setBucketPolicy(null, "test-policy");
-    });
+  @DisplayName("generatePresignedUrl throws IllegalArgumentException when key is null")
+  void generatePresignedUrlThrowsIllegalArgumentExceptionWhenKeyIsNull() {
+    assertThatThrownBy(() -> s3Service.generatePresignedUrl(null, 60))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle empty bucket name for bucket policy gracefully")
-  void shouldHandleEmptyBucketNameForBucketPolicyGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.setBucketPolicy("", "test-policy");
-    });
+  @DisplayName("generatePresignedUrl throws IllegalArgumentException when key is empty")
+  void generatePresignedUrlThrowsIllegalArgumentExceptionWhenKeyIsEmpty() {
+    assertThatThrownBy(() -> s3Service.generatePresignedUrl("", 60))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle null policy for bucket policy gracefully")
-  void shouldHandleNullPolicyForBucketPolicyGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.setBucketPolicy(testBucketName, null);
-    });
-  }
-
-  @Test
-  @DisplayName("Should handle empty policy for bucket policy gracefully")
-  void shouldHandleEmptyPolicyForBucketPolicyGracefully() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      s3Service.setBucketPolicy(testBucketName, "");
-    });
+  @DisplayName("generatePresignedUrl throws IllegalArgumentException when expiration is invalid")
+  void generatePresignedUrlThrowsIllegalArgumentExceptionWhenExpirationIsInvalid() {
+    assertThatThrownBy(() -> s3Service.generatePresignedUrl(testKey, 0))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
 
   @Test
-  @DisplayName("Should handle very long key")
-  void shouldHandleVeryLongKey() {
+  @DisplayName("setBucketPolicy throws IllegalArgumentException when bucket name is null")
+  void setBucketPolicyThrowsIllegalArgumentExceptionWhenBucketNameIsNull() {
+    assertThatThrownBy(() -> s3Service.setBucketPolicy(null, "test-policy"))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  @DisplayName("setBucketPolicy throws IllegalArgumentException when bucket name is empty")
+  void setBucketPolicyThrowsIllegalArgumentExceptionWhenBucketNameIsEmpty() {
+    assertThatThrownBy(() -> s3Service.setBucketPolicy("", "test-policy"))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  @DisplayName("setBucketPolicy throws IllegalArgumentException when policy is null")
+  void setBucketPolicyThrowsIllegalArgumentExceptionWhenPolicyIsNull() {
+    assertThatThrownBy(() -> s3Service.setBucketPolicy(testBucketName, null))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  @DisplayName("setBucketPolicy throws IllegalArgumentException when policy is empty")
+  void setBucketPolicyThrowsIllegalArgumentExceptionWhenPolicyIsEmpty() {
+    assertThatThrownBy(() -> s3Service.setBucketPolicy(testBucketName, ""))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+
+  @Test
+  @DisplayName("uploadFile throws RuntimeException when key is very long")
+  void uploadFileThrowsRuntimeExceptionWhenKeyIsVeryLong() {
     String longKey = "a".repeat(1000);
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
-    assertThrows(RuntimeException.class, () -> {
-      s3Service.uploadFile(longKey, testContent, testContentType);
-    });
+    assertThatThrownBy(() -> s3Service.uploadFile(longKey, testContent, testContentType))
+        .isInstanceOf(RuntimeException.class);
   }
 
   @Test
-  @DisplayName("Should handle very large content")
-  void shouldHandleVeryLargeContent() {
+  @DisplayName("uploadFile throws RuntimeException when content is very large")
+  void uploadFileThrowsRuntimeExceptionWhenContentIsVeryLarge() {
     byte[] largeContent = new byte[1024 * 1024]; // 1MB
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
-    assertThrows(RuntimeException.class, () -> {
-      s3Service.uploadFile(testKey, largeContent, testContentType);
-    });
+    assertThatThrownBy(() -> s3Service.uploadFile(testKey, largeContent, testContentType))
+        .isInstanceOf(RuntimeException.class);
   }
 
   @Test
-  @DisplayName("Should handle special characters in key")
-  void shouldHandleSpecialCharactersInKey() {
+  @DisplayName("uploadFile throws RuntimeException when key contains special characters")
+  void uploadFileThrowsRuntimeExceptionWhenKeyContainsSpecialCharacters() {
     String specialKey = "invoices/100/test-invoice-@#$%^&*().pdf";
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
-    assertThrows(RuntimeException.class, () -> {
-      s3Service.uploadFile(specialKey, testContent, testContentType);
-    });
+    assertThatThrownBy(() -> s3Service.uploadFile(specialKey, testContent, testContentType))
+        .isInstanceOf(RuntimeException.class);
   }
 
   @Test
-  @DisplayName("Should handle unicode characters in key")
-  void shouldHandleUnicodeCharactersInKey() {
+  @DisplayName("uploadFile throws RuntimeException when key contains unicode characters")
+  void uploadFileThrowsRuntimeExceptionWhenKeyContainsUnicodeCharacters() {
     String unicodeKey = "invoices/100/test-invoice-测试.pdf";
     // This test will fail due to AWS SDK not being configured, but validates parameter validation
-    assertThrows(RuntimeException.class, () -> {
-      s3Service.uploadFile(unicodeKey, testContent, testContentType);
-    });
+    assertThatThrownBy(() -> s3Service.uploadFile(unicodeKey, testContent, testContentType))
+        .isInstanceOf(RuntimeException.class);
   }
 }

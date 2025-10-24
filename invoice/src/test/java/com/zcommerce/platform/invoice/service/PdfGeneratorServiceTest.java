@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 import com.ecommerce.productorder.domain.entity.Order;
 import com.ecommerce.productorder.domain.entity.OrderItem;
