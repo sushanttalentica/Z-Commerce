@@ -31,14 +31,14 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
   @Override
   public String getContentType() {
-    return "application/pdf";
+    return PdfConstants.CONTENT_TYPE;
   }
 
   private byte[] generateInvoicePdf(Order order) {
     // Validate order first
     validateOrderForPdf(order);
     
-    log.info("Generating PDF invoice for order ID: {}", order.getId());
+    log.info(PdfConstants.GENERATING_INVOICE_LOG, order.getId());
 
     try {
 
@@ -50,76 +50,73 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
       // Add invoice header
       Paragraph header =
-          new Paragraph("INVOICE")
-              .setFontSize(24)
+          new Paragraph(PdfConstants.INVOICE_HEADER)
+              .setFontSize(PdfConstants.HEADER_FONT_SIZE)
               .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))
               .setTextAlignment(TextAlignment.CENTER);
       document.add(header);
 
-      document.add(new Paragraph("\n"));
+      document.add(new Paragraph(PdfConstants.NEWLINE));
 
       // Add invoice details
-      document.add(new Paragraph("Invoice Number: " + order.getOrderNumber()));
+      document.add(new Paragraph(PdfConstants.INVOICE_NUMBER_LABEL + order.getOrderNumber()));
       document.add(
           new Paragraph(
-              "Date: "
+              PdfConstants.DATE_LABEL
                   + LocalDateTime.now()
-                      .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-      document.add(new Paragraph("Customer Email: " + order.getCustomerEmail()));
-      document.add(new Paragraph("Shipping Address: " + order.getShippingAddress()));
+                      .format(DateTimeFormatter.ofPattern(PdfConstants.DATE_FORMAT_PATTERN))));
+      document.add(new Paragraph(PdfConstants.CUSTOMER_EMAIL_LABEL + order.getCustomerEmail()));
+      document.add(new Paragraph(PdfConstants.SHIPPING_ADDRESS_LABEL + order.getShippingAddress()));
 
-      document.add(new Paragraph("\n"));
+      document.add(new Paragraph(PdfConstants.NEWLINE));
 
       // Add order items table
       Paragraph itemsHeader =
-          new Paragraph("Order Items:")
+          new Paragraph(PdfConstants.ORDER_ITEMS_LABEL)
               .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD));
       document.add(itemsHeader);
       Table table = new Table(4);
-      table.addHeaderCell("Product");
-      table.addHeaderCell("Quantity");
-      table.addHeaderCell("Unit Price");
-      table.addHeaderCell("Subtotal");
+      table.addHeaderCell(PdfConstants.PRODUCT_HEADER);
+      table.addHeaderCell(PdfConstants.QUANTITY_HEADER);
+      table.addHeaderCell(PdfConstants.UNIT_PRICE_HEADER);
+      table.addHeaderCell(PdfConstants.SUBTOTAL_HEADER);
 
       for (OrderItem item : order.getOrderItems()) {
         table.addCell(item.getProduct().getName());
         table.addCell(String.valueOf(item.getQuantity()));
-        table.addCell("$" + item.getUnitPrice());
-        table.addCell("$" + item.getSubtotal());
+        table.addCell(PdfConstants.CURRENCY_SYMBOL + item.getUnitPrice());
+        table.addCell(PdfConstants.CURRENCY_SYMBOL + item.getSubtotal());
       }
 
       document.add(table);
 
-      document.add(new Paragraph("\n"));
+      document.add(new Paragraph(PdfConstants.NEWLINE));
 
       // Add total
       Paragraph total =
-          new Paragraph("Total Amount: $" + order.getTotalAmount())
+          new Paragraph(PdfConstants.TOTAL_AMOUNT_LABEL + PdfConstants.CURRENCY_SYMBOL + order.getTotalAmount())
               .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))
-              .setFontSize(14);
+              .setFontSize(PdfConstants.TOTAL_FONT_SIZE);
       document.add(total);
 
-      document.add(new Paragraph("\nStatus: " + order.getStatus()));
+      document.add(new Paragraph(PdfConstants.NEWLINE + PdfConstants.STATUS_LABEL + order.getStatus()));
       document.add(
           new Paragraph(
-              "Order Date: "
+              PdfConstants.ORDER_DATE_LABEL
                   + order
                       .getCreatedAt()
-                      .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+                      .format(DateTimeFormatter.ofPattern(PdfConstants.DATE_FORMAT_PATTERN))));
 
       // Close document
       document.close();
 
       byte[] pdfBytes = outputStream.toByteArray();
-      log.info(
-          "PDF invoice generated successfully for order ID: {} ({} bytes)",
-          order.getId(),
-          pdfBytes.length);
+      log.info(PdfConstants.INVOICE_GENERATED_SUCCESS_LOG, order.getId(), pdfBytes.length);
       return pdfBytes;
 
     } catch (Exception e) {
-      log.error("Error generating PDF invoice for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF invoice: " + e.getMessage());
+      log.error(PdfConstants.INVOICE_GENERATION_ERROR_LOG, order.getId(), e);
+      throw new RuntimeException(PdfConstants.PDF_INVOICE_GENERATION_ERROR + e.getMessage());
     }
   }
 
@@ -128,7 +125,7 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
     // Validate order first
     validateOrderForPdf(order);
     
-    log.info("Generating PDF receipt for order ID: {}", order.getId());
+    log.info(PdfConstants.GENERATING_RECEIPT_LOG, order.getId());
 
     try {
 
@@ -142,15 +139,15 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
       byte[] pdfBytes = outputStream.toByteArray();
 
-      log.info("PDF receipt generated successfully for order ID: {}", order.getId());
+      log.info(PdfConstants.RECEIPT_GENERATED_SUCCESS_LOG, order.getId());
       return pdfBytes;
 
     } catch (IOException e) {
-      log.error("Error generating PDF receipt for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF receipt: " + e.getMessage());
+      log.error(PdfConstants.RECEIPT_GENERATION_ERROR_LOG, order.getId(), e);
+      throw new RuntimeException(PdfConstants.PDF_RECEIPT_GENERATION_ERROR + e.getMessage());
     } catch (Exception e) {
-      log.error("Error generating PDF receipt for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF receipt: " + e.getMessage());
+      log.error(PdfConstants.RECEIPT_GENERATION_ERROR_LOG, order.getId(), e);
+      throw new RuntimeException(PdfConstants.PDF_RECEIPT_GENERATION_ERROR + e.getMessage());
     }
   }
 
@@ -159,7 +156,7 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
     // Validate order first
     validateOrderForPdf(order);
     
-    log.info("Generating PDF shipping label for order ID: {}", order.getId());
+    log.info(PdfConstants.GENERATING_SHIPPING_LABEL_LOG, order.getId());
 
     try {
 
@@ -173,38 +170,38 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
       byte[] pdfBytes = outputStream.toByteArray();
 
-      log.info("PDF shipping label generated successfully for order ID: {}", order.getId());
+      log.info(PdfConstants.SHIPPING_LABEL_GENERATED_SUCCESS_LOG, order.getId());
       return pdfBytes;
 
     } catch (IOException e) {
-      log.error("Error generating PDF shipping label for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF shipping label: " + e.getMessage());
+      log.error(PdfConstants.SHIPPING_LABEL_GENERATION_ERROR_LOG, order.getId(), e);
+      throw new RuntimeException(PdfConstants.PDF_SHIPPING_LABEL_GENERATION_ERROR + e.getMessage());
     } catch (Exception e) {
-      log.error("Error generating PDF shipping label for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF shipping label: " + e.getMessage());
+      log.error(PdfConstants.SHIPPING_LABEL_GENERATION_ERROR_LOG, order.getId(), e);
+      throw new RuntimeException(PdfConstants.PDF_SHIPPING_LABEL_GENERATION_ERROR + e.getMessage());
     }
   }
 
   private void validateOrderForPdf(Order order) {
     if (order == null) {
-      throw new IllegalArgumentException("Order cannot be null");
+      throw new IllegalArgumentException(PdfConstants.ORDER_NULL_ERROR);
     }
 
     if (order.getId() == null) {
-      throw new IllegalArgumentException("Order ID cannot be null");
+      throw new IllegalArgumentException(PdfConstants.ORDER_ID_NULL_ERROR);
     }
 
     if (order.getCustomerEmail() == null || order.getCustomerEmail().trim().isEmpty()) {
-      throw new IllegalArgumentException("Customer email is required");
+      throw new IllegalArgumentException(PdfConstants.CUSTOMER_EMAIL_REQUIRED_ERROR);
     }
 
     if (order.getTotalAmount() == null
         || order.getTotalAmount().compareTo(java.math.BigDecimal.ZERO) <= 0) {
-      throw new IllegalArgumentException("Order total amount must be greater than zero");
+      throw new IllegalArgumentException(PdfConstants.ORDER_TOTAL_AMOUNT_ERROR);
     }
 
     if (order.getOrderItems() == null || order.getOrderItems().isEmpty()) {
-      throw new IllegalArgumentException("Order items cannot be null or empty");
+      throw new IllegalArgumentException(PdfConstants.ORDER_ITEMS_NULL_ERROR);
     }
   }
 
@@ -212,22 +209,22 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
     StringBuilder content = new StringBuilder();
 
     // Receipt header
-    content.append("RECEIPT\n");
-    content.append("=======\n\n");
+    content.append(PdfConstants.RECEIPT_HEADER).append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.RECEIPT_SEPARATOR).append(PdfConstants.DOUBLE_NEWLINE);
 
     // Receipt details
-    content.append("Receipt Number: ").append(order.getOrderNumber()).append("\n");
+    content.append(PdfConstants.RECEIPT_NUMBER_LABEL).append(order.getOrderNumber()).append(PdfConstants.NEWLINE);
     content
-        .append("Date: ")
-        .append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-        .append("\n");
-    content.append("Customer ID: ").append(order.getCustomerId()).append("\n");
-    content.append("Customer Email: ").append(order.getCustomerEmail()).append("\n");
-    content.append("Order Status: ").append(order.getStatus()).append("\n");
-    content.append("Total Amount: $").append(order.getTotalAmount()).append("\n");
+        .append(PdfConstants.DATE_LABEL)
+        .append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(PdfConstants.DATE_FORMAT_PATTERN)))
+        .append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.CUSTOMER_ID_LABEL).append(order.getCustomerId()).append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.CUSTOMER_EMAIL_LABEL).append(order.getCustomerEmail()).append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.ORDER_STATUS_LABEL).append(order.getStatus()).append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.TOTAL_AMOUNT_LABEL).append(PdfConstants.CURRENCY_SYMBOL).append(order.getTotalAmount()).append(PdfConstants.NEWLINE);
 
-    content.append("\n");
-    content.append("Payment received. Thank you!\n");
+    content.append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.PAYMENT_RECEIVED_MESSAGE).append(PdfConstants.NEWLINE);
 
     return content.toString();
   }
@@ -236,20 +233,20 @@ public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
     StringBuilder content = new StringBuilder();
 
     // Shipping label header
-    content.append("SHIPPING LABEL\n");
-    content.append("==============\n\n");
+    content.append(PdfConstants.SHIPPING_LABEL_HEADER).append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.SHIPPING_LABEL_SEPARATOR).append(PdfConstants.DOUBLE_NEWLINE);
 
     // Shipping details
-    content.append("Order Number: ").append(order.getOrderNumber()).append("\n");
-    content.append("Customer ID: ").append(order.getCustomerId()).append("\n");
-    content.append("Customer Email: ").append(order.getCustomerEmail()).append("\n");
+    content.append(PdfConstants.ORDER_NUMBER_LABEL).append(order.getOrderNumber()).append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.CUSTOMER_ID_LABEL).append(order.getCustomerId()).append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.CUSTOMER_EMAIL_LABEL).append(order.getCustomerEmail()).append(PdfConstants.NEWLINE);
 
     if (order.getShippingAddress() != null) {
-      content.append("Shipping Address: ").append(order.getShippingAddress()).append("\n");
+      content.append(PdfConstants.SHIPPING_ADDRESS_LABEL).append(order.getShippingAddress()).append(PdfConstants.NEWLINE);
     }
 
-    content.append("\n");
-    content.append("Handle with care!\n");
+    content.append(PdfConstants.NEWLINE);
+    content.append(PdfConstants.HANDLE_WITH_CARE_MESSAGE).append(PdfConstants.NEWLINE);
 
     return content.toString();
   }
