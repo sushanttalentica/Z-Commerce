@@ -64,159 +64,159 @@ public class InvoiceTest {
   }
 
   @Test
-  @DisplayName("Should create empty invoice with default constructor")
-  void shouldCreateEmptyInvoiceWithDefaultConstructor() {
+  @DisplayName("Invoice default constructor creates empty invoice")
+  void invoiceDefaultConstructorCreatesEmptyInvoice() {
     Invoice invoice = new Invoice();
 
-    assertThat(invoice);
-    assertThat(invoice.getId());
-    assertThat(invoice.getOrderId());
-    assertThat(invoice.getCustomerId());
-    assertThat(invoice.getCustomerEmail());
-    assertThat(invoice.getTotalAmount());
-    assertThat(invoice.getObjectKey());
-    assertThat(invoice.getObjectUrl());
-    assertThat(Invoice.InvoiceStatus.GENERATED, invoice.getStatus());
-    assertThat(invoice.getGeneratedAt());
-    assertThat(invoice.getCreatedAt());
-    assertThat(invoice.getUpdatedAt());
+    assertThat(invoice).isNotNull();
+    assertThat(invoice.getId()).isNull();
+    assertThat(invoice.getOrderId()).isNull();
+    assertThat(invoice.getCustomerId()).isNull();
+    assertThat(invoice.getCustomerEmail()).isNull();
+    assertThat(invoice.getTotalAmount()).isNull();
+    assertThat(invoice.getObjectKey()).isNull();
+    assertThat(invoice.getObjectUrl()).isNull();
+    assertThat(invoice.getStatus()).isEqualTo(Invoice.InvoiceStatus.GENERATED);
+    assertThat(invoice.getGeneratedAt()).isNull();
+    assertThat(invoice.getCreatedAt()).isNull();
+    assertThat(invoice.getUpdatedAt()).isNull();
   }
 
   @Test
-  @DisplayName("Should allow download when status is GENERATED")
-  void shouldAllowDownloadWhenStatusIsGenerated() {
+  @DisplayName("canBeDownloaded returns true when status is GENERATED")
+  void canBeDownloadedReturnsTrueWhenStatusIsGenerated() {
     invoice.setStatus(Invoice.InvoiceStatus.GENERATED);
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertThat(canDownload);
+    assertThat(canDownload).isTrue();
   }
 
   @Test
-  @DisplayName("Should allow download when status is SENT")
-  void shouldAllowDownloadWhenStatusIsSent() {
+  @DisplayName("canBeDownloaded returns true when status is SENT")
+  void canBeDownloadedReturnsTrueWhenStatusIsSent() {
     invoice.setStatus(Invoice.InvoiceStatus.SENT);
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertThat(canDownload);
+    assertThat(canDownload).isTrue();
   }
 
   @Test
-  @DisplayName("Should not allow download when status is FAILED")
-  void shouldNotAllowDownloadWhenStatusIsFailed() {
+  @DisplayName("canBeDownloaded returns false when status is FAILED")
+  void canBeDownloadedReturnsFalseWhenStatusIsFailed() {
     invoice.setStatus(Invoice.InvoiceStatus.FAILED);
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertThat(canDownload);
+    assertThat(canDownload).isFalse();
   }
 
   @Test
-  @DisplayName("Should not allow download when status is DELETED")
-  void shouldNotAllowDownloadWhenStatusIsDeleted() {
+  @DisplayName("canBeDownloaded returns false when status is DELETED")
+  void canBeDownloadedReturnsFalseWhenStatusIsDeleted() {
     invoice.setStatus(Invoice.InvoiceStatus.DELETED);
 
     boolean canDownload = invoice.canBeDownloaded();
 
-    assertThat(canDownload);
+    assertThat(canDownload).isFalse();
   }
 
   @Test
-  @DisplayName("Should allow regeneration when status is GENERATED")
-  void shouldAllowRegenerationWhenStatusIsGenerated() {
+  @DisplayName("canBeRegenerated returns true when status is GENERATED")
+  void canBeRegeneratedReturnsTrueWhenStatusIsGenerated() {
     invoice.setStatus(Invoice.InvoiceStatus.GENERATED);
 
     boolean canRegenerate = invoice.canBeRegenerated();
 
-    assertThat(canRegenerate);
+    assertThat(canRegenerate).isTrue();
   }
 
   @Test
-  @DisplayName("Should allow regeneration when status is SENT")
-  void shouldAllowRegenerationWhenStatusIsSent() {
+  @DisplayName("canBeRegenerated returns true when status is SENT")
+  void canBeRegeneratedReturnsTrueWhenStatusIsSent() {
     invoice.setStatus(Invoice.InvoiceStatus.SENT);
 
     boolean canRegenerate = invoice.canBeRegenerated();
 
-    assertThat(canRegenerate);
+    assertThat(canRegenerate).isTrue();
   }
 
   @Test
-  @DisplayName("Should not allow regeneration when status is FAILED")
-  void shouldNotAllowRegenerationWhenStatusIsFailed() {
+  @DisplayName("canBeRegenerated returns false when status is FAILED")
+  void canBeRegeneratedReturnsFalseWhenStatusIsFailed() {
     invoice.setStatus(Invoice.InvoiceStatus.FAILED);
 
     boolean canRegenerate = invoice.canBeRegenerated();
 
-    assertThat(canRegenerate);
+    assertThat(canRegenerate).isFalse();
   }
 
   @Test
-  @DisplayName("Should mark as sent when status is GENERATED")
-  void shouldMarkAsSentWhenStatusIsGenerated() {
+  @DisplayName("markAsSent updates status to SENT when status is GENERATED")
+  void markAsSentUpdatesStatusToSentWhenStatusIsGenerated() {
     invoice.setStatus(Invoice.InvoiceStatus.GENERATED);
 
     invoice.markAsSent();
 
-    assertThat(Invoice.InvoiceStatus.SENT, invoice.getStatus());
+    assertThat(invoice.getStatus()).isEqualTo(Invoice.InvoiceStatus.SENT);
   }
 
   @Test
-  @DisplayName("Should throw exception when marking as sent from non-GENERATED status")
-  void shouldThrowExceptionWhenMarkingAsSentFromNonGeneratedStatus() {
+  @DisplayName("markAsSent throws IllegalStateException when status is not GENERATED")
+  void markAsSentThrowsIllegalStateExceptionWhenStatusIsNotGenerated() {
     invoice.setStatus(Invoice.InvoiceStatus.SENT);
 
-    IllegalStateException exception =
-        assertThatThrownBy(IllegalStateException.class, () -> invoice.markAsSent());
-    assertThat("Invoice cannot be marked as sent in current state: SENT", exception.getMessage());
+    assertThatThrownBy(() -> invoice.markAsSent())
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessage("Invoice cannot be marked as sent in current state: SENT");
   }
 
   @Test
-  @DisplayName("Should throw exception when marking as sent from FAILED status")
-  void shouldThrowExceptionWhenMarkingAsSentFromFailedStatus() {
+  @DisplayName("markAsSent throws IllegalStateException when status is FAILED")
+  void markAsSentThrowsIllegalStateExceptionWhenStatusIsFailed() {
     invoice.setStatus(Invoice.InvoiceStatus.FAILED);
 
-    IllegalStateException exception =
-        assertThatThrownBy(IllegalStateException.class, () -> invoice.markAsSent());
-    assertThat("Invoice cannot be marked as sent in current state: FAILED", exception.getMessage());
+    assertThatThrownBy(() -> invoice.markAsSent())
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessage("Invoice cannot be marked as sent in current state: FAILED");
   }
 
   @Test
-  @DisplayName("Should mark as failed")
-  void shouldMarkAsFailed() {
+  @DisplayName("markAsFailed updates status to FAILED and sets failure reason")
+  void markAsFailedUpdatesStatusToFailedAndSetsFailureReason() {
     String failureReason = "Generation failed";
 
     invoice.markAsFailed(failureReason);
 
-    assertThat(Invoice.InvoiceStatus.FAILED, invoice.getStatus());
-    assertThat(failureReason, invoice.getFailureReason());
+    assertThat(invoice.getStatus()).isEqualTo(Invoice.InvoiceStatus.FAILED);
+    assertThat(invoice.getFailureReason()).isEqualTo(failureReason);
   }
 
   @Test
-  @DisplayName("Should have all expected status values")
-  void shouldHaveAllExpectedStatusValues() {
+  @DisplayName("InvoiceStatus enum has all expected values")
+  void invoiceStatusEnumHasAllExpectedValues() {
     Invoice.InvoiceStatus[] statuses = Invoice.InvoiceStatus.values();
 
-    assertThat(4, statuses.length);
-    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.GENERATED));
-    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.SENT));
-    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.FAILED));
-    assertThat(java.util.Arrays.asList(statuses).contains(Invoice.InvoiceStatus.DELETED));
+    assertThat(statuses.length).isEqualTo(4);
+    assertThat(java.util.Arrays.asList(statuses)).contains(Invoice.InvoiceStatus.GENERATED);
+    assertThat(java.util.Arrays.asList(statuses)).contains(Invoice.InvoiceStatus.SENT);
+    assertThat(java.util.Arrays.asList(statuses)).contains(Invoice.InvoiceStatus.FAILED);
+    assertThat(java.util.Arrays.asList(statuses)).contains(Invoice.InvoiceStatus.DELETED);
   }
 
   @Test
-  @DisplayName("Should have correct string representation")
-  void shouldHaveCorrectStringRepresentation() {
-    assertThat("GENERATED", Invoice.InvoiceStatus.GENERATED.name());
-    assertThat("SENT", Invoice.InvoiceStatus.SENT.name());
-    assertThat("FAILED", Invoice.InvoiceStatus.FAILED.name());
-    assertThat("DELETED", Invoice.InvoiceStatus.DELETED.name());
+  @DisplayName("InvoiceStatus enum has correct string representation")
+  void invoiceStatusEnumHasCorrectStringRepresentation() {
+    assertThat(Invoice.InvoiceStatus.GENERATED.name()).isEqualTo("GENERATED");
+    assertThat(Invoice.InvoiceStatus.SENT.name()).isEqualTo("SENT");
+    assertThat(Invoice.InvoiceStatus.FAILED.name()).isEqualTo("FAILED");
+    assertThat(Invoice.InvoiceStatus.DELETED.name()).isEqualTo("DELETED");
   }
 
   @Test
-  @DisplayName("Should set and get all properties correctly")
-  void shouldSetAndGetAllPropertiesCorrectly() {
+  @DisplayName("Invoice setters and getters work correctly for all properties")
+  void invoiceSettersAndGettersWorkCorrectlyForAllProperties() {
     Invoice testInvoice = new Invoice();
     Long id = 1L;
     Long orderId = 100L;
@@ -242,25 +242,25 @@ public class InvoiceTest {
     testInvoice.setCreatedAt(createdAt);
     testInvoice.setUpdatedAt(updatedAt);
 
-    assertThat(id, testInvoice.getId());
-    assertThat(orderId, testInvoice.getOrderId());
-    assertThat(customerId, testInvoice.getCustomerId());
-    assertThat(customerEmail, testInvoice.getCustomerEmail());
-    assertThat(totalAmount, testInvoice.getTotalAmount());
-    assertThat(objectKey, testInvoice.getObjectKey());
-    assertThat(objectUrl, testInvoice.getObjectUrl());
-    assertThat(status, testInvoice.getStatus());
-    assertThat(generatedAt, testInvoice.getGeneratedAt());
-    assertThat(createdAt, testInvoice.getCreatedAt());
-    assertThat(updatedAt, testInvoice.getUpdatedAt());
+    assertThat(testInvoice.getId()).isEqualTo(id);
+    assertThat(testInvoice.getOrderId()).isEqualTo(orderId);
+    assertThat(testInvoice.getCustomerId()).isEqualTo(customerId);
+    assertThat(testInvoice.getCustomerEmail()).isEqualTo(customerEmail);
+    assertThat(testInvoice.getTotalAmount()).isEqualTo(totalAmount);
+    assertThat(testInvoice.getObjectKey()).isEqualTo(objectKey);
+    assertThat(testInvoice.getObjectUrl()).isEqualTo(objectUrl);
+    assertThat(testInvoice.getStatus()).isEqualTo(status);
+    assertThat(testInvoice.getGeneratedAt()).isEqualTo(generatedAt);
+    assertThat(testInvoice.getCreatedAt()).isEqualTo(createdAt);
+    assertThat(testInvoice.getUpdatedAt()).isEqualTo(updatedAt);
   }
 
   @Test
-  @DisplayName("Should handle null values gracefully")
-  void shouldHandleNullValuesGracefully() {
+  @DisplayName("Invoice handles null values gracefully")
+  void invoiceHandlesNullValuesGracefully() {
     Invoice testInvoice = new Invoice();
 
-    assertDoesNotThrow(
+    assertThatCode(
         () -> {
           testInvoice.setId(null);
           testInvoice.setOrderId(null);
@@ -273,37 +273,37 @@ public class InvoiceTest {
           testInvoice.setGeneratedAt(null);
           testInvoice.setCreatedAt(null);
           testInvoice.setUpdatedAt(null);
-        });
+        }).doesNotThrowAnyException();
   }
 
   @Test
-  @DisplayName("Should handle zero amount")
-  void shouldHandleZeroAmount() {
+  @DisplayName("Invoice handles zero amount correctly")
+  void invoiceHandlesZeroAmountCorrectly() {
     BigDecimal zeroAmount = BigDecimal.ZERO;
 
     invoice.setTotalAmount(zeroAmount);
 
-    assertThat(zeroAmount, invoice.getTotalAmount());
+    assertThat(invoice.getTotalAmount()).isEqualTo(zeroAmount);
   }
 
   @Test
-  @DisplayName("Should handle large amounts")
-  void shouldHandleLargeAmounts() {
+  @DisplayName("Invoice handles large amounts correctly")
+  void invoiceHandlesLargeAmountsCorrectly() {
     BigDecimal largeAmount = new BigDecimal("999999.99");
 
     invoice.setTotalAmount(largeAmount);
 
-    assertThat(largeAmount, invoice.getTotalAmount());
+    assertThat(invoice.getTotalAmount()).isEqualTo(largeAmount);
   }
 
   @Test
-  @DisplayName("Should handle long email addresses")
-  void shouldHandleLongEmailAddresses() {
+  @DisplayName("Invoice handles long email addresses correctly")
+  void invoiceHandlesLongEmailAddressesCorrectly() {
     String longEmail =
         "very.long.email.address.that.might.exceed.normal.length@very.long.domain.name.com";
 
     invoice.setCustomerEmail(longEmail);
 
-    assertThat(longEmail, invoice.getCustomerEmail());
+    assertThat(invoice.getCustomerEmail()).isEqualTo(longEmail);
   }
 }
