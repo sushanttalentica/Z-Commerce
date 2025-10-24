@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.ecommerce</groupId>
-        <artifactId>product-order-service-parent</artifactId>
+        <groupId>com.zcommerce</groupId>
+        <artifactId>zcommerce-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
