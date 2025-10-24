@@ -107,8 +107,8 @@ public class InvoiceServiceTest {
   }
 
   @Test
-  @DisplayName("Should get invoice URL successfully")
-  void shouldGetInvoiceUrlSuccessfully() {
+  @DisplayName("getInvoiceUrl returns URL when successful")
+  void getInvoiceUrlReturnsUrlWhenSuccessful() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice));
 
     Optional<String> result = invoiceService.getInvoiceUrl(100L);
