@@ -2,7 +2,7 @@ package com.zcommerce.platform.invoice.service.impl;
 
 import com.zcommerce.platform.domain.entity.Order;
 import com.zcommerce.platform.domain.entity.OrderItem;
-import com.zcommerce.platform.invoice.service.PdfGeneratorService;
+import com.zcommerce.platform.invoice.service.InvoiceGeneratorService;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -20,36 +20,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class PdfGeneratorServiceImpl implements PdfGeneratorService {
-
-  public PdfGeneratorServiceImpl() {}
+public class PdfGeneratorServiceImpl implements InvoiceGeneratorService {
 
   @Override
   public byte[] generateInvoice(Order order) {
-    return generateInvoicePdf(order);
-  }
-
-  @Override
-  public String getContentType() {
-    return "application/pdf";
-  }
-
-  @Override
-  public byte[] generateInvoicePdf(Order order) {
-    // Validate order first
     validateOrderForPdf(order);
     
     log.info("Generating PDF invoice for order ID: {}", order.getId());
 
     try {
-
-      // Create PDF using iText
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       PdfWriter writer = new PdfWriter(outputStream);
       PdfDocument pdfDoc = new PdfDocument(writer);
       Document document = new Document(pdfDoc);
 
-      // Add invoice header
       Paragraph header =
           new Paragraph("INVOICE")
               .setFontSize(24)
@@ -59,7 +43,6 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
 
       document.add(new Paragraph("\n"));
 
-      // Add invoice details
       document.add(new Paragraph("Invoice Number: " + order.getOrderNumber()));
       document.add(
           new Paragraph(
@@ -71,7 +54,6 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
 
       document.add(new Paragraph("\n"));
 
-      // Add order items table
       Paragraph itemsHeader =
           new Paragraph("Order Items:")
               .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD));
@@ -93,7 +75,6 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
 
       document.add(new Paragraph("\n"));
 
-      // Add total
       Paragraph total =
           new Paragraph("Total Amount: $" + order.getTotalAmount())
               .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))
@@ -108,7 +89,6 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
                       .getCreatedAt()
                       .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
-      // Close document
       document.close();
 
       byte[] pdfBytes = outputStream.toByteArray();
@@ -125,66 +105,11 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
   }
 
   @Override
-  public byte[] generateReceiptPdf(Order order) {
-    // Validate order first
-    validateOrderForPdf(order);
-    
-    log.info("Generating PDF receipt for order ID: {}", order.getId());
-
-    try {
-
-      // Generate PDF content
-      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-      // Create PDF content (simplified implementation)
-      String pdfContent = createReceiptContent(order);
-      outputStream.write(pdfContent.getBytes());
-      outputStream.close();
-
-      byte[] pdfBytes = outputStream.toByteArray();
-
-      log.info("PDF receipt generated successfully for order ID: {}", order.getId());
-      return pdfBytes;
-
-    } catch (IOException e) {
-      log.error("Error generating PDF receipt for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF receipt: " + e.getMessage());
-    } catch (Exception e) {
-      log.error("Error generating PDF receipt for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF receipt: " + e.getMessage());
-    }
+  public String getContentType() {
+    return "application/pdf";
   }
 
-  @Override
-  public byte[] generateShippingLabelPdf(Order order) {
-    // Validate order first
-    validateOrderForPdf(order);
-    
-    log.info("Generating PDF shipping label for order ID: {}", order.getId());
 
-    try {
-
-      // Generate PDF content
-      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-      // Create PDF content (simplified implementation)
-      String pdfContent = createShippingLabelContent(order);
-      outputStream.write(pdfContent.getBytes());
-      outputStream.close();
-
-      byte[] pdfBytes = outputStream.toByteArray();
-
-      log.info("PDF shipping label generated successfully for order ID: {}", order.getId());
-      return pdfBytes;
-
-    } catch (IOException e) {
-      log.error("Error generating PDF shipping label for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF shipping label: " + e.getMessage());
-    } catch (Exception e) {
-      log.error("Error generating PDF shipping label for order ID: {}", order.getId(), e);
-      throw new RuntimeException("Failed to generate PDF shipping label: " + e.getMessage());
-    }
-  }
 
   private void validateOrderForPdf(Order order) {
     if (order == null) {
@@ -209,49 +134,4 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
     }
   }
 
-  private String createReceiptContent(Order order) {
-    StringBuilder content = new StringBuilder();
-
-    // Receipt header
-    content.append("RECEIPT\n");
-    content.append("=======\n\n");
-
-    // Receipt details
-    content.append("Receipt Number: ").append(order.getOrderNumber()).append("\n");
-    content
-        .append("Date: ")
-        .append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-        .append("\n");
-    content.append("Customer ID: ").append(order.getCustomerId()).append("\n");
-    content.append("Customer Email: ").append(order.getCustomerEmail()).append("\n");
-    content.append("Order Status: ").append(order.getStatus()).append("\n");
-    content.append("Total Amount: $").append(order.getTotalAmount()).append("\n");
-
-    content.append("\n");
-    content.append("Payment received. Thank you!\n");
-
-    return content.toString();
-  }
-
-  private String createShippingLabelContent(Order order) {
-    StringBuilder content = new StringBuilder();
-
-    // Shipping label header
-    content.append("SHIPPING LABEL\n");
-    content.append("==============\n\n");
-
-    // Shipping details
-    content.append("Order Number: ").append(order.getOrderNumber()).append("\n");
-    content.append("Customer ID: ").append(order.getCustomerId()).append("\n");
-    content.append("Customer Email: ").append(order.getCustomerEmail()).append("\n");
-
-    if (order.getShippingAddress() != null) {
-      content.append("Shipping Address: ").append(order.getShippingAddress()).append("\n");
-    }
-
-    content.append("\n");
-    content.append("Handle with care!\n");
-
-    return content.toString();
-  }
 }
