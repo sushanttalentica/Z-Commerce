@@ -1,8 +1,8 @@
 package com.zcommerce.platform.invoice.service.impl;
 
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.domain.entity.OrderItem;
-import com.ecommerce.productorder.invoice.service.PdfGeneratorService;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.OrderItem;
+import com.zcommerce.platform.invoice.service.PdfGeneratorService;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;

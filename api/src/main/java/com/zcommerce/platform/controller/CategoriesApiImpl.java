@@ -1,9 +1,9 @@
 package com.zcommerce.platform.controller;
 
-import com.ecommerce.productorder.api.CategoriesApi;
-import com.ecommerce.productorder.api.model.*;
-import com.ecommerce.productorder.domain.entity.Category;
-import com.ecommerce.productorder.domain.repository.CategoryRepository;
+import com.zcommerce.platform.api.CategoriesApi;
+import com.zcommerce.platform.api.model.*;
+import com.zcommerce.platform.domain.entity.Category;
+import com.zcommerce.platform.domain.repository.CategoryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;

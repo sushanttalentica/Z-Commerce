@@ -3,8 +3,8 @@ package com.zcommerce.platform.invoice.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.ecommerce.productorder.invoice.config.S3Properties;
-import com.ecommerce.productorder.invoice.service.impl.S3ServiceImpl;
+import com.zcommerce.platform.invoice.config.S3Properties;
+import com.zcommerce.platform.invoice.service.impl.S3ServiceImpl;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;

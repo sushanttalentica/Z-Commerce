@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package com.ecommerce.productorder.payment;
+package com.zcommerce.platform.payment;
 
-option java_package = "com.ecommerce.productorder.payment.grpc";
+option java_package = "com.zcommerce.platform.payment.grpc";
 option java_outer_classname = "PaymentProto";
 
 // Payment service definition

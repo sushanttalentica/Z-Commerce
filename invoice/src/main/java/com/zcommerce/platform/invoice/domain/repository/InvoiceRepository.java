@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.domain.repository;
 
-import com.ecommerce.productorder.invoice.domain.entity.Invoice;
+import com.zcommerce.platform.invoice.domain.entity.Invoice;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -33,5 +33,5 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
   @Query("SELECT i FROM Invoice i WHERE i.status = 'FAILED' AND i.updatedAt < :retryAfter")
   List<Invoice> findFailedInvoicesForRetry(@Param("retryAfter") LocalDateTime retryAfter);
 
-  Optional<Invoice> findByS3Key(String s3Key);
+  Optional<Invoice> findByObjectKey(String objectKey);
 }

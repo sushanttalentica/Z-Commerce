@@ -1,12 +1,12 @@
 package com.zcommerce.platform.controller;
 
-import com.ecommerce.productorder.api.CustomersApi;
-import com.ecommerce.productorder.api.model.*;
-import com.ecommerce.productorder.domain.entity.Customer;
-import com.ecommerce.productorder.domain.service.CustomerService;
-import com.ecommerce.productorder.dto.request.CreateCustomerRequest;
-import com.ecommerce.productorder.dto.request.UpdateCustomerRequest;
-import com.ecommerce.productorder.dto.response.CustomerResponse;
+import com.zcommerce.platform.api.CustomersApi;
+import com.zcommerce.platform.api.model.*;
+import com.zcommerce.platform.domain.entity.Customer;
+import com.zcommerce.platform.domain.service.CustomerService;
+import com.zcommerce.platform.dto.request.CreateCustomerRequest;
+import com.zcommerce.platform.dto.request.UpdateCustomerRequest;
+import com.zcommerce.platform.dto.response.CustomerResponse;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;

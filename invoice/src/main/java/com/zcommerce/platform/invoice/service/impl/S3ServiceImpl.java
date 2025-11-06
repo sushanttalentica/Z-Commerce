@@ -1,8 +1,8 @@
 package com.zcommerce.platform.invoice.service.impl;
 
-import com.ecommerce.productorder.invoice.config.S3Properties;
-import com.ecommerce.productorder.invoice.service.S3Service;
-import com.ecommerce.productorder.util.Constants;
+import com.zcommerce.platform.invoice.config.S3Properties;
+import com.zcommerce.platform.invoice.service.S3Service;
+import com.zcommerce.platform.util.Constants;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.zcommerce.platform.domain.repository;
 
-import com.ecommerce.productorder.domain.entity.Category;
+import com.zcommerce.platform.domain.entity.Category;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

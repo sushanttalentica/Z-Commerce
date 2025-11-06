@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.ecommerce.productorder.invoice.domain.entity.Invoice;
+import com.zcommerce.platform.invoice.domain.entity.Invoice;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;

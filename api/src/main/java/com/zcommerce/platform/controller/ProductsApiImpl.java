@@ -1,11 +1,11 @@
 package com.zcommerce.platform.controller;
 
-import com.ecommerce.productorder.api.ProductsApi;
-import com.ecommerce.productorder.api.model.*;
-import com.ecommerce.productorder.domain.service.ProductService;
-import com.ecommerce.productorder.dto.request.CreateProductRequest;
-import com.ecommerce.productorder.dto.request.UpdateProductRequest;
-import com.ecommerce.productorder.dto.response.ProductResponse;
+import com.zcommerce.platform.api.ProductsApi;
+import com.zcommerce.platform.api.model.*;
+import com.zcommerce.platform.domain.service.ProductService;
+import com.zcommerce.platform.dto.request.CreateProductRequest;
+import com.zcommerce.platform.dto.request.UpdateProductRequest;
+import com.zcommerce.platform.dto.response.ProductResponse;
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.util.List;

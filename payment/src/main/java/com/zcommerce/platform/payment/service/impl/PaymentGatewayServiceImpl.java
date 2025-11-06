@@ -1,10 +1,10 @@
 package com.zcommerce.platform.payment.service.impl;
 
-import com.ecommerce.productorder.payment.domain.entity.Payment;
-import com.ecommerce.productorder.payment.domain.entity.Payment.PaymentStatus;
-import com.ecommerce.productorder.payment.dto.request.ProcessPaymentRequest;
-import com.ecommerce.productorder.payment.dto.response.PaymentResponse;
-import com.ecommerce.productorder.payment.service.PaymentGatewayService;
+import com.zcommerce.platform.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.domain.entity.Payment.PaymentStatus;
+import com.zcommerce.platform.payment.dto.request.ProcessPaymentRequest;
+import com.zcommerce.platform.payment.dto.response.PaymentResponse;
+import com.zcommerce.platform.payment.service.PaymentGatewayService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;

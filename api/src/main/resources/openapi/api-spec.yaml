@@ -1,13 +1,13 @@
 openapi: 3.0.3
 info:
-  title: Product Order Service API
+  title: Z-Commerce Platform API
   version: 1.0.0
-  description: E-commerce platform API for product and order management
+  description: Z-Commerce e-commerce platform API for product and order management
 
 servers:
-  - url: http://localhost:8080/product-order-service
+  - url: http://localhost:8080/zcommerce
     description: Local development
-  - url: http://13.202.157.59:8080/product-order-service
+  - url: http://13.202.157.59:8080/zcommerce
     description: AWS EC2
 
 tags:

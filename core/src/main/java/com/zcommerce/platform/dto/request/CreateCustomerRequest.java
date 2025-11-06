@@ -1,6 +1,6 @@
 package com.zcommerce.platform.dto.request;
 
-import com.ecommerce.productorder.domain.entity.Customer;
+import com.zcommerce.platform.domain.entity.Customer;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

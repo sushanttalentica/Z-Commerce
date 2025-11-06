@@ -1,7 +1,7 @@
 package com.zcommerce.platform.domain.service;
 
-import com.ecommerce.productorder.dto.request.CreateOrderRequest;
-import com.ecommerce.productorder.dto.response.OrderResponse;
+import com.zcommerce.platform.dto.request.CreateOrderRequest;
+import com.zcommerce.platform.dto.response.OrderResponse;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

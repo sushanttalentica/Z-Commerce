@@ -1,10 +1,10 @@
 package com.zcommerce.platform.invoice;
 
-import com.ecommerce.productorder.invoice.domain.entity.InvoiceTest;
-import com.ecommerce.productorder.invoice.domain.repository.InvoiceRepositoryTest;
-import com.ecommerce.productorder.invoice.service.impl.InvoiceServiceImplTest;
-import com.ecommerce.productorder.invoice.service.impl.PdfGeneratorServiceImplTest;
-import com.ecommerce.productorder.invoice.service.impl.S3ServiceImplTest;
+import com.zcommerce.platform.invoice.domain.entity.InvoiceTest;
+import com.zcommerce.platform.invoice.domain.repository.InvoiceRepositoryTest;
+import com.zcommerce.platform.invoice.service.impl.InvoiceServiceImplTest;
+import com.zcommerce.platform.invoice.service.impl.PdfGeneratorServiceImplTest;
+import com.zcommerce.platform.invoice.service.impl.S3ServiceImplTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;

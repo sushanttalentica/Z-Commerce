@@ -2,10 +2,10 @@ package com.zcommerce.platform.invoice.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.ecommerce.productorder.domain.entity.Category;
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.domain.entity.OrderItem;
-import com.ecommerce.productorder.domain.entity.Product;
+import com.zcommerce.platform.domain.entity.Category;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.OrderItem;
+import com.zcommerce.platform.domain.entity.Product;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;

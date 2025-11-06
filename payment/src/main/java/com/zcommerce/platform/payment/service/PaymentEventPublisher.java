@@ -1,6 +1,6 @@
 package com.zcommerce.platform.payment.service;
 
-import com.ecommerce.productorder.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.domain.entity.Payment;
 
 public interface PaymentEventPublisher {
 

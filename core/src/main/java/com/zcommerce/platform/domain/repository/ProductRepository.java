@@ -1,6 +1,6 @@
 package com.zcommerce.platform.domain.repository;
 
-import com.ecommerce.productorder.domain.entity.Product;
+import com.zcommerce.platform.domain.entity.Product;
 import jakarta.persistence.LockModeType;
 import java.util.List;
 import java.util.Optional;

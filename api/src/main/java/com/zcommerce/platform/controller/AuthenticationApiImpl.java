@@ -1,15 +1,15 @@
 package com.zcommerce.platform.controller;
 
-import com.ecommerce.productorder.api.AuthenticationApi;
-import com.ecommerce.productorder.api.model.AuthResponse;
-import com.ecommerce.productorder.api.model.LoginRequest;
-import com.ecommerce.productorder.api.model.MessageResponse;
-import com.ecommerce.productorder.api.model.RegisterRequest;
-import com.ecommerce.productorder.domain.entity.Customer;
-import com.ecommerce.productorder.domain.service.CustomerService;
-import com.ecommerce.productorder.dto.request.CreateCustomerRequest;
-import com.ecommerce.productorder.dto.response.CustomerResponse;
-import com.ecommerce.productorder.util.JwtUtil;
+import com.zcommerce.platform.api.AuthenticationApi;
+import com.zcommerce.platform.api.model.AuthResponse;
+import com.zcommerce.platform.api.model.LoginRequest;
+import com.zcommerce.platform.api.model.MessageResponse;
+import com.zcommerce.platform.api.model.RegisterRequest;
+import com.zcommerce.platform.domain.entity.Customer;
+import com.zcommerce.platform.domain.service.CustomerService;
+import com.zcommerce.platform.dto.request.CreateCustomerRequest;
+import com.zcommerce.platform.dto.response.CustomerResponse;
+import com.zcommerce.platform.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

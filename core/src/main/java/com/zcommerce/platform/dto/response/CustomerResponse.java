@@ -1,6 +1,6 @@
 package com.zcommerce.platform.dto.response;
 
-import com.ecommerce.productorder.domain.entity.Customer;
+import com.zcommerce.platform.domain.entity.Customer;
 import java.time.LocalDateTime;
 
 public record CustomerResponse(

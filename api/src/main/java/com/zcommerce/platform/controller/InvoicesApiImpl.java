@@ -1,12 +1,12 @@
 package com.zcommerce.platform.controller;
 
-import com.ecommerce.productorder.api.InvoicesApi;
-import com.ecommerce.productorder.api.model.CheckInvoiceExists200Response;
-import com.ecommerce.productorder.api.model.InvoiceUrlResponse;
-import com.ecommerce.productorder.api.model.MessageResponse;
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.domain.repository.OrderRepository;
-import com.ecommerce.productorder.invoice.service.InvoiceService;
+import com.zcommerce.platform.api.InvoicesApi;
+import com.zcommerce.platform.api.model.CheckInvoiceExists200Response;
+import com.zcommerce.platform.api.model.InvoiceUrlResponse;
+import com.zcommerce.platform.api.model.MessageResponse;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.domain.repository.OrderRepository;
+import com.zcommerce.platform.invoice.service.InvoiceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

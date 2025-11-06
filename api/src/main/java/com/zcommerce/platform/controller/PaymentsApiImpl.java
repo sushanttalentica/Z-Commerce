@@ -1,10 +1,10 @@
 package com.zcommerce.platform.controller;
 
-import com.ecommerce.productorder.api.PaymentsApi;
-import com.ecommerce.productorder.api.model.*;
-import com.ecommerce.productorder.payment.dto.request.ProcessPaymentRequest;
-import com.ecommerce.productorder.payment.dto.response.PaymentResponse;
-import com.ecommerce.productorder.payment.service.PaymentService;
+import com.zcommerce.platform.api.PaymentsApi;
+import com.zcommerce.platform.api.model.*;
+import com.zcommerce.platform.payment.dto.request.ProcessPaymentRequest;
+import com.zcommerce.platform.payment.dto.response.PaymentResponse;
+import com.zcommerce.platform.payment.service.PaymentService;
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.util.List;

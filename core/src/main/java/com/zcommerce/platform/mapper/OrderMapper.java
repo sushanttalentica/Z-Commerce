@@ -1,8 +1,8 @@
 package com.zcommerce.platform.mapper;
 
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.dto.request.CreateOrderRequest;
-import com.ecommerce.productorder.dto.response.OrderResponse;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.dto.request.CreateOrderRequest;
+import com.zcommerce.platform.dto.response.OrderResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;

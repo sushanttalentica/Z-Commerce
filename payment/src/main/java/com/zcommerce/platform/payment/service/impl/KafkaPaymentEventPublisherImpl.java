@@ -1,8 +1,8 @@
 package com.zcommerce.platform.payment.service.impl;
 
-import com.ecommerce.productorder.config.KafkaTopicsProperties;
-import com.ecommerce.productorder.payment.domain.entity.Payment;
-import com.ecommerce.productorder.payment.service.PaymentEventPublisher;
+import com.zcommerce.platform.config.KafkaTopicsProperties;
+import com.zcommerce.platform.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.service.PaymentEventPublisher;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;

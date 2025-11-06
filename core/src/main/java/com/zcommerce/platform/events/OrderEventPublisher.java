@@ -1,6 +1,6 @@
 package com.zcommerce.platform.events;
 
-import com.ecommerce.productorder.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.Order;
 
 public interface OrderEventPublisher {
 

@@ -1,7 +1,7 @@
 package com.zcommerce.platform.config;
 
-import com.ecommerce.productorder.domain.entity.Customer;
-import com.ecommerce.productorder.domain.service.CustomerService;
+import com.zcommerce.platform.domain.entity.Customer;
+import com.zcommerce.platform.domain.service.CustomerService;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

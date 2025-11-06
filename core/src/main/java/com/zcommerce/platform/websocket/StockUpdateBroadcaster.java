@@ -1,6 +1,6 @@
 package com.zcommerce.platform.websocket;
 
-import com.ecommerce.productorder.util.Constants;
+import com.zcommerce.platform.util.Constants;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

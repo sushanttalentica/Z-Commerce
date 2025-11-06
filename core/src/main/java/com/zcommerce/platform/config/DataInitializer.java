@@ -1,9 +1,9 @@
 package com.zcommerce.platform.config;
 
-import com.ecommerce.productorder.domain.entity.Category;
-import com.ecommerce.productorder.domain.entity.Product;
-import com.ecommerce.productorder.domain.repository.CategoryRepository;
-import com.ecommerce.productorder.domain.repository.ProductRepository;
+import com.zcommerce.platform.domain.entity.Category;
+import com.zcommerce.platform.domain.entity.Product;
+import com.zcommerce.platform.domain.repository.CategoryRepository;
+import com.zcommerce.platform.domain.repository.ProductRepository;
 import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

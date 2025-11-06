@@ -1,9 +1,9 @@
 package com.zcommerce.platform.mapper;
 
-import com.ecommerce.productorder.domain.entity.Customer;
-import com.ecommerce.productorder.dto.request.CreateCustomerRequest;
-import com.ecommerce.productorder.dto.request.UpdateCustomerRequest;
-import com.ecommerce.productorder.dto.response.CustomerResponse;
+import com.zcommerce.platform.domain.entity.Customer;
+import com.zcommerce.platform.dto.request.CreateCustomerRequest;
+import com.zcommerce.platform.dto.request.UpdateCustomerRequest;
+import com.zcommerce.platform.dto.response.CustomerResponse;
 import org.springframework.stereotype.Component;
 
 @Component

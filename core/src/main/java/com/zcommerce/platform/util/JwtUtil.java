@@ -1,6 +1,6 @@
 package com.zcommerce.platform.util;
 
-import com.ecommerce.productorder.config.JwtProperties;
+import com.zcommerce.platform.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,7 +1,7 @@
 package com.zcommerce.platform.payment.service;
 
-import com.ecommerce.productorder.payment.dto.request.ProcessPaymentRequest;
-import com.ecommerce.productorder.payment.dto.response.PaymentResponse;
+import com.zcommerce.platform.payment.dto.request.ProcessPaymentRequest;
+import com.zcommerce.platform.payment.dto.response.PaymentResponse;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

@@ -1,7 +1,7 @@
 package com.zcommerce.platform.config;
 
-import com.ecommerce.productorder.domain.entity.Customer;
-import com.ecommerce.productorder.domain.repository.CustomerRepository;
+import com.zcommerce.platform.domain.entity.Customer;
+import com.zcommerce.platform.domain.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,14 +1,14 @@
 package com.zcommerce.platform.domain.service.impl;
 
-import com.ecommerce.productorder.domain.entity.Customer;
-import com.ecommerce.productorder.domain.repository.CustomerRepository;
-import com.ecommerce.productorder.domain.service.CustomerService;
-import com.ecommerce.productorder.dto.request.CreateCustomerRequest;
-import com.ecommerce.productorder.dto.request.UpdateCustomerRequest;
-import com.ecommerce.productorder.dto.response.CustomerResponse;
-import com.ecommerce.productorder.exception.BusinessException;
-import com.ecommerce.productorder.exception.ResourceNotFoundException;
-import com.ecommerce.productorder.mapper.CustomerMapper;
+import com.zcommerce.platform.domain.entity.Customer;
+import com.zcommerce.platform.domain.repository.CustomerRepository;
+import com.zcommerce.platform.domain.service.CustomerService;
+import com.zcommerce.platform.dto.request.CreateCustomerRequest;
+import com.zcommerce.platform.dto.request.UpdateCustomerRequest;
+import com.zcommerce.platform.dto.response.CustomerResponse;
+import com.zcommerce.platform.exception.BusinessException;
+import com.zcommerce.platform.exception.ResourceNotFoundException;
+import com.zcommerce.platform.mapper.CustomerMapper;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

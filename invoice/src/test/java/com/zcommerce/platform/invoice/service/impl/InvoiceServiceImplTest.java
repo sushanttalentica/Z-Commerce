@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.invoice.domain.entity.Invoice;
-import com.ecommerce.productorder.invoice.domain.repository.InvoiceRepository;
-import com.ecommerce.productorder.invoice.service.InvoiceGeneratorService;
-import com.ecommerce.productorder.invoice.service.ObjectStoreService;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.invoice.domain.entity.Invoice;
+import com.zcommerce.platform.invoice.domain.repository.InvoiceRepository;
+import com.zcommerce.platform.invoice.service.InvoiceGeneratorService;
+import com.zcommerce.platform.invoice.service.ObjectStoreService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;

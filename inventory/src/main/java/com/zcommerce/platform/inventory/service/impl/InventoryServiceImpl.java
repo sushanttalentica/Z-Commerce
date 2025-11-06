@@ -1,11 +1,11 @@
 package com.zcommerce.platform.inventory.service.impl;
 
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.domain.entity.Product;
-import com.ecommerce.productorder.domain.repository.OrderRepository;
-import com.ecommerce.productorder.domain.repository.ProductRepository;
-import com.ecommerce.productorder.exception.ResourceNotFoundException;
-import com.ecommerce.productorder.inventory.service.InventoryService;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.Product;
+import com.zcommerce.platform.domain.repository.OrderRepository;
+import com.zcommerce.platform.domain.repository.ProductRepository;
+import com.zcommerce.platform.exception.ResourceNotFoundException;
+import com.zcommerce.platform.inventory.service.InventoryService;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;

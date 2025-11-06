@@ -3,7 +3,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /product-order-service
+    context-path: /zcommerce
   tomcat:
     max-threads: 500  # Optimized for high concurrency (10,000 RPS)
     min-spare-threads: 50
@@ -18,7 +18,7 @@ server:
 
 spring:
   application:
-    name: product-order-service
+    name: zcommerce-platform
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
@@ -79,7 +79,7 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
-      group-id: ${KAFKA_CONSUMER_GROUP:product-order-service-group}
+      group-id: ${KAFKA_CONSUMER_GROUP:zcommerce-platform-group}
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -149,15 +149,15 @@ aws:
 # OpenAPI/Swagger Configuration
 openapi:
   info:
-    title: Product Order Service API
+    title: Z-Commerce Platform API
     version: 1.0.0
-    description: E-commerce platform API for product and order management
+    description: Z-Commerce e-commerce platform API for product and order management
   servers:
-    - url: /product-order-service
+    - url: /zcommerce
       description: Current Server
-    - url: ${OPENAPI_LOCAL_SERVER:http://localhost:8080/product-order-service}
+    - url: ${OPENAPI_LOCAL_SERVER:http://localhost:8080/zcommerce}
       description: Local Development
-    - url: ${OPENAPI_AWS_SERVER:http://13.202.157.59:8080/product-order-service}
+    - url: ${OPENAPI_AWS_SERVER:http://13.202.157.59:8080/zcommerce}
       description: AWS EC2 Instance
   security:
     scheme-name: bearerAuth
@@ -168,14 +168,14 @@ openapi:
 # Logging Configuration
 logging:
   level:
-    com.ecommerce.productorder: DEBUG
+    com.zcommerce.platform: DEBUG
     org.springframework.security: DEBUG
     org.springframework.kafka: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
-    name: logs/product-order-service.log
+    name: logs/zcommerce-platform.log
 
 ---
 # Production Configuration
@@ -226,8 +226,8 @@ spring:
 # Production Logging
 logging:
   level:
-    com.ecommerce.productorder: INFO
+    com.zcommerce.platform: INFO
     org.springframework.security: WARN
     org.springframework.kafka: WARN
   file:
-    name: /var/log/product-order-service/application.log
+    name: /var/log/zcommerce-platform/application.log

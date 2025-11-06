@@ -1,8 +1,10 @@
 package com.zcommerce.platform.payment.grpc;
 
-import com.ecommerce.productorder.payment.dto.request.ProcessPaymentRequest;
-import com.ecommerce.productorder.payment.dto.response.PaymentResponse;
-import com.ecommerce.productorder.payment.service.PaymentService;
+import com.zcommerce.platform.payment.grpc.PaymentProto;
+import com.zcommerce.platform.payment.grpc.PaymentServiceGrpc;
+import com.zcommerce.platform.payment.dto.request.ProcessPaymentRequest;
+import com.zcommerce.platform.payment.dto.response.PaymentResponse;
+import com.zcommerce.platform.payment.service.PaymentService;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -63,8 +63,8 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/openapi/api-spec.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>com.ecommerce.productorder.api</apiPackage>
-                            <modelPackage>com.ecommerce.productorder.api.model</modelPackage>
+                            <apiPackage>com.zcommerce.platform.api</apiPackage>
+                            <modelPackage>com.zcommerce.platform.api.model</modelPackage>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>

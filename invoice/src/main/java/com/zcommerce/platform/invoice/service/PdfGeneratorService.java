@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service;
 
-import com.ecommerce.productorder.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.Order;
 
 // PDF-specific implementation of InvoiceGeneratorService.
 public interface PdfGeneratorService extends InvoiceGeneratorService {

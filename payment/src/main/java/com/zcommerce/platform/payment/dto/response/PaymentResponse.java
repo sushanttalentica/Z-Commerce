@@ -1,8 +1,8 @@
 package com.zcommerce.platform.payment.dto.response;
 
-import com.ecommerce.productorder.payment.domain.entity.Payment;
-import com.ecommerce.productorder.payment.domain.entity.Payment.PaymentMethod;
-import com.ecommerce.productorder.payment.domain.entity.Payment.PaymentStatus;
+import com.zcommerce.platform.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.domain.entity.Payment.PaymentMethod;
+import com.zcommerce.platform.payment.domain.entity.Payment.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

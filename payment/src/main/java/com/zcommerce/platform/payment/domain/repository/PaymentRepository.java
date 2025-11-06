@@ -1,6 +1,6 @@
 package com.zcommerce.platform.payment.domain.repository;
 
-import com.ecommerce.productorder.payment.domain.entity.Payment;
+import com.zcommerce.platform.payment.domain.entity.Payment;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

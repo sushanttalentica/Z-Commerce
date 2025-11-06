@@ -3,12 +3,12 @@ package com.zcommerce.platform.invoice.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.domain.entity.OrderItem;
-import com.ecommerce.productorder.domain.entity.Product;
-import com.ecommerce.productorder.invoice.domain.entity.Invoice;
-import com.ecommerce.productorder.invoice.domain.repository.InvoiceRepository;
-import com.ecommerce.productorder.invoice.service.impl.InvoiceServiceImpl;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.OrderItem;
+import com.zcommerce.platform.domain.entity.Product;
+import com.zcommerce.platform.invoice.domain.entity.Invoice;
+import com.zcommerce.platform.invoice.domain.repository.InvoiceRepository;
+import com.zcommerce.platform.invoice.service.impl.InvoiceServiceImpl;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

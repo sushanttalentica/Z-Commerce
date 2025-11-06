@@ -1,6 +1,6 @@
 package com.zcommerce.platform.domain.repository;
 
-import com.ecommerce.productorder.domain.entity.Customer;
+import com.zcommerce.platform.domain.entity.Customer;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

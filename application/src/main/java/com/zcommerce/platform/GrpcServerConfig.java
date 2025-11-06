@@ -1,7 +1,7 @@
 package com.zcommerce.platform;
 
-import com.ecommerce.productorder.config.GrpcProperties;
-import com.ecommerce.productorder.payment.grpc.PaymentGrpcService;
+import com.zcommerce.platform.config.GrpcProperties;
+import com.zcommerce.platform.payment.grpc.PaymentGrpcService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import java.io.IOException;

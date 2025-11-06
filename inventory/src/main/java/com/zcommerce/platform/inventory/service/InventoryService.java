@@ -1,7 +1,7 @@
 package com.zcommerce.platform.inventory.service;
 
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.domain.entity.Product;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.Product;
 import java.util.List;
 import java.util.Optional;
 

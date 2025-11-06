@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service;
 
-import com.ecommerce.productorder.domain.entity.Order;
+import com.zcommerce.platform.domain.entity.Order;
 import java.util.Optional;
 
 public interface InvoiceService {

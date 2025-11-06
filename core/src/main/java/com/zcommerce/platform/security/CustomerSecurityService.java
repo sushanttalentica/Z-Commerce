@@ -1,6 +1,6 @@
 package com.zcommerce.platform.security;
 
-import com.ecommerce.productorder.domain.service.CustomerService;
+import com.zcommerce.platform.domain.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;

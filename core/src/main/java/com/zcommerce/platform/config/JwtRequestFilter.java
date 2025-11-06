@@ -1,6 +1,6 @@
 package com.zcommerce.platform.config;
 
-import com.ecommerce.productorder.util.JwtUtil;
+import com.zcommerce.platform.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

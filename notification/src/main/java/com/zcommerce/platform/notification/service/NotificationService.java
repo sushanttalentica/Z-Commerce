@@ -1,8 +1,8 @@
 package com.zcommerce.platform.notification.service;
 
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.notification.model.NotificationChannel;
-import com.ecommerce.productorder.notification.model.NotificationRequest;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.notification.model.NotificationChannel;
+import com.zcommerce.platform.notification.model.NotificationRequest;
 import java.util.Optional;
 import java.util.Set;
 

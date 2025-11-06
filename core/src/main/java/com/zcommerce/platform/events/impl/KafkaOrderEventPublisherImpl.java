@@ -1,8 +1,8 @@
 package com.zcommerce.platform.events.impl;
 
-import com.ecommerce.productorder.config.KafkaTopicsProperties;
-import com.ecommerce.productorder.domain.entity.Order;
-import com.ecommerce.productorder.events.OrderEventPublisher;
+import com.zcommerce.platform.config.KafkaTopicsProperties;
+import com.zcommerce.platform.domain.entity.Order;
+import com.zcommerce.platform.events.OrderEventPublisher;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
