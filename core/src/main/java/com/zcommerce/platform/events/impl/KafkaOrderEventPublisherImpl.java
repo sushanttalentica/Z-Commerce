@@ -3,6 +3,7 @@ package com.zcommerce.platform.events.impl;
 import com.zcommerce.platform.config.KafkaTopicsProperties;
 import com.zcommerce.platform.domain.entity.Order;
 import com.zcommerce.platform.events.OrderEventPublisher;
+import com.zcommerce.platform.events.OrderEventType;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class KafkaOrderEventPublisherImpl implements OrderEventPublisher {
     log.info("Publishing order created event for order ID: {}", order.getId());
 
     try {
-      Map<String, Object> eventData = createOrderEventData(order, "ORDER_CREATED");
+      Map<String, Object> eventData = createOrderEventData(order, OrderEventType.ORDER_CREATED);
       kafkaTemplate.send(kafkaTopics.getOrder().getCreated(), order.getId().toString(), eventData);
 
       log.info("Order created event published successfully for order ID: {}", order.getId());
@@ -43,8 +44,8 @@ public class KafkaOrderEventPublisherImpl implements OrderEventPublisher {
     log.info("Publishing order status updated event for order ID: {}", order.getId());
 
     try {
-      Map<String, Object> eventData = createOrderEventData(order, "ORDER_STATUS_UPDATED");
-      eventData.put("previousStatus", "PENDING");
+      Map<String, Object> eventData = createOrderEventData(order, OrderEventType.ORDER_STATUS_UPDATED);
+      eventData.put("previousStatus", Order.OrderStatus.PENDING.name());
       kafkaTemplate.send(
           kafkaTopics.getOrder().getStatusUpdated(), order.getId().toString(), eventData);
 
@@ -59,7 +60,7 @@ public class KafkaOrderEventPublisherImpl implements OrderEventPublisher {
     log.info("Publishing order cancelled event for order ID: {}", order.getId());
 
     try {
-      Map<String, Object> eventData = createOrderEventData(order, "ORDER_CANCELLED");
+      Map<String, Object> eventData = createOrderEventData(order, OrderEventType.ORDER_CANCELLED);
       kafkaTemplate.send(
           kafkaTopics.getOrder().getCancelled(), order.getId().toString(), eventData);
 
@@ -74,7 +75,7 @@ public class KafkaOrderEventPublisherImpl implements OrderEventPublisher {
     log.info("Publishing order completed event for order ID: {}", order.getId());
 
     try {
-      Map<String, Object> eventData = createOrderEventData(order, "ORDER_COMPLETED");
+      Map<String, Object> eventData = createOrderEventData(order, OrderEventType.ORDER_COMPLETED);
       kafkaTemplate.send(
           kafkaTopics.getOrder().getCompleted(), order.getId().toString(), eventData);
 
@@ -84,11 +85,11 @@ public class KafkaOrderEventPublisherImpl implements OrderEventPublisher {
     }
   }
 
-  private Map<String, Object> createOrderEventData(Order order, String eventType) {
+  private Map<String, Object> createOrderEventData(Order order, OrderEventType eventType) {
     Map<String, Object> eventData = new HashMap<>();
 
     // Order information
-    eventData.put("eventType", eventType);
+    eventData.put("eventType", eventType.getEventType());
     eventData.put("eventId", UUID.randomUUID().toString());
     eventData.put("timestamp", LocalDateTime.now().toString());
     eventData.put("orderId", order.getId());
@@ -102,7 +103,7 @@ public class KafkaOrderEventPublisherImpl implements OrderEventPublisher {
     eventData.put("updatedAt", order.getUpdatedAt());
 
     // Service information
-    eventData.put("serviceName", "product-order-service");
+    eventData.put("serviceName", "zcommerce-platform");
     eventData.put("serviceVersion", "1.0.0");
 
     return eventData;
