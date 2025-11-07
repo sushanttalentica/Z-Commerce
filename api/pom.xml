@@ -14,17 +14,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>payment</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>invoice</artifactId>
             <version>${project.version}</version>
         </dependency>

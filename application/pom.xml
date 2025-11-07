@@ -15,32 +15,32 @@
     <dependencies>
         <!-- All service modules -->
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>payment</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>invoice</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>inventory</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>notification</artifactId>
             <version>${project.version}</version>
         </dependency>

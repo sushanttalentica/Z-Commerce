@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ecommerce</groupId>
+            <groupId>com.zcommerce</groupId>
             <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
