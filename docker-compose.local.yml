@@ -5,12 +5,12 @@ version: '3.8'
 # Just run: docker-compose -f docker-compose.local.yml up --build
 
 services:
-  # Main Application
+  # Z-Commerce Platform Application
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: product-order-service
+    container_name: zcommerce-platform-local
     ports:
       - "8080:8080"      # Main application
       - "5005:5005"      # Debug port (for IntelliJ remote debugging)
@@ -20,22 +20,27 @@ services:
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_H2_CONSOLE_ENABLED=true
       
-      # Redis (optional - connects to redis service if needed)
+      # Redis (connects to redis service)
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
       
-      # Kafka (optional - connects to kafka service)
+      # Kafka (connects to kafka service)
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       
-      # AWS S3 (use your credentials)
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      # AWS S3 (use your credentials or leave empty for local testing)
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
       - AWS_REGION=${AWS_REGION:-us-east-1}
-      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME:-my-pos-bucket-125}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME:-zcommerce-invoices}
       
       # JWT Secret
-      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production-min-256-bits
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production-min-256-bits}
+      
+      # Logging
+      - LOGGING_LEVEL_ROOT=INFO
+      - LOGGING_LEVEL_COM_ZCOMMERCE_PLATFORM=DEBUG
       
       # Debug mode (for remote debugging from IntelliJ)
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
@@ -46,14 +51,14 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/product-order-service/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/zcommerce/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 40s
+      start_period: 60s
     depends_on:
       redis:
-        condition: service_started
+        condition: service_healthy
       kafka:
         condition: service_started
 

@@ -10,7 +10,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: product-order-service-dev
+    container_name: zcommerce-platform-dev
     ports:
       - "8080:8080"
     environment:
@@ -21,31 +21,29 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - SPRING_H2_CONSOLE_ENABLED=true
       
-      # Disable Redis (use in-memory cache)
-      - SPRING_CACHE_TYPE=caffeine
+      # Disable external dependencies for simple testing
+      - MANAGEMENT_HEALTH_KAFKA_ENABLED=false
+      - MANAGEMENT_HEALTH_REDIS_ENABLED=false
       
-      # Disable Kafka (for simpler testing)
-      - SPRING_KAFKA_ENABLED=false
-      
-      # AWS S3 Credentials
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      # AWS S3 Credentials (optional for local dev)
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
       - AWS_REGION=${AWS_REGION:-us-east-1}
-      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME:-my-pos-bucket-125}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME:-zcommerce-invoices}
       
       # JWT Secret
-      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production-min-256-bits
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production-min-256-bits}
       
       # Logging
       - LOGGING_LEVEL_ROOT=INFO
-      - LOGGING_LEVEL_COM_ECOMMERCE=DEBUG
+      - LOGGING_LEVEL_COM_ZCOMMERCE_PLATFORM=DEBUG
       
     volumes:
       - ./logs:/app/logs
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/product-order-service/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/zcommerce/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 40s
+      start_period: 60s
 
