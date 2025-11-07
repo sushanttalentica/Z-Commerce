@@ -121,6 +121,11 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    kafka:
+      enabled: false  # Don't fail health check if Kafka is down
+    redis:
+      enabled: false  # Don't fail health check if Redis is down
   metrics:
     export:
       prometheus:
