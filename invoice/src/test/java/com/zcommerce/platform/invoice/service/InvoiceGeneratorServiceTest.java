@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.zcommerce.platform.domain.entity.Order;
@@ -58,56 +58,61 @@ public class InvoiceGeneratorServiceTest {
 
   @Test
   @DisplayName("Should generate invoice content")
-  void shouldGenerateInvoiceContent() {
+  void generateInvoiceReturnsValidPdfContentForValidOrder() {
     byte[] result = pdfGeneratorService.generateInvoice(testOrder);
 
-    assertNotNull(result);
-    assertTrue(result.length > 0);
+    assertThat(result).isNotNull();
+    assertThat(result.length).isGreaterThan(0);
   }
 
   @Test
   @DisplayName("Should return correct content type")
-  void shouldReturnCorrectContentType() {
+  void getContentTypeReturnsCorrectContentType() {
     String contentType = pdfGeneratorService.getContentType();
 
-    assertEquals("application/pdf", contentType);
+    assertThat(contentType).isEqualTo("application/pdf");
   }
 
   @Test
   @DisplayName("Should throw exception for null order")
-  void shouldThrowExceptionForNullOrder() {
-    assertThrows(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(null));
+  void generateInvoiceThrowsExceptionForNullOrder() {
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   @DisplayName("Should throw exception for order with zero total amount")
-  void shouldThrowExceptionForOrderWithZeroTotalAmount() {
+  void generateInvoiceThrowsExceptionForOrderWithZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
 
-    assertThrows(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   @DisplayName("Should throw exception for order with null total amount")
-  void shouldThrowExceptionForOrderWithNullTotalAmount() {
+  void generateInvoiceThrowsExceptionForOrderWithNullTotalAmount() {
     testOrder.setTotalAmount(null);
 
-    assertThrows(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   @DisplayName("Should throw exception for order with null order items")
-  void shouldThrowExceptionForOrderWithNullOrderItems() {
+  void generateInvoiceThrowsExceptionForOrderWithNullOrderItems() {
     testOrder.setOrderItems(null);
 
-    assertThrows(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   @DisplayName("Should throw exception for order with empty order items")
-  void shouldThrowExceptionForOrderWithEmptyOrderItems() {
+  void generateInvoiceThrowsExceptionForOrderWithEmptyOrderItems() {
     testOrder.setOrderItems(new ArrayList<>());
 
-    assertThrows(IllegalArgumentException.class, () -> pdfGeneratorService.generateInvoice(testOrder));
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 }

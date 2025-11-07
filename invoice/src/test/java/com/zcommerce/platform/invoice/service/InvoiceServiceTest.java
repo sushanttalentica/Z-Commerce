@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.zcommerce.platform.domain.entity.Order;
@@ -78,8 +78,8 @@ public class InvoiceServiceTest {
   }
 
   @Test
-  @DisplayName("Should generate invoice successfully")
-  void shouldGenerateInvoiceSuccessfully() {
+  @DisplayName("generateInvoice returns invoice URL when successful")
+  void generateInvoiceReturnsInvoiceUrlWhenSuccessful() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.empty());
     when(invoiceGeneratorService.generateInvoice(testOrder)).thenReturn(new byte[]{1, 2, 3});
     when(invoiceGeneratorService.getContentType()).thenReturn("application/pdf");
@@ -89,104 +89,107 @@ public class InvoiceServiceTest {
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals("https://example.com/invoices/100/test-invoice.pdf", result.get());
+    assertThat(result.isPresent()).isTrue();
+    assertThat(result.get()).isEqualTo("https://example.com/invoices/100/test-invoice.pdf");
     verify(invoiceRepository).save(any(Invoice.class));
   }
 
   @Test
-  @DisplayName("Should return existing invoice URL if invoice already exists")
-  void shouldReturnExistingInvoiceUrlIfInvoiceAlreadyExists() {
+  @DisplayName("generateInvoice returns existing invoice URL when invoice already exists")
+  void generateInvoiceReturnsExistingInvoiceUrlWhenInvoiceAlreadyExists() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice));
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals("https://example.com/invoices/100/test-invoice.pdf", result.get());
+    assertThat(result.isPresent()).isTrue();
+    assertThat(result.get()).isEqualTo("https://example.com/invoices/100/test-invoice.pdf");
     verify(invoiceRepository, never()).save(any(Invoice.class));
   }
 
   @Test
-  @DisplayName("Should get invoice URL successfully")
-  void shouldGetInvoiceUrlSuccessfully() {
+  @DisplayName("getInvoiceUrl returns URL when successful")
+  void getInvoiceUrlReturnsUrlWhenSuccessful() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice));
 
     Optional<String> result = invoiceService.getInvoiceUrl(100L);
 
-    assertTrue(result.isPresent());
-    assertEquals("https://example.com/invoices/100/test-invoice.pdf", result.get());
+    assertThat(result.isPresent()).isTrue();
+    assertThat(result.get()).isEqualTo("https://example.com/invoices/100/test-invoice.pdf");
   }
 
   @Test
-  @DisplayName("Should return empty when invoice not found for URL")
-  void shouldReturnEmptyWhenInvoiceNotFoundForUrl() {
+  @DisplayName("getInvoiceUrl returns empty when invoice not found")
+  void getInvoiceUrlReturnsEmptyWhenInvoiceNotFound() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.empty());
 
     Optional<String> result = invoiceService.getInvoiceUrl(100L);
 
-    assertFalse(result.isPresent());
+    assertThat(result.isPresent()).isFalse();
   }
 
   @Test
-  @DisplayName("Should delete invoice successfully")
-  void shouldDeleteInvoiceSuccessfully() {
+  @DisplayName("deleteInvoice returns true when successful")
+  void deleteInvoiceReturnsTrueWhenSuccessful() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice));
     when(objectStoreService.deleteFile("invoices/100/test-invoice.pdf")).thenReturn(true);
     doNothing().when(invoiceRepository).delete(testInvoice);
 
     boolean result = invoiceService.deleteInvoice(100L);
 
-    assertTrue(result);
+    assertThat(result).isTrue();
     verify(invoiceRepository).delete(testInvoice);
     verify(objectStoreService).deleteFile("invoices/100/test-invoice.pdf");
   }
 
   @Test
-  @DisplayName("Should return false when invoice not found for deletion")
-  void shouldReturnFalseWhenInvoiceNotFoundForDeletion() {
+  @DisplayName("deleteInvoice returns false when invoice not found")
+  void deleteInvoiceReturnsFalseWhenInvoiceNotFound() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.empty());
 
     boolean result = invoiceService.deleteInvoice(100L);
 
-    assertFalse(result);
+    assertThat(result).isFalse();
     verify(invoiceRepository, never()).delete(any(Invoice.class));
   }
 
   @Test
-  @DisplayName("Should check if invoice exists")
-  void shouldCheckIfInvoiceExists() {
+  @DisplayName("invoiceExists returns true when invoice exists")
+  void invoiceExistsReturnsTrueWhenInvoiceExists() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice));
 
     boolean result = invoiceService.invoiceExists(100L);
 
-    assertTrue(result);
+    assertThat(result).isTrue();
   }
 
   @Test
-  @DisplayName("Should return false when invoice does not exist")
-  void shouldReturnFalseWhenInvoiceDoesNotExist() {
+  @DisplayName("invoiceExists returns false when invoice does not exist")
+  void invoiceExistsReturnsFalseWhenInvoiceDoesNotExist() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.empty());
 
     boolean result = invoiceService.invoiceExists(100L);
 
-    assertFalse(result);
+    assertThat(result).isFalse();
   }
 
   @Test
-  @DisplayName("Should throw exception for null order ID in get URL")
-  void shouldThrowExceptionForNullOrderIdInGetUrl() {
-    assertThrows(IllegalArgumentException.class, () -> invoiceService.getInvoiceUrl(null));
+  @DisplayName("getInvoiceUrl throws exception for null order ID")
+  void getInvoiceUrlThrowsExceptionForNullOrderId() {
+    assertThatThrownBy(() -> invoiceService.getInvoiceUrl(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should throw exception for null order ID in delete")
-  void shouldThrowExceptionForNullOrderIdInDelete() {
-    assertThrows(IllegalArgumentException.class, () -> invoiceService.deleteInvoice(null));
+  @DisplayName("deleteInvoice throws exception for null order ID")
+  void deleteInvoiceThrowsExceptionForNullOrderId() {
+    assertThatThrownBy(() -> invoiceService.deleteInvoice(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should throw exception for null order ID in exists check")
-  void shouldThrowExceptionForNullOrderIdInExistsCheck() {
-    assertThrows(IllegalArgumentException.class, () -> invoiceService.invoiceExists(null));
+  @DisplayName("invoiceExists throws exception for null order ID")
+  void invoiceExistsThrowsExceptionForNullOrderId() {
+    assertThatThrownBy(() -> invoiceService.invoiceExists(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 }

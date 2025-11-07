@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.domain.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -61,33 +61,33 @@ public class InvoiceRepositoryTest {
   }
 
   @Test
-  @DisplayName("Should find invoice by order ID")
-  void shouldFindInvoiceByOrderId() {
+  @DisplayName("findByOrderId returns invoice when found")
+  void findByOrderIdReturnsInvoiceWhenFound() {
     when(invoiceRepository.findByOrderId(100L)).thenReturn(Optional.of(testInvoice1));
 
     Optional<Invoice> result = invoiceRepository.findByOrderId(100L);
 
-    assertTrue(result.isPresent());
-    assertEquals(100L, result.get().getOrderId());
-    assertEquals(200L, result.get().getCustomerId());
-    assertEquals("customer1@example.com", result.get().getCustomerEmail());
-    assertEquals(new BigDecimal("999.99"), result.get().getTotalAmount());
-    assertEquals(Invoice.InvoiceStatus.GENERATED, result.get().getStatus());
+    assertThat(result.isPresent()).isTrue();
+    assertThat(result.get().getOrderId()).isEqualTo(100L);
+    assertThat(result.get().getCustomerId()).isEqualTo(200L);
+    assertThat(result.get().getCustomerEmail()).isEqualTo("customer1@example.com");
+    assertThat(result.get().getTotalAmount()).isEqualTo(new BigDecimal("999.99"));
+    assertThat(result.get().getStatus()).isEqualTo(Invoice.InvoiceStatus.GENERATED);
   }
 
   @Test
-  @DisplayName("Should return empty when invoice not found by order ID")
-  void shouldReturnEmptyWhenInvoiceNotFoundByOrderId() {
+  @DisplayName("findByOrderId returns empty when invoice not found")
+  void findByOrderIdReturnsEmptyWhenInvoiceNotFound() {
     when(invoiceRepository.findByOrderId(999L)).thenReturn(Optional.empty());
 
     Optional<Invoice> result = invoiceRepository.findByOrderId(999L);
 
-    assertFalse(result.isPresent());
+    assertThat(result).isEmpty();
   }
 
   @Test
-  @DisplayName("Should save new invoice")
-  void shouldSaveNewInvoice() {
+  @DisplayName("save returns saved invoice when successful")
+  void saveReturnsSavedInvoiceWhenSuccessful() {
     Invoice newInvoice = new Invoice();
     newInvoice.setOrderId(103L);
     newInvoice.setCustomerId(400L);
@@ -101,46 +101,46 @@ public class InvoiceRepositoryTest {
 
     Invoice savedInvoice = invoiceRepository.save(newInvoice);
 
-    assertNotNull(savedInvoice);
-    assertEquals(103L, savedInvoice.getOrderId());
-    assertEquals(400L, savedInvoice.getCustomerId());
-    assertEquals("newcustomer@example.com", savedInvoice.getCustomerEmail());
-    assertEquals(new BigDecimal("599.99"), savedInvoice.getTotalAmount());
-    assertEquals(Invoice.InvoiceStatus.GENERATED, savedInvoice.getStatus());
+    assertThat(savedInvoice).isNotNull();
+    assertThat(savedInvoice.getOrderId()).isEqualTo(103L);
+    assertThat(savedInvoice.getCustomerId()).isEqualTo(400L);
+    assertThat(savedInvoice.getCustomerEmail()).isEqualTo("newcustomer@example.com");
+    assertThat(savedInvoice.getTotalAmount()).isEqualTo(new BigDecimal("599.99"));
+    assertThat(savedInvoice.getStatus()).isEqualTo(Invoice.InvoiceStatus.GENERATED);
   }
 
   @Test
-  @DisplayName("Should find invoices by customer ID")
-  void shouldFindInvoicesByCustomerId() {
+  @DisplayName("findByCustomerId returns invoices when found")
+  void findByCustomerIdReturnsInvoicesWhenFound() {
     List<Invoice> expectedInvoices = Arrays.asList(testInvoice1, testInvoice2);
     when(invoiceRepository.findByCustomerId(200L)).thenReturn(expectedInvoices);
 
     List<Invoice> result = invoiceRepository.findByCustomerId(200L);
 
-    assertEquals(2, result.size());
-    assertTrue(result.stream().allMatch(invoice -> invoice.getCustomerId().equals(200L)));
-    assertTrue(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(100L)));
-    assertTrue(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(101L)));
+    assertThat(result.size()).isEqualTo(2);
+    assertThat(result.stream().allMatch(invoice -> invoice.getCustomerId().equals(200L))).isTrue();
+    assertThat(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(100L))).isTrue();
+    assertThat(result.stream().anyMatch(invoice -> invoice.getOrderId().equals(101L))).isTrue();
   }
 
   @Test
-  @DisplayName("Should find invoices by status")
-  void shouldFindInvoicesByStatus() {
+  @DisplayName("findByStatus returns invoices when found")
+  void findByStatusReturnsInvoicesWhenFound() {
     List<Invoice> expectedInvoices = Arrays.asList(testInvoice1);
     when(invoiceRepository.findByStatus(Invoice.InvoiceStatus.GENERATED)).thenReturn(expectedInvoices);
 
     List<Invoice> result = invoiceRepository.findByStatus(Invoice.InvoiceStatus.GENERATED);
 
-    assertEquals(1, result.size());
-    assertEquals(100L, result.get(0).getOrderId());
-    assertEquals(Invoice.InvoiceStatus.GENERATED, result.get(0).getStatus());
+    assertThat(result.size()).isEqualTo(1);
+    assertThat(result.get(0).getOrderId()).isEqualTo(100L);
+    assertThat(result.get(0).getStatus()).isEqualTo(Invoice.InvoiceStatus.GENERATED);
   }
 
   @Test
-  @DisplayName("Should delete invoice")
-  void shouldDeleteInvoice() {
+  @DisplayName("delete removes invoice when successful")
+  void deleteRemovesInvoiceWhenSuccessful() {
     doNothing().when(invoiceRepository).delete(any(Invoice.class));
 
-    assertDoesNotThrow(() -> invoiceRepository.delete(testInvoice1));
+    assertThatCode(() -> invoiceRepository.delete(testInvoice1)).doesNotThrowAnyException();
   }
 }

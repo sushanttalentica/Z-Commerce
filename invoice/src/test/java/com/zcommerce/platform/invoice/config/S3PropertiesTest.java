@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.config;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,72 +18,72 @@ public class S3PropertiesTest {
   }
 
   @Test
-  @DisplayName("Should create S3Properties with default values")
-  void shouldCreateS3PropertiesWithDefaultValues() {
-    assertNotNull(s3Properties);
-    assertNull(s3Properties.getBucketName());
-    assertNull(s3Properties.getRegion());
-    assertNull(s3Properties.getAccessKey());
-    assertNull(s3Properties.getSecretKey());
+  @DisplayName("S3Properties constructor creates with default values")
+  void s3PropertiesConstructorCreatesWithDefaultValues() {
+    assertThat(s3Properties).isNotNull();
+    assertThat(s3Properties.getBucketName()).isNull();
+    assertThat(s3Properties.getRegion()).isNull();
+    assertThat(s3Properties.getAccessKey()).isNull();
+    assertThat(s3Properties.getSecretKey()).isNull();
   }
 
   @Test
-  @DisplayName("Should set and get bucket name")
-  void shouldSetAndGetBucketName() {
-    String bucketName = "test-bucket";
-    s3Properties.setBucketName(bucketName);
-    assertEquals(bucketName, s3Properties.getBucketName());
+  @DisplayName("setBucketName and getBucketName work correctly")
+  void setBucketNameAndGetBucketNameWorkCorrectly() {
+    String expectedBucketName = "test-bucket";
+    s3Properties.setBucketName(expectedBucketName);
+    assertThat(s3Properties.getBucketName()).isEqualTo(expectedBucketName);
   }
 
   @Test
-  @DisplayName("Should set and get region")
-  void shouldSetAndGetRegion() {
-    String region = "us-east-1";
-    s3Properties.setRegion(region);
-    assertEquals(region, s3Properties.getRegion());
+  @DisplayName("setRegion and getRegion work correctly")
+  void setRegionAndGetRegionWorkCorrectly() {
+    String expectedRegion = "us-east-1";
+    s3Properties.setRegion(expectedRegion);
+    assertThat(s3Properties.getRegion()).isEqualTo(expectedRegion);
   }
 
   @Test
-  @DisplayName("Should set and get access key")
-  void shouldSetAndGetAccessKey() {
-    String accessKey = "test-access-key";
-    s3Properties.setAccessKey(accessKey);
-    assertEquals(accessKey, s3Properties.getAccessKey());
+  @DisplayName("setAccessKey and getAccessKey work correctly")
+  void setAccessKeyAndGetAccessKeyWorkCorrectly() {
+    String expectedAccessKey = "test-access-key";
+    s3Properties.setAccessKey(expectedAccessKey);
+    assertThat(s3Properties.getAccessKey()).isEqualTo(expectedAccessKey);
   }
 
   @Test
-  @DisplayName("Should set and get secret key")
-  void shouldSetAndGetSecretKey() {
-    String secretKey = "test-secret-key";
-    s3Properties.setSecretKey(secretKey);
-    assertEquals(secretKey, s3Properties.getSecretKey());
+  @DisplayName("setSecretKey and getSecretKey work correctly")
+  void setSecretKeyAndGetSecretKeyWorkCorrectly() {
+    String expectedSecretKey = "test-secret-key";
+    s3Properties.setSecretKey(expectedSecretKey);
+    assertThat(s3Properties.getSecretKey()).isEqualTo(expectedSecretKey);
   }
 
   @Test
-  @DisplayName("Should handle null values")
-  void shouldHandleNullValues() {
+  @DisplayName("S3Properties handles null values correctly")
+  void s3PropertiesHandlesNullValuesCorrectly() {
     s3Properties.setBucketName(null);
     s3Properties.setRegion(null);
     s3Properties.setAccessKey(null);
     s3Properties.setSecretKey(null);
 
-    assertNull(s3Properties.getBucketName());
-    assertNull(s3Properties.getRegion());
-    assertNull(s3Properties.getAccessKey());
-    assertNull(s3Properties.getSecretKey());
+    assertThat(s3Properties.getBucketName()).isNull();
+    assertThat(s3Properties.getRegion()).isNull();
+    assertThat(s3Properties.getAccessKey()).isNull();
+    assertThat(s3Properties.getSecretKey()).isNull();
   }
 
   @Test
-  @DisplayName("Should handle empty strings")
-  void shouldHandleEmptyStrings() {
+  @DisplayName("S3Properties handles empty strings correctly")
+  void s3PropertiesHandlesEmptyStringsCorrectly() {
     s3Properties.setBucketName("");
     s3Properties.setRegion("");
     s3Properties.setAccessKey("");
     s3Properties.setSecretKey("");
 
-    assertEquals("", s3Properties.getBucketName());
-    assertEquals("", s3Properties.getRegion());
-    assertEquals("", s3Properties.getAccessKey());
-    assertEquals("", s3Properties.getSecretKey());
+    assertThat(s3Properties.getBucketName()).isEqualTo("");
+    assertThat(s3Properties.getRegion()).isEqualTo("");
+    assertThat(s3Properties.getAccessKey()).isEqualTo("");
+    assertThat(s3Properties.getSecretKey()).isEqualTo("");
   }
 }

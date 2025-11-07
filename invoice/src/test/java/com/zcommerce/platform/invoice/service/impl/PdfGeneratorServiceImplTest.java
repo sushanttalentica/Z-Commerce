@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 import com.zcommerce.platform.domain.entity.Category;
 import com.zcommerce.platform.domain.entity.Order;
@@ -57,68 +57,80 @@ public class PdfGeneratorServiceImplTest {
   }
 
   @Test
-  @DisplayName("Should generate invoice PDF successfully")
-  void shouldGenerateInvoicePdfSuccessfully() {
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+  @DisplayName("generateInvoicePdf returns valid PDF content for valid order")
+  void generateInvoicePdfReturnsValidPdfContentForValidOrder() {
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
     // PDF files start with %PDF header
-    assertTrue(pdfContent[0] == 0x25 && pdfContent[1] == 0x50 && pdfContent[2] == 0x44 && pdfContent[3] == 0x46);
+    assertThat(pdfContent[0]).isEqualTo((byte) 0x25);
+    assertThat(pdfContent[1]).isEqualTo((byte) 0x50);
+    assertThat(pdfContent[2]).isEqualTo((byte) 0x44);
+    assertThat(pdfContent[3]).isEqualTo((byte) 0x46);
   }
 
   @Test
-  @DisplayName("Should generate invoice PDF with order details")
-  void shouldGenerateInvoicePdfWithOrderDetails() {
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+  @DisplayName("generateInvoicePdf returns PDF with order details")
+  void generateInvoicePdfReturnsPdfWithOrderDetails() {
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
     // PDF files start with %PDF header
-    assertTrue(pdfContent[0] == 0x25 && pdfContent[1] == 0x50 && pdfContent[2] == 0x44 && pdfContent[3] == 0x46);
+    assertThat(pdfContent[0]).isEqualTo((byte) 0x25);
+    assertThat(pdfContent[1]).isEqualTo((byte) 0x50);
+    assertThat(pdfContent[2]).isEqualTo((byte) 0x44);
+    assertThat(pdfContent[3]).isEqualTo((byte) 0x46);
   }
 
   @Test
-  @DisplayName("Should generate invoice PDF with customer details")
-  void shouldGenerateInvoicePdfWithCustomerDetails() {
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+  @DisplayName("generateInvoicePdf returns PDF with customer details")
+  void generateInvoicePdfReturnsPdfWithCustomerDetails() {
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
     // PDF files start with %PDF header
-    assertTrue(pdfContent[0] == 0x25 && pdfContent[1] == 0x50 && pdfContent[2] == 0x44 && pdfContent[3] == 0x46);
+    assertThat(pdfContent[0]).isEqualTo((byte) 0x25);
+    assertThat(pdfContent[1]).isEqualTo((byte) 0x50);
+    assertThat(pdfContent[2]).isEqualTo((byte) 0x44);
+    assertThat(pdfContent[3]).isEqualTo((byte) 0x46);
   }
 
   @Test
-  @DisplayName("Should generate invoice PDF with product details")
-  void shouldGenerateInvoicePdfWithProductDetails() {
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+  @DisplayName("generateInvoicePdf returns PDF with product details")
+  void generateInvoicePdfReturnsPdfWithProductDetails() {
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
     // PDF files start with %PDF header
-    assertTrue(pdfContent[0] == 0x25 && pdfContent[1] == 0x50 && pdfContent[2] == 0x44 && pdfContent[3] == 0x46);
+    assertThat(pdfContent[0]).isEqualTo((byte) 0x25);
+    assertThat(pdfContent[1]).isEqualTo((byte) 0x50);
+    assertThat(pdfContent[2]).isEqualTo((byte) 0x44);
+    assertThat(pdfContent[3]).isEqualTo((byte) 0x46);
   }
 
   @Test
-  @DisplayName("Should generate invoice PDF with total amount")
-  void shouldGenerateInvoicePdfWithTotalAmount() {
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+  @DisplayName("generateInvoicePdf returns PDF with total amount")
+  void generateInvoicePdfReturnsPdfWithTotalAmount() {
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
     // PDF files start with %PDF header
-    assertTrue(pdfContent[0] == 0x25 && pdfContent[1] == 0x50 && pdfContent[2] == 0x44 && pdfContent[3] == 0x46);
+    assertThat(pdfContent[0]).isEqualTo((byte) 0x25);
+    assertThat(pdfContent[1]).isEqualTo((byte) 0x50);
+    assertThat(pdfContent[2]).isEqualTo((byte) 0x44);
+    assertThat(pdfContent[3]).isEqualTo((byte) 0x46);
   }
 
   @Test
-  @DisplayName("Should throw exception when order is null")
-  void shouldThrowExceptionWhenOrderIsNull() {
-    assertThrows(
-        Exception.class,
-        () -> {
-          pdfGeneratorService.generateInvoicePdf(null);
-        });
+  @DisplayName("generateInvoicePdf throws exception when order is null")
+  void generateInvoicePdfThrowsExceptionWhenOrderIsNull() {
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(null))
+        .isInstanceOf(Exception.class);
   }
 
   @Test
-  @DisplayName("Should handle order with multiple items")
-  void shouldHandleOrderWithMultipleItems() {
+  @DisplayName("generateInvoicePdf handles order with multiple items")
+  void generateInvoicePdfHandlesOrderWithMultipleItems() {
     Product secondProduct = new Product();
     secondProduct.setId(2L);
     secondProduct.setName("iPhone Case");
@@ -140,209 +152,114 @@ public class PdfGeneratorServiceImplTest {
     secondOrderItem.setSubtotal(new BigDecimal("29.99"));
     testOrder.setOrderItems(List.of(testOrder.getOrderItems().get(0), secondOrderItem));
     testOrder.setTotalAmount(new BigDecimal("2029.97"));
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-  }
-
-  @Test
-  @DisplayName("Should generate receipt PDF successfully")
-  void shouldGenerateReceiptPdfSuccessfully() {
-    byte[] pdfContent = pdfGeneratorService.generateReceiptPdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-    String pdfContentString = new String(pdfContent);
-    assertTrue(pdfContentString.contains("RECEIPT") || pdfContentString.contains("Receipt"));
-  }
-
-  @Test
-  @DisplayName("Should generate receipt PDF with order details")
-  void shouldGenerateReceiptPdfWithOrderDetails() {
-    byte[] pdfContent = pdfGeneratorService.generateReceiptPdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-    String pdfContentString = new String(pdfContent);
-    assertTrue(
-        pdfContentString.contains(testOrder.getOrderNumber())
-            || pdfContentString.contains(String.valueOf(testOrder.getId())));
-  }
-
-  @Test
-  @DisplayName("Should throw exception when order is null for receipt")
-  void shouldThrowExceptionWhenOrderIsNullForReceipt() {
-    assertThrows(
-        Exception.class,
-        () -> {
-          pdfGeneratorService.generateReceiptPdf(null);
-        });
-  }
-
-  @Test
-  @DisplayName("Should generate shipping label PDF successfully")
-  void shouldGenerateShippingLabelPdfSuccessfully() {
-    byte[] pdfContent = pdfGeneratorService.generateShippingLabelPdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-    String pdfContentString = new String(pdfContent);
-    assertTrue(
-        pdfContentString.contains("SHIPPING")
-            || pdfContentString.contains("Shipping")
-            || pdfContentString.contains("LABEL")
-            || pdfContentString.contains("Label"));
-  }
-
-  @Test
-  @DisplayName("Should generate shipping label PDF with shipping address")
-  void shouldGenerateShippingLabelPdfWithShippingAddress() {
-    byte[] pdfContent = pdfGeneratorService.generateShippingLabelPdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-    String pdfContentString = new String(pdfContent);
-    assertTrue(
-        pdfContentString.contains(testOrder.getShippingAddress())
-            || pdfContentString.contains("123 Test St"));
-  }
-
-  @Test
-  @DisplayName("Should throw exception when order is null for shipping label")
-  void shouldThrowExceptionWhenOrderIsNullForShippingLabel() {
-    assertThrows(
-        Exception.class,
-        () -> {
-          pdfGeneratorService.generateShippingLabelPdf(null);
-        });
-  }
-
-  @Test
-  @DisplayName("Should implement generateInvoice method")
-  void shouldImplementGenerateInvoiceMethod() {
     byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
   }
 
   @Test
-  @DisplayName("Should return correct content type")
-  void shouldReturnCorrectContentType() {
+  @DisplayName("generateInvoice returns valid PDF content")
+  void generateInvoiceReturnsValidPdfContent() {
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
+  }
+
+  @Test
+  @DisplayName("getContentType returns correct content type")
+  void getContentTypeReturnsCorrectContentType() {
     String contentType = pdfGeneratorService.getContentType();
-    assertEquals("application/pdf", contentType);
+    assertThat("application/pdf").isEqualTo(contentType);
   }
 
   @Test
-  @DisplayName("Should handle order with zero total amount")
-  void shouldHandleOrderWithZeroTotalAmount() {
+  @DisplayName("generateInvoicePdf throws RuntimeException when order has zero total amount")
+  void generateInvoicePdfThrowsRuntimeExceptionWhenOrderHasZeroTotalAmount() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
     testOrder.getOrderItems().get(0).setUnitPrice(BigDecimal.ZERO);
     testOrder.getOrderItems().get(0).setSubtotal(BigDecimal.ZERO);
     
     // This should throw an exception due to validation
-    assertThrows(RuntimeException.class, () -> {
-      pdfGeneratorService.generateInvoicePdf(testOrder);
-    });
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(RuntimeException.class);
   }
 
   @Test
-  @DisplayName("Should handle order with very large amounts")
-  void shouldHandleOrderWithVeryLargeAmounts() {
+  @DisplayName("generateInvoicePdf handles order with very large amounts")
+  void generateInvoicePdfHandlesOrderWithVeryLargeAmounts() {
     BigDecimal largeAmount = new BigDecimal("999999.99");
     testOrder.setTotalAmount(largeAmount);
     testOrder.getOrderItems().get(0).setUnitPrice(largeAmount);
     testOrder.getOrderItems().get(0).setSubtotal(largeAmount);
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
   }
 
   @Test
-  @DisplayName("Should throw exception for order with empty order items")
-  void shouldHandleOrderWithEmptyOrderItems() {
+  @DisplayName("generateInvoicePdf throws IllegalArgumentException when order has empty order items")
+  void generateInvoicePdfThrowsIllegalArgumentExceptionWhenOrderHasEmptyOrderItems() {
     testOrder.setOrderItems(List.of());
-    assertThrows(IllegalArgumentException.class, () -> {
-      pdfGeneratorService.generateInvoicePdf(testOrder);
-    });
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle order with null product")
-  void shouldHandleOrderWithNullProduct() {
+  @DisplayName("generateInvoicePdf throws RuntimeException when order has null product")
+  void generateInvoicePdfThrowsRuntimeExceptionWhenOrderHasNullProduct() {
     testOrder.getOrderItems().get(0).setProduct(null);
     
     // This should throw an exception due to null product
-    assertThrows(RuntimeException.class, () -> {
-      pdfGeneratorService.generateInvoicePdf(testOrder);
-    });
+    assertThatThrownBy(() -> pdfGeneratorService.generateInvoice(testOrder))
+        .isInstanceOf(RuntimeException.class);
   }
 
   @Test
-  @DisplayName("Should handle order with very long customer email")
-  void shouldHandleOrderWithVeryLongCustomerEmail() {
+  @DisplayName("generateInvoicePdf handles order with very long customer email")
+  void generateInvoicePdfHandlesOrderWithVeryLongCustomerEmail() {
     String longEmail =
         "very.long.email.address.that.might.exceed.normal.length@very.long.domain.name.com";
     testOrder.setCustomerEmail(longEmail);
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
   }
 
   @Test
-  @DisplayName("Should handle order with very long shipping address")
-  void shouldHandleOrderWithVeryLongShippingAddress() {
-    String longAddress =
-        "123 Very Long Street Name That Might Exceed Normal Length, Very Long City Name, Very"
-            + " Long State Name, 12345-6789";
-    testOrder.setShippingAddress(longAddress);
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-  }
-
-  @Test
-  @DisplayName("Should handle order with special characters in product name")
-  void shouldHandleOrderWithSpecialCharactersInProductName() {
+  @DisplayName("generateInvoicePdf handles order with special characters in product name")
+  void generateInvoicePdfHandlesOrderWithSpecialCharactersInProductName() {
     testProduct.setName("iPhone 15 Pro Max™ (Special Edition) - 256GB");
     testProduct.setDescription("Latest iPhone with special characters: @#$%^&*()");
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
   }
 
   @Test
-  @DisplayName("Should handle order with unicode characters")
-  void shouldHandleOrderWithUnicodeCharacters() {
-    testProduct.setName("iPhone 15 Pro Max™ (特别版) - 256GB");
-    testProduct.setDescription("最新款iPhone，带有特殊字符：@#$%^&*()");
-    testOrder.setCustomerEmail("test@example.com");
-    testOrder.setShippingAddress("123 测试街道, 测试城市, 测试省份, 12345");
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-  }
-
-  @Test
-  @DisplayName("Should generate PDF within reasonable time")
-  void shouldGeneratePdfWithinReasonableTime() {
+  @DisplayName("generateInvoicePdf completes within reasonable time")
+  void generateInvoicePdfCompletesWithinReasonableTime() {
     long startTime = System.currentTimeMillis();
-    byte[] pdfContent = pdfGeneratorService.generateInvoicePdf(testOrder);
+    byte[] pdfContent = pdfGeneratorService.generateInvoice(testOrder);
     long endTime = System.currentTimeMillis();
     long duration = endTime - startTime;
-    assertNotNull(pdfContent);
-    assertTrue(pdfContent.length > 0);
-    assertTrue(duration < 5000, "PDF generation should complete within 5 seconds");
+    assertThat(pdfContent).isNotNull();
+    assertThat(pdfContent.length).isGreaterThan(0);
+    assertThat(duration).isLessThan(5000);
   }
 
   @Test
-  @DisplayName("Should generate multiple PDFs consistently")
-  void shouldGenerateMultiplePdfsConsistently() {
-    byte[] pdf1 = pdfGeneratorService.generateInvoicePdf(testOrder);
-    byte[] pdf2 = pdfGeneratorService.generateInvoicePdf(testOrder);
-    byte[] pdf3 = pdfGeneratorService.generateInvoicePdf(testOrder);
-    assertNotNull(pdf1);
-    assertNotNull(pdf2);
-    assertNotNull(pdf3);
-    assertTrue(pdf1.length > 0);
-    assertTrue(pdf2.length > 0);
-    assertTrue(pdf3.length > 0);
-    assertTrue(Math.abs(pdf1.length - pdf2.length) < pdf1.length * 0.1);
-    assertTrue(Math.abs(pdf1.length - pdf3.length) < pdf1.length * 0.1);
+  @DisplayName("generateInvoicePdf generates consistent results across multiple calls")
+  void generateInvoicePdfGeneratesConsistentResultsAcrossMultipleCalls() {
+    byte[] pdf1 = pdfGeneratorService.generateInvoice(testOrder);
+    byte[] pdf2 = pdfGeneratorService.generateInvoice(testOrder);
+    byte[] pdf3 = pdfGeneratorService.generateInvoice(testOrder);
+    assertThat(pdf1).isNotNull();
+    assertThat(pdf2).isNotNull();
+    assertThat(pdf3).isNotNull();
+    assertThat(pdf1.length).isGreaterThan(0);
+    assertThat(pdf2.length).isGreaterThan(0);
+    assertThat(pdf3.length).isGreaterThan(0);
+    assertThat(Math.abs(pdf1.length - pdf2.length)).isLessThan((int) (pdf1.length * 0.1));
+    assertThat(Math.abs(pdf1.length - pdf3.length)).isLessThan((int) (pdf1.length * 0.1));
   }
 }

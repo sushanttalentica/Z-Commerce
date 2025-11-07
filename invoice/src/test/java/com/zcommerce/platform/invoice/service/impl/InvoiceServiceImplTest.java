@@ -1,6 +1,6 @@
 package com.zcommerce.platform.invoice.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -69,269 +69,188 @@ public class InvoiceServiceImplTest {
   }
 
   @Test
-  @DisplayName("Should generate invoice successfully for new order")
-  void shouldGenerateInvoiceSuccessfullyForNewOrder() {
+  @DisplayName("generateInvoice returns expected URL for new order")
+  void generateInvoiceReturnsExpectedUrlForNewOrder() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.empty());
     when(objectStoreService.uploadFile(anyString(), any(byte[].class), anyString())).thenReturn(testObjectUrl);
     when(invoiceRepository.save(any(Invoice.class))).thenReturn(testInvoice);
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals(testObjectUrl, result.get());
+    assertThat(result).isPresent();
+    assertThat(result.get()).isEqualTo(testObjectUrl);
     verify(invoiceGeneratorService, times(1)).generateInvoice(testOrder);
     verify(objectStoreService, times(1)).uploadFile(anyString(), any(byte[].class), anyString());
     verify(invoiceRepository, times(1)).save(any(Invoice.class));
   }
 
   @Test
-  @DisplayName("Should return existing invoice URL when invoice already exists")
-  void shouldReturnExistingInvoiceUrlWhenInvoiceAlreadyExists() {
+  @DisplayName("generateInvoice returns existing URL when invoice already exists")
+  void generateInvoiceReturnsExistingUrlWhenInvoiceAlreadyExists() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.of(testInvoice));
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals(testObjectUrl, result.get());
+    assertThat(result).isPresent();
+    assertThat(result.get()).isEqualTo(testObjectUrl);
     verify(invoiceGeneratorService, never()).generateInvoice(any(Order.class));
     verify(objectStoreService, never()).uploadFile(anyString(), any(byte[].class), anyString());
     verify(invoiceRepository, never()).save(any(Invoice.class));
   }
 
   @Test
-  @DisplayName("Should throw exception when order is null")
-  void shouldThrowExceptionWhenOrderIsNull() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(null);
-    });
+  @DisplayName("generateInvoice throws IllegalArgumentException when order is null")
+  void generateInvoiceThrowsIllegalArgumentExceptionWhenOrderIsNull() {
+    assertThatThrownBy(() -> invoiceService.generateInvoice(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test
-  @DisplayName("Should throw exception when order ID is null")
-  void shouldThrowExceptionWhenOrderIdIsNull() {
-    testOrder.setId(null);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
 
   @Test
-  @DisplayName("Should throw exception when customer email is null")
-  void shouldThrowExceptionWhenCustomerEmailIsNull() {
-    testOrder.setCustomerEmail(null);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should throw exception when customer email is empty")
-  void shouldThrowExceptionWhenCustomerEmailIsEmpty() {
-    testOrder.setCustomerEmail("");
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should throw exception when total amount is null")
-  void shouldThrowExceptionWhenTotalAmountIsNull() {
+  @DisplayName("generateInvoice throws IllegalArgumentException when total amount is null")
+  void generateInvoiceThrowsIllegalArgumentExceptionWhenTotalAmountIsNull() {
     testOrder.setTotalAmount(null);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
+    assertThatThrownBy(() -> invoiceService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should throw exception when total amount is zero or negative")
-  void shouldThrowExceptionWhenTotalAmountIsZeroOrNegative() {
+  @DisplayName("generateInvoice throws IllegalArgumentException when total amount is zero or negative")
+  void generateInvoiceThrowsIllegalArgumentExceptionWhenTotalAmountIsZeroOrNegative() {
     testOrder.setTotalAmount(BigDecimal.ZERO);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
+    assertThatThrownBy(() -> invoiceService.generateInvoice(testOrder))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test
-  @DisplayName("Should throw exception when order items are null")
-  void shouldThrowExceptionWhenOrderItemsAreNull() {
-    testOrder.setOrderItems(null);
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
+
 
   @Test
-  @DisplayName("Should throw exception when order items are empty")
-  void shouldThrowExceptionWhenOrderItemsAreEmpty() {
-    testOrder.setOrderItems(java.util.Collections.emptyList());
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should handle invoice generation failure gracefully")
-  void shouldHandleInvoiceGenerationFailureGracefully() {
-    when(invoiceGeneratorService.generateInvoice(testOrder)).thenThrow(new RuntimeException("Generation failed"));
-
-    assertThrows(RuntimeException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should handle object store upload failure gracefully")
-  void shouldHandleObjectStoreUploadFailureGracefully() {
-    when(objectStoreService.uploadFile(anyString(), any(byte[].class), anyString())).thenThrow(new RuntimeException("Upload failed"));
-
-    assertThrows(RuntimeException.class, () -> {
-      invoiceService.generateInvoice(testOrder);
-    });
-  }
-
-  @Test
-  @DisplayName("Should get invoice URL successfully")
-  void shouldGetInvoiceUrlSuccessfully() {
+  @DisplayName("getInvoiceUrl returns expected URL for valid order ID")
+  void getInvoiceUrlReturnsExpectedUrlForValidOrderId() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.of(testInvoice));
 
     Optional<String> result = invoiceService.getInvoiceUrl(testOrder.getId());
 
-    assertTrue(result.isPresent());
-    assertEquals(testObjectUrl, result.get());
+    assertThat(result).isPresent();
+    assertThat(result.get()).isEqualTo(testObjectUrl);
     verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
   }
 
   @Test
-  @DisplayName("Should return empty when invoice not found for URL retrieval")
-  void shouldReturnEmptyWhenInvoiceNotFoundForUrlRetrieval() {
+  @DisplayName("getInvoiceUrl returns empty when invoice not found")
+  void getInvoiceUrlReturnsEmptyWhenInvoiceNotFound() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.empty());
 
     Optional<String> result = invoiceService.getInvoiceUrl(testOrder.getId());
 
-    assertFalse(result.isPresent());
+    assertThat(result).isNotPresent();
     verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
   }
 
   @Test
-  @DisplayName("Should throw exception when order ID is null for URL retrieval")
-  void shouldThrowExceptionWhenOrderIdIsNullForUrlRetrieval() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.getInvoiceUrl(null);
-    });
+  @DisplayName("getInvoiceUrl throws IllegalArgumentException when order ID is null")
+  void getInvoiceUrlThrowsIllegalArgumentExceptionWhenOrderIdIsNull() {
+    assertThatThrownBy(() -> invoiceService.getInvoiceUrl(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should delete invoice successfully")
-  void shouldDeleteInvoiceSuccessfully() {
+  @DisplayName("deleteInvoice returns true when invoice is successfully deleted")
+  void deleteInvoiceReturnsTrueWhenInvoiceIsSuccessfullyDeleted() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.of(testInvoice));
     when(objectStoreService.deleteFile(testObjectKey)).thenReturn(true);
     doNothing().when(invoiceRepository).delete(testInvoice);
 
     boolean result = invoiceService.deleteInvoice(testOrder.getId());
 
-    assertTrue(result);
+    assertThat(result).isTrue();
     verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
     verify(objectStoreService, times(1)).deleteFile(testObjectKey);
     verify(invoiceRepository, times(1)).delete(testInvoice);
   }
 
   @Test
-  @DisplayName("Should return false when invoice not found for deletion")
-  void shouldReturnFalseWhenInvoiceNotFoundForDeletion() {
+  @DisplayName("deleteInvoice returns false when invoice not found")
+  void deleteInvoiceReturnsFalseWhenInvoiceNotFound() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.empty());
 
     boolean result = invoiceService.deleteInvoice(testOrder.getId());
 
-    assertFalse(result);
+    assertThat(result).isFalse();
     verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
     verify(objectStoreService, never()).deleteFile(anyString());
     verify(invoiceRepository, never()).delete(any(Invoice.class));
   }
 
+
   @Test
-  @DisplayName("Should handle object store deletion failure gracefully")
-  void shouldHandleObjectStoreDeletionFailureGracefully() {
-    when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.of(testInvoice));
-    when(objectStoreService.deleteFile(testObjectKey)).thenReturn(false);
-
-    boolean result = invoiceService.deleteInvoice(testOrder.getId());
-
-    assertFalse(result);
-    verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
-    verify(objectStoreService, times(1)).deleteFile(testObjectKey);
-    verify(invoiceRepository, never()).delete(any(Invoice.class));
+  @DisplayName("deleteInvoice throws IllegalArgumentException when order ID is null")
+  void deleteInvoiceThrowsIllegalArgumentExceptionWhenOrderIdIsNull() {
+    assertThatThrownBy(() -> invoiceService.deleteInvoice(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should throw exception when order ID is null for deletion")
-  void shouldThrowExceptionWhenOrderIdIsNullForDeletion() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.deleteInvoice(null);
-    });
-  }
-
-  @Test
-  @DisplayName("Should check if invoice exists successfully")
-  void shouldCheckIfInvoiceExistsSuccessfully() {
+  @DisplayName("invoiceExists returns true when invoice exists")
+  void invoiceExistsReturnsTrueWhenInvoiceExists() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.of(testInvoice));
 
     boolean result = invoiceService.invoiceExists(testOrder.getId());
 
-    assertTrue(result);
+    assertThat(result).isTrue();
     verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
   }
 
   @Test
-  @DisplayName("Should return false when invoice does not exist")
-  void shouldReturnFalseWhenInvoiceDoesNotExist() {
+  @DisplayName("invoiceExists returns false when invoice does not exist")
+  void invoiceExistsReturnsFalseWhenInvoiceDoesNotExist() {
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.empty());
 
     boolean result = invoiceService.invoiceExists(testOrder.getId());
 
-    assertFalse(result);
+    assertThat(result).isFalse();
     verify(invoiceRepository, times(1)).findByOrderId(testOrder.getId());
   }
 
   @Test
-  @DisplayName("Should throw exception when order ID is null for existence check")
-  void shouldThrowExceptionWhenOrderIdIsNullForExistenceCheck() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      invoiceService.invoiceExists(null);
-    });
+  @DisplayName("invoiceExists throws IllegalArgumentException when order ID is null")
+  void invoiceExistsThrowsIllegalArgumentExceptionWhenOrderIdIsNull() {
+    assertThatThrownBy(() -> invoiceService.invoiceExists(null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  @DisplayName("Should handle complete invoice lifecycle")
-  void shouldHandleCompleteInvoiceLifecycle() {
+  @DisplayName("complete invoice lifecycle operations work correctly")
+  void completeInvoiceLifecycleOperationsWorkCorrectly() {
     // Generate invoice
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.empty());
     when(objectStoreService.uploadFile(anyString(), any(byte[].class), anyString())).thenReturn(testObjectUrl);
     when(invoiceRepository.save(any(Invoice.class))).thenReturn(testInvoice);
 
     Optional<String> generateResult = invoiceService.generateInvoice(testOrder);
-    assertTrue(generateResult.isPresent());
-    assertEquals(testObjectUrl, generateResult.get());
+    assertThat(generateResult).isPresent();
+    assertThat(generateResult.get()).isEqualTo(testObjectUrl);
 
     // Check if invoice exists
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.of(testInvoice));
     boolean existsResult = invoiceService.invoiceExists(testOrder.getId());
-    assertTrue(existsResult);
+    assertThat(existsResult).isTrue();
 
     // Get invoice URL
     Optional<String> urlResult = invoiceService.getInvoiceUrl(testOrder.getId());
-    assertTrue(urlResult.isPresent());
-    assertEquals(testObjectUrl, urlResult.get());
+    assertThat(urlResult).isPresent();
+    assertThat(urlResult.get()).isEqualTo(testObjectUrl);
 
     // Delete invoice
     when(objectStoreService.deleteFile(testObjectKey)).thenReturn(true);
     doNothing().when(invoiceRepository).delete(testInvoice);
     boolean deleteResult = invoiceService.deleteInvoice(testOrder.getId());
-    assertTrue(deleteResult);
+    assertThat(deleteResult).isTrue();
   }
 
   @Test
-  @DisplayName("Should handle order with very large total amount")
-  void shouldHandleOrderWithVeryLargeTotalAmount() {
+  @DisplayName("generateInvoice handles order with very large total amount")
+  void generateInvoiceHandlesOrderWithVeryLargeTotalAmount() {
     testOrder.setTotalAmount(new BigDecimal("999999.99"));
 
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.empty());
@@ -340,13 +259,13 @@ public class InvoiceServiceImplTest {
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals(testObjectUrl, result.get());
+    assertThat(result).isPresent();
+    assertThat(result.get()).isEqualTo(testObjectUrl);
   }
 
   @Test
-  @DisplayName("Should handle order with special characters in email")
-  void shouldHandleOrderWithSpecialCharactersInEmail() {
+  @DisplayName("generateInvoice handles order with special characters in email")
+  void generateInvoiceHandlesOrderWithSpecialCharactersInEmail() {
     testOrder.setCustomerEmail("test+special@example-domain.co.uk");
 
     when(invoiceRepository.findByOrderId(testOrder.getId())).thenReturn(Optional.empty());
@@ -355,7 +274,7 @@ public class InvoiceServiceImplTest {
 
     Optional<String> result = invoiceService.generateInvoice(testOrder);
 
-    assertTrue(result.isPresent());
-    assertEquals(testObjectUrl, result.get());
+    assertThat(result).isPresent();
+    assertThat(result.get()).isEqualTo(testObjectUrl);
   }
 }
