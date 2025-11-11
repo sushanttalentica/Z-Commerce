@@ -371,10 +371,10 @@ public class PaymentServiceImpl implements PaymentService {
     log.debug("Retrieving payment statistics");
 
     long totalPayments = paymentRepository.count();
-    long completedPayments = paymentRepository.countByStatus("COMPLETED");
-    long failedPayments = paymentRepository.countByStatus("FAILED");
-    long pendingPayments = paymentRepository.countByStatus("PENDING");
-    long refundedPayments = paymentRepository.countByStatus("REFUNDED");
+    long completedPayments = paymentRepository.countByStatus(Payment.PaymentStatus.COMPLETED);
+    long failedPayments = paymentRepository.countByStatus(Payment.PaymentStatus.FAILED);
+    long pendingPayments = paymentRepository.countByStatus(Payment.PaymentStatus.PENDING);
+    long refundedPayments = paymentRepository.countByStatus(Payment.PaymentStatus.REFUNDED);
 
     return Map.of(
         "totalPayments", totalPayments,

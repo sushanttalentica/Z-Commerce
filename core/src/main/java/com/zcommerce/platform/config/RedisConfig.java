@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import java.time.Duration;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -80,7 +83,16 @@ public class RedisConfig {
   }
 
   @Bean
-  public RedisConnectionFactory redisConnectionFactory() {
-    return new LettuceConnectionFactory();
+  public RedisConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
+    RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+    configuration.setHostName(redisProperties.getHost());
+    configuration.setPort(redisProperties.getPort());
+    configuration.setDatabase(redisProperties.getDatabase());
+
+    if (redisProperties.getPassword() != null && !redisProperties.getPassword().isBlank()) {
+      configuration.setPassword(RedisPassword.of(redisProperties.getPassword()));
+    }
+
+    return new LettuceConnectionFactory(configuration);
   }
 }

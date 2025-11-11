@@ -32,9 +32,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
   @Query("SELECT COUNT(p) FROM Payment p WHERE p.status = :status")
   Long countByStatus(@Param("status") Payment.PaymentStatus status);
 
-  @Query("SELECT COUNT(p) FROM Payment p WHERE p.status = :status")
-  Long countByStatus(@Param("status") String status);
-
   @Query("SELECT p FROM Payment p WHERE p.status IN ('PENDING', 'PROCESSING')")
   List<Payment> findPaymentsNeedingProcessing();
 
